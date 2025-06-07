@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <style>
+      .governorate {
+        stroke: #2c3e50;
+        stroke-width: 1.5;
+        stroke-linejoin: round;
+        transition: fill 0.3s ease;
+      }
+      .governorate:hover {
+        stroke-width: 2;
+        opacity: 0.8;
+      }
+    </style>
+  </defs>
+  
+  <!-- Tunisia Map with 24 Governorates -->
+  <!-- North East Region -->
+  <path id="TN11" class="governorate" fill="#e8f4fd" d="M380,120 L420,115 L425,135 L415,145 L385,140 Z" data-name="Tunis"/>
+  <path id="TN12" class="governorate" fill="#dbeafe" d="M350,110 L380,120 L385,140 L360,145 L340,130 Z" data-name="Ariana"/>
+  <path id="TN13" class="governorate" fill="#bfdbfe" d="M385,140 L415,145 L420,165 L390,170 L380,155 Z" data-name="Ben Arous"/>
+  <path id="TN14" class="governorate" fill="#93c5fd" d="M340,130 L360,145 L380,155 L365,170 L335,160 Z" data-name="Manouba"/>
+  <path id="TN21" class="governorate" fill="#fef3c7" d="M420,115 L480,110 L490,140 L470,155 L425,135 Z" data-name="Nabeul"/>
+  <path id="TN22" class="governorate" fill="#fde68a" d="M365,170 L390,170 L395,195 L375,200 L355,185 Z" data-name="Zaghouan"/>
+  <path id="TN23" class="governorate" fill="#fcd34d" d="M320,90 L370,95 L350,110 L340,130 L310,125 Z" data-name="Bizerte"/>
+  
+  <!-- North West Region -->
+  <path id="TN31" class="governorate" fill="#d1fae5" d="M280,130 L320,125 L335,160 L305,170 L275,155 Z" data-name="Béja"/>
+  <path id="TN32" class="governorate" fill="#a7f3d0" d="M220,120 L280,130 L275,155 L235,165 L210,145 Z" data-name="Jendouba"/>
+  <path id="TN33" class="governorate" fill="#6ee7b7" d="M235,165 L275,155 L285,185 L250,195 L225,180 Z" data-name="Le Kef"/>
+  <path id="TN34" class="governorate" fill="#34d399" d="M285,185 L305,170 L320,200 L295,215 L270,200 Z" data-name="Siliana"/>
+  
+  <!-- Centre West Region -->
+  <path id="TN41" class="governorate" fill="#fce7f3" d="M355,185 L395,195 L405,225 L375,240 L345,225 Z" data-name="Kairouan"/>
+  <path id="TN42" class="governorate" fill="#fbcfe8" d="M270,200 L320,200 L345,225 L315,250 L280,235 Z" data-name="Kasserine"/>
+  <path id="TN43" class="governorate" fill="#f9a8d4" d="M345,225 L375,240 L385,270 L355,285 L325,270 Z" data-name="Sidi Bouzid"/>
+  
+  <!-- Centre East Region -->
+  <path id="TN51" class="governorate" fill="#ede9fe" d="M405,225 L445,220 L455,250 L425,265 L395,250 Z" data-name="Sousse"/>
+  <path id="TN52" class="governorate" fill="#ddd6fe" d="M425,265 L455,250 L465,280 L435,295 L405,280 Z" data-name="Monastir"/>
+  <path id="TN53" class="governorate" fill="#c4b5fd" d="M405,280 L435,295 L445,325 L415,340 L385,325 Z" data-name="Mahdia"/>
+  <path id="TN61" class="governorate" fill="#a78bfa" d="M385,325 L415,340 L425,370 L395,385 L365,370 Z" data-name="Sfax"/>
+  
+  <!-- South West Region -->
+  <path id="TN71" class="governorate" fill="#fed7d7" d="M315,250 L355,285 L365,315 L335,330 L305,315 Z" data-name="Gafsa"/>
+  <path id="TN72" class="governorate" fill="#fbb6ce" d="M250,280 L305,315 L295,345 L265,360 L235,345 Z" data-name="Tozeur"/>
+  <path id="TN73" class="governorate" fill="#f687b3" d="M295,345 L335,330 L345,360 L315,375 L285,360 Z" data-name="Kebili"/>
+  
+  <!-- South East Region -->
+  <path id="TN81" class="governorate" fill="#fef2f2" d="M365,370 L395,385 L405,415 L375,430 L345,415 Z" data-name="Gabès"/>
+  <path id="TN82" class="governorate" fill="#fecaca" d="M375,430 L405,415 L415,445 L385,460 L355,445 Z" data-name="Médenine"/>
+  <path id="TN83" class="governorate" fill="#f87171" d="M315,375 L345,415 L355,445 L325,460 L295,445 Z" data-name="Tataouine"/>
+  
+  <!-- Country border outline -->
+  <path fill="none" stroke="#1f2937" stroke-width="2" d="M210,145 L220,120 L280,130 L320,125 L320,90 L370,95 L420,115 L480,110 L490,140 L470,155 L465,280 L445,325 L425,370 L415,445 L385,460 L325,460 L295,445 L285,360 L265,360 L235,345 L250,280 L225,180 L210,145 Z"/>
+</svg>

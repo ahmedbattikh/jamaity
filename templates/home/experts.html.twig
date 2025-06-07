@@ -1,0 +1,206 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Experts - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4 py-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">Experts</h1>
+            <p class="lead text-muted">Découvrez les experts de la société civile tunisienne</p>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="GET" action="{{ path('app_experts') }}" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">Rechercher</label>
+                            <input type="text" class="form-control" id="search" name="search" 
+                                   value="{{ current_search }}" placeholder="Nom de l'expert...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="region" class="form-label">Région</label>
+                            <select class="form-select" id="region" name="region">
+                                <option value="">Toutes les régions</option>
+                                {% for region in regions %}
+                                    <option value="{{ region }}" {{ current_region == region ? 'selected' : '' }}>
+                                        {{ region }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="area_of_expertise" class="form-label">Domaine d'expertise</label>
+                            <select class="form-select" id="area_of_expertise" name="area_of_expertise">
+                                <option value="">Tous les domaines</option>
+                                {% for area in areasOfExpertise %}
+                                    <option value="{{ area }}" {{ current_area_of_expertise == area ? 'selected' : '' }}>
+                                        {{ area }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fas fa-search me-1"></i>Filtrer
+                            </button>
+                            <a href="{{ path('app_experts') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-1"></i>Effacer
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <p class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                {{ total }} expert{{ total > 1 ? 's' : '' }} trouvé{{ total > 1 ? 's' : '' }}
+                {% if current_region or current_area_of_expertise or current_search %}
+                    avec les filtres appliqués
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Experts Grid -->
+    {% if experts|length > 0 %}
+    <div class="row g-4 mb-5">
+        {% for expert in experts %}
+        <div class="col-lg-4 col-md-6">
+            <div class="expert-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                <div class="expert-header p-4 pb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="expert-photo me-3">
+                            {% if expert.picture %}
+                                <img src="{{ asset('uploads/experts/' ~ expert.picture) }}" 
+                                     alt="{{ expert.firstName }} {{ expert.lastName }}" 
+                                     class="rounded-circle" 
+                                     style="width: 80px; height: 80px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" 
+                                     style="width: 80px; height: 80px;">
+                                    <i class="fas fa-user text-white fa-2x"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="expert-name mb-1">{{ expert.firstName }} {{ expert.lastName }}</h5>
+                            {% if expert.areaOfExpertise %}
+                                <small class="text-muted">{{ expert.areaOfExpertise }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="expert-content px-4 pb-4">
+                    <div class="expert-meta mb-3">
+                        {% if expert.region %}
+                            <span class="badge bg-light text-dark me-2">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ expert.region }}
+                            </span>
+                        {% endif %}
+                        {% if expert.areaOfExpertise %}
+                            <span class="badge bg-primary">
+                                <i class="fas fa-briefcase me-1"></i>{{ expert.areaOfExpertise }}
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if expert.description %}
+                        <p class="expert-description text-muted mb-3">
+                            {{ expert.description|slice(0, 120) }}{% if expert.description|length > 120 %}...{% endif %}
+                        </p>
+                    {% endif %}
+                    
+                    <div class="expert-details">
+                        {% if expert.email %}
+                            <small class="text-muted d-block mb-1">
+                                <i class="fas fa-envelope me-1"></i>{{ expert.email }}
+                            </small>
+                        {% endif %}
+                        {% if expert.phoneNumber %}
+                            <small class="text-muted d-block mb-1">
+                                <i class="fas fa-phone me-1"></i>{{ expert.phoneNumber }}
+                            </small>
+                        {% endif %}
+                        {% if expert.birthday %}
+                            <small class="text-muted d-block mb-1">
+                                <i class="fas fa-birthday-cake me-1"></i>{{ expert.birthday|date('d/m/Y') }}
+                            </small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="expert-actions mt-3">
+                        <a href="{{ path('app_expert_detail', {'slug': expert.slug}) }}" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="fas fa-eye me-1"></i>Voir détails
+                        </a>
+                        {% if expert.resume %}
+                            <a href="{{ asset('uploads/experts/' ~ expert.resume) }}" target="_blank" class="btn btn-sm btn-success">
+                                <i class="fas fa-download me-1"></i>Télécharger CV
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center py-5">
+            <div class="text-muted">
+                <i class="fas fa-search fa-3x mb-3"></i>
+                <h4>Aucun expert trouvé</h4>
+                <p>Essayez de modifier vos critères de recherche.</p>
+                <a href="{{ path('app_experts') }}" class="btn btn-primary">
+                    <i class="fas fa-refresh me-1"></i>Voir tous les experts
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.expert-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #e9ecef;
+}
+
+.expert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.expert-name {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.expert-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.expert-meta .badge {
+    font-size: 0.75rem;
+}
+
+.expert-details small {
+    font-size: 0.8rem;
+}
+
+.expert-actions .btn {
+    font-size: 0.8rem;
+}
+</style>
+{% endblock %}

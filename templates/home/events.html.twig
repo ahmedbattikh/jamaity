@@ -1,0 +1,351 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Événements - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">Événements</h1>
+            <p class="lead text-muted">Découvrez les événements organisés par la société civile tunisienne</p>
+        </div>
+    </div>
+
+    <!-- Upcoming Events Section -->
+    {% if upcomingEvents|length > 0 %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="alert alert-info border-0 shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-calendar-check fa-2x text-info me-3"></i>
+                    <div>
+                        <h4 class="alert-heading mb-1">Événements à venir</h4>
+                        <p class="mb-0">Ces événements auront lieu dans les 30 prochains jours</p>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    {% for event in upcomingEvents %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-info h-100">
+                            {% if event.image %}
+                            <img src="{{ asset('uploads/events/' ~ event.image) }}" class="card-img-top" alt="{{ event.titre }}" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h6 class="card-title text-info">
+                                    <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="text-decoration-none text-info">
+                                        {{ event.titre }}
+                                    </a>
+                                </h6>
+                                <p class="card-text small text-muted mb-2">
+                                    {% if event.description %}
+                                        {{ event.description|slice(0, 100) }}{% if event.description|length > 100 %}...{% endif %}
+                                    {% endif %}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-primary">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        {{ event.dateDebut|date('d/m/Y') }}
+                                        {% if event.dateFin and event.dateFin != event.dateDebut %}
+                                            - {{ event.dateFin|date('d/m/Y') }}
+                                        {% endif %}
+                                    </small>
+                                    {% if event.statut %}
+                                        <span class="badge bg-info text-dark">{{ event.statut|replace({'_': ' '})|title }}</span>
+                                    {% endif %}
+                                </div>
+                                {% if event.lieu %}
+                                <small class="text-muted d-block mt-1">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    {{ event.lieu }}
+                                </small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+    <!-- Filters Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>
+                        Filtres
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="GET" action="{{ path('app_events') }}">
+                        <div class="row g-3">
+                            <div class="col-lg-3 col-md-6">
+                                <label for="search" class="form-label">Recherche</label>
+                                <input type="text" class="form-control" id="search" name="search" value="{{ filters.search }}" placeholder="Titre, description ou lieu...">
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label for="region" class="form-label">Région</label>
+                                <select class="form-select" id="region" name="region">
+                                    <option value="">Toutes les régions</option>
+                                    {% for regionOption in validRegions %}
+                                        <option value="{{ regionOption }}" {% if filters.region == regionOption %}selected{% endif %}>
+                                            {{ regionOption }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label for="date_from" class="form-label">Date de début</label>
+                                <input type="date" class="form-control" id="date_from" name="date_from" value="{{ filters.date_from }}">
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label for="date_to" class="form-label">Date de fin</label>
+                                <input type="date" class="form-control" id="date_to" name="date_to" value="{{ filters.date_to }}">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-search me-1"></i>
+                                    Filtrer
+                                </button>
+                                <a href="{{ path('app_events') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-1"></i>
+                                    Réinitialiser
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Info -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <p class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                {{ total }} événement(s) trouvé(s)
+                {% if currentPage > 1 or totalPages > 1 %}
+                    - Page {{ currentPage }} sur {{ totalPages }}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Events List -->
+    {% if events|length > 0 %}
+    <div class="row g-3 mb-5">
+        {% for event in events %}
+        <div class="col-12">
+            <div class="event-card bg-white rounded-3 shadow-sm overflow-hidden">
+                <div class="row g-0">
+                    <!-- Date Block -->
+                    <div class="col-auto">
+                        <div class="date-block bg-primary text-white text-center p-3 h-100 d-flex flex-column justify-content-center" style="min-width: 80px;">
+                            <div class="day fs-4 fw-bold">{{ event.dateDebut|date('d') }}</div>
+                            <div class="month fs-6">{{ event.dateDebut|date('M')|upper }}</div>
+                            <div class="year fs-6">{{ event.dateDebut|date('Y') }}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image -->
+                    {% if event.image %}
+                    <div class="col-auto">
+                        <div class="event-image">
+                            <img src="{{ asset('uploads/events/' ~ event.image) }}" alt="{{ event.titre }}" class="img-fluid" style="width: 150px; height: 120px; object-fit: cover;">
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Content -->
+                    <div class="col">
+                        <div class="event-content p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="event-title mb-0">
+                                    <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="text-decoration-none text-dark">
+                                        {{ event.titre }}
+                                    </a>
+                                </h5>
+                                <div class="event-tags">
+                                    {% if event.statut %}
+                                        {% set statusClass = 'bg-secondary' %}
+                                        {% if event.statut == 'planifie' %}
+                                            {% set statusClass = 'bg-primary' %}
+                                        {% elseif event.statut == 'en_cours' %}
+                                            {% set statusClass = 'bg-success' %}
+                                        {% elseif event.statut == 'termine' %}
+                                            {% set statusClass = 'bg-info' %}
+                                        {% elseif event.statut == 'annule' %}
+                                            {% set statusClass = 'bg-danger' %}
+                                        {% endif %}
+                                        <span class="badge {{ statusClass }} me-1">{{ event.statut|replace({'_': ' '})|title }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="event-meta mb-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>
+                                    {{ event.dateDebut|date('H:i') }}
+                                    {% if event.dateFin and event.dateFin != event.dateDebut %}
+                                        - {{ event.dateFin|date('d/m/Y H:i') }}
+                                    {% endif %}
+                                    {% if event.lieu %}
+                                        <span class="ms-3">
+                                            <i class="fas fa-map-marker-alt me-1"></i>
+                                            {{ event.lieu }}
+                                        </span>
+                                    {% endif %}
+                                </small>
+                            </div>
+                            
+                            {% if event.description %}
+                            <p class="event-excerpt text-muted mb-2">
+                                {{ event.description|slice(0, 200) }}{% if event.description|length > 200 %}...{% endif %}
+                            </p>
+                            {% endif %}
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="region-tags">
+                                    {% if event.region and event.region|length > 0 %}
+                                        {% for regionTag in event.region|slice(0, 3) %}
+                                            <span class="badge bg-light text-dark me-1">{{ regionTag }}</span>
+                                        {% endfor %}
+                                        {% if event.region|length > 3 %}
+                                            <span class="badge bg-light text-dark me-1">+{{ event.region|length - 3 }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="btn btn-outline-primary btn-sm">
+                                    Voir les détails <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if totalPages > 1 %}
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Pagination des événements">
+                <ul class="pagination justify-content-center">
+                    {% if currentPage > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_events', filters|merge({'page': currentPage - 1})) }}">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for page in 1..totalPages %}
+                        {% if page == currentPage %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% elseif page == 1 or page == totalPages or (page >= currentPage - 2 and page <= currentPage + 2) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_events', filters|merge({'page': page})) }}">{{ page }}</a>
+                            </li>
+                        {% elseif page == currentPage - 3 or page == currentPage + 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if currentPage < totalPages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_events', filters|merge({'page': currentPage + 1})) }}">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+            <h3 class="text-muted">Aucun événement trouvé</h3>
+            <p class="text-muted">Essayez de modifier vos critères de recherche ou de supprimer les filtres.</p>
+            <a href="{{ path('app_events') }}" class="btn btn-primary">
+                <i class="fas fa-refresh me-1"></i>
+                Voir tous les événements
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.event-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #e9ecef;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.event-title a:hover {
+    color: #0d6efd !important;
+}
+
+.event-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.event-image img {
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-image img {
+    transform: scale(1.05);
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+.alert {
+    border-radius: 0.5rem;
+}
+
+.card {
+    border-radius: 0.5rem;
+}
+
+.btn {
+    border-radius: 0.375rem;
+}
+
+/* Calendar Styles */
+.fc-event {
+    border: none !important;
+    border-radius: 4px !important;
+}
+
+.fc-event-title {
+    font-weight: 500;
+}
+
+}
+</style>
+{% endblock %}

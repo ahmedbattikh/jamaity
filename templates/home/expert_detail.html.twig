@@ -1,0 +1,257 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ expert.firstName }} {{ expert.lastName }} - Expert - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4 py-5">
+    <!-- Breadcrumb -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('app_experts') }}">Experts</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ expert.firstName }} {{ expert.lastName }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Expert Profile -->
+        <div class="col-lg-4 col-md-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <!-- Expert Photo -->
+                    <div class="mb-4">
+                        {% if expert.picture %}
+                            <img src="{{ asset('uploads/experts/' ~ expert.picture) }}" 
+                                 alt="{{ expert.firstName }} {{ expert.lastName }}" 
+                                 class="rounded-circle mb-3" 
+                                 style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" 
+                                 style="width: 150px; height: 150px;">
+                                <i class="fas fa-user text-white fa-4x"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Expert Name -->
+                    <h2 class="h3 mb-2">{{ expert.firstName }} {{ expert.lastName }}</h2>
+                    
+                    <!-- Area of Expertise -->
+                    {% if expert.areaOfExpertise %}
+                        <p class="text-primary fw-semibold mb-3">{{ expert.areaOfExpertise }}</p>
+                    {% endif %}
+                    
+                    <!-- Location -->
+                    {% if expert.region %}
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-map-marker-alt me-1"></i>{{ expert.region }}
+                        </p>
+                    {% endif %}
+                    
+                    <!-- Resume Download Button -->
+                    {% if expert.resume %}
+                        <a href="{{ asset('uploads/experts/' ~ expert.resume) }}" target="_blank" class="btn btn-success btn-lg mb-3">
+                            <i class="fas fa-download me-2"></i>Télécharger le CV
+                        </a>
+                    {% endif %}
+                    
+                    <!-- Contact Information -->
+                    <div class="contact-info mt-4">
+                        <h5 class="h6 mb-3">Informations de contact</h5>
+                        {% if expert.email %}
+                            <p class="mb-2">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <a href="mailto:{{ expert.email }}" class="text-decoration-none">{{ expert.email }}</a>
+                            </p>
+                        {% endif %}
+                        {% if expert.phoneNumber %}
+                            <p class="mb-2">
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <a href="tel:{{ expert.phoneNumber }}" class="text-decoration-none">{{ expert.phoneNumber }}</a>
+                            </p>
+                        {% endif %}
+                        {% if expert.birthday %}
+                            <p class="mb-2">
+                                <i class="fas fa-birthday-cake text-primary me-2"></i>
+                                {{ expert.birthday|date('d/m/Y') }}
+                            </p>
+                        {% endif %}
+                        {% if expert.gender %}
+                            <p class="mb-2">
+                                <i class="fas fa-user text-primary me-2"></i>
+                                {{ expert.gender == 'male' ? 'Homme' : 'Femme' }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Expert Details -->
+        <div class="col-lg-8 col-md-7">
+            <!-- Description -->
+            {% if expert.description %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h4 class="h5 mb-0">
+                        <i class="fas fa-user-circle text-primary me-2"></i>À propos
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">{{ expert.description|nl2br }}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Professional Experience -->
+            {% if expert.professionalExperience and expert.professionalExperience|length > 0 %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h4 class="h5 mb-0">
+                        <i class="fas fa-briefcase text-primary me-2"></i>Expérience professionnelle
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% for experience in expert.professionalExperience %}
+                        <div class="experience-item mb-3 {% if not loop.last %}border-bottom pb-3{% endif %}">
+                            {% if experience.position %}
+                                <h6 class="fw-bold mb-1">{{ experience.position }}</h6>
+                            {% endif %}
+                            {% if experience.company %}
+                                <p class="text-primary mb-1">{{ experience.company }}</p>
+                            {% endif %}
+                            {% if experience.startDate or experience.endDate %}
+                                <p class="text-muted small mb-1">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    {% if experience.startDate %}{{ experience.startDate }}{% endif %}
+                                    {% if experience.startDate and experience.endDate %} - {% endif %}
+                                    {% if experience.endDate %}{{ experience.endDate }}{% else %}Présent{% endif %}
+                                </p>
+                            {% endif %}
+                            {% if experience.description %}
+                                <p class="mb-0">{{ experience.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Training -->
+            {% if expert.training and expert.training|length > 0 %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h4 class="h5 mb-0">
+                        <i class="fas fa-graduation-cap text-primary me-2"></i>Formation
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% for training in expert.training %}
+                        <div class="training-item mb-3 {% if not loop.last %}border-bottom pb-3{% endif %}">
+                            {% if training.degree %}
+                                <h6 class="fw-bold mb-1">{{ training.degree }}</h6>
+                            {% endif %}
+                            {% if training.institution %}
+                                <p class="text-primary mb-1">{{ training.institution }}</p>
+                            {% endif %}
+                            {% if training.year %}
+                                <p class="text-muted small mb-1">
+                                    <i class="fas fa-calendar me-1"></i>{{ training.year }}
+                                </p>
+                            {% endif %}
+                            {% if training.description %}
+                                <p class="mb-0">{{ training.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Organizations -->
+            {% if expert.workedWith and expert.workedWith|length > 0 %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    <h4 class="h5 mb-0">
+                        <i class="fas fa-building text-primary me-2"></i>Organisations collaborées
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for organization in expert.workedWith %}
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center p-2 border rounded">
+                                    {% if organization.logo %}
+                                        <img src="{{ asset('uploads/logos/' ~ organization.logo) }}" 
+                                             alt="{{ organization.nom }}" 
+                                             class="rounded me-3" 
+                                             style="width: 40px; height: 40px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center me-3" 
+                                             style="width: 40px; height: 40px;">
+                                            <i class="fas fa-building text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div>
+                                        <h6 class="mb-0 small">{{ organization.nom }}</h6>
+                                        {% if organization.type %}
+                                            <small class="text-muted">{{ organization.type }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Back Button -->
+            <div class="text-center mt-4">
+                <a href="{{ path('app_experts') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Retour à la liste des experts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.experience-item, .training-item {
+    position: relative;
+}
+
+.experience-item:not(:last-child)::after,
+.training-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e9ecef;
+}
+
+.contact-info a {
+    color: #6c757d;
+    transition: color 0.2s ease;
+}
+
+.contact-info a:hover {
+    color: #0d6efd;
+}
+
+.card {
+    border: 1px solid #e9ecef;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+</style>
+{% endblock %}

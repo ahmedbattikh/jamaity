@@ -1,0 +1,787 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JAMAITY MAPS - Cartographie des Organisations{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <!-- Enhanced Filters Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="filter-card p-4 rounded-3 bg-white shadow-sm">
+                <form id="mapFilters">
+                    <div class="row g-4">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="filter-group">
+                                <label for="regionFilter" class="form-label fw-semibold text-primary">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Région
+                                </label>
+                                <select class="form-select form-select-lg border-0 bg-light" id="regionFilter" name="region">
+                                    <option value="">Toutes les régions</option>
+                                    <option value="TN11">Tunis</option>
+                                    <option value="TN12">Ariana</option>
+                                    <option value="TN13">Ben Arous</option>
+                                    <option value="TN14">Mannouba</option>
+                                    <option value="TN16">Zaghouan</option>
+                                    <option value="TN21">Nabeul</option>
+                                    <option value="TN22">Bizerte</option>
+                                    <option value="TN23">Beja</option>
+                                    <option value="TN31">Sousse</option>
+                                    <option value="TN32">Monastir</option>
+                                    <option value="TN33">Mahdia</option>
+                                    <option value="TN34">Sfax</option>
+                                    <option value="TN41">Kairouan</option>
+                                    <option value="TN42">Kasserine</option>
+                                    <option value="TN43">Sidi Bouzid</option>
+                                    <option value="TN51">Gafsa</option>
+                                    <option value="TN52">Tozeur</option>
+                                    <option value="TN53">Kebili</option>
+                                    <option value="TN61">Gabes</option>
+                                    <option value="TN62">Medenine</option>
+                                    <option value="TN63">Tataouine</option>
+                                    <option value="TN71">Jendouba</option>
+                                    <option value="TN72">Kef</option>
+                                    <option value="TN73">Siliana</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="filter-group">
+                                <label for="themeFilter" class="form-label fw-semibold text-success">
+                                    <i class="fas fa-tags me-2"></i>Thématique
+                                </label>
+                                <select class="form-select form-select-lg border-0 bg-light" id="themeFilter" name="theme">
+                                    <option value="">Toutes les thématiques</option>
+                                    <option value="education">Éducation</option>
+                                    <option value="sante">Santé</option>
+                                    <option value="environnement">Environnement</option>
+                                    <option value="culture">Culture</option>
+                                    <option value="jeunesse">Jeunesse</option>
+                                    <option value="femmes">Droits des femmes</option>
+                                    <option value="droits_humains">Droits humains</option>
+                                    <option value="developpement">Développement</option>
+                                    <option value="social">Social</option>
+                                    <option value="economie">Économie</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="filter-group">
+                                <label for="typeFilter" class="form-label fw-semibold text-info">
+                                    <i class="fas fa-layer-group me-2"></i>Type d'organisation
+                                </label>
+                                <select class="form-select form-select-lg border-0 bg-light" id="typeFilter" name="type">
+                                    <option value="">Tous les types</option>
+                                    <option value="associations">Associations</option>
+                                    <option value="coalitions">Coalitions</option>
+                                    <option value="ptfs">PTFs</option>
+                                    <option value="events">Événements</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="filter-actions d-flex flex-column h-100">
+                                <label class="form-label fw-semibold text-primary">
+                                    &nbsp;
+                                </label>
+                                <div class="d-flex gap-2 flex-grow-1 align-items-end">
+                                    <button type="button" class="btn btn-primary flex-fill" onclick="applyFilters()" style="height: 48px;">
+                                        <i class="fas fa-search me-1"></i>
+                                        Filtrer
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="resetFilters()" style="height: 48px;">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="row g-4">
+        <!-- Map Section -->
+        <div class="col-lg-8">
+            <div class="map-card rounded-3 overflow-hidden shadow-sm">
+                <!-- Interactive Tunisia Map -->
+                <div id="tunisia-leaflet-map" style="height: 600px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Statistics Table Section -->
+        <div class="col-lg-4">
+            <div class="stats-card rounded-3 overflow-hidden shadow-sm bg-white">
+                <div class="table-responsive" style="height: 600px; overflow-y: auto;">
+                    <table class="table table-hover mb-0" id="statsTable">
+                        <thead class="table-light sticky-top">
+                            <tr>
+                                <th class="border-0 fw-bold">Région</th>
+                                <th class="text-center border-0 fw-bold">Assoc.</th>
+                                <th class="text-center border-0 fw-bold">Coal.</th>
+                                <th class="text-center border-0 fw-bold">PTFs</th>
+                                <th class="text-center border-0 fw-bold">Événements</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statsTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Region Details Modal -->
+<div class="modal fade" id="regionModal" tabindex="-1" aria-labelledby="regionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="regionModalLabel">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    Détails de la région
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="regionModalBody">
+                <!-- Content will be loaded dynamically -->
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Map JavaScript -->
+<script>
+// Data from controller
+const regionStats = {
+    {% for region, stats in regionStats %}
+    '{{ region }}': {
+        name: '{{ region }}',
+        associations: {{ stats.associations }},
+        coalitions: {{ stats.coalitions }},
+        ptfs: {{ stats.ptfs }},
+        events: {{ stats.events }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+};
+
+// Region ID mapping
+const regionIdMapping = {
+    'Tunis': 'TN11',
+    'Ariana': 'TN12',
+    'Ben Arous': 'TN13',
+    'Mannouba': 'TN14',
+    'Zaghouan': 'TN16',
+    'Nabeul': 'TN21',
+    'Bizerte': 'TN22',
+    'Beja': 'TN23',
+    'Sousse': 'TN31',
+    'Monastir': 'TN32',
+    'Mahdia': 'TN33',
+    'Sfax': 'TN34',
+    'Kairouan': 'TN41',
+    'Kasserine': 'TN42',
+    'Sidi Bouzid': 'TN43',
+    'Gafsa': 'TN51',
+    'Tozeur': 'TN52',
+    'Kebili': 'TN53',
+    'Gabes': 'TN61',
+    'Medenine': 'TN62',
+    'Tataouine': 'TN63',
+    'Jendouba': 'TN71',
+    'Kef': 'TN72',
+    'Siliana': 'TN73'
+};
+
+let map;
+let geojsonLayer;
+
+// Initialize map
+function initMap() {
+    map = L.map('tunisia-leaflet-map', {
+        center: [35.13, 10.46],
+        zoom: 6.4,
+        minZoom: 6,
+        maxZoom: 10,
+        maxBounds: [
+            [15.0, 8],
+            [38.0, 12.0]
+        ],
+        maxBoundsViscosity: 1.0
+    });
+
+    // Add blank tile layer (same as home page)
+    L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8+fM1HgAH1wKJDpFzqwAAAABJRU5ErkJggg==', {
+        attribution: '',
+        noWrap: true
+    }).addTo(map);
+
+    // Load GeoJSON data
+    loadGeoJSONData();
+}
+
+// Load GeoJSON data
+function loadGeoJSONData() {
+    fetch('{{ asset('assets/json/TN-gouvernorats.geojson') }}')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            geojsonLayer = L.geoJSON(data, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+        })
+        .catch(error => {
+            console.error('Error loading GeoJSON:', error);
+            alert('Failed to load the map. Please check the GeoJSON file path or contact support.');
+        });
+}
+
+// Style function for regions (same as home page)
+function style(feature) {
+    var governorateName = feature.properties.gouv_fr || "Unknown";
+    var totalCount = 0;
+    
+    var stats = regionStats[governorateName];
+    if (stats) {
+        totalCount = stats.associations + stats.coalitions + stats.ptfs + stats.events;
+    }
+    
+    return {
+        fillColor: getColor(totalCount),
+        weight: 1,
+        opacity: 1,
+        color: '#FFFFFF',
+        fillOpacity: 0.7
+    };
+}
+
+// Get color based on total count (same as home page)
+function getColor(total) {
+    return total > 24 ? '#8B0000' : // Dark red
+           total > 22 ? '#A52A2A' :
+           total > 20 ? '#CD5C5C' :
+           total > 18 ? '#FFDAB9' :
+           total > 16 ? '#FFA500' :
+                       '#FF6347';
+}
+
+// Add event listeners to each feature (same as home page)
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: onRegionClick
+    });
+}
+
+// Highlight feature on hover (same as home page)
+function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 2,
+        color: '#666',
+        fillOpacity: 0.9
+    });
+    layer.bringToFront();
+}
+
+// Reset highlight (same as home page)
+function resetHighlight(e) {
+    geojsonLayer.resetStyle(e.target);
+}
+
+// Handle region click
+function onRegionClick(e) {
+    const feature = e.target.feature;
+    const governorateName = feature.properties.gouv_fr || "Unknown";
+    const regionId = regionIdMapping[governorateName] || governorateName;
+    
+    // Fit map to region bounds
+    map.fitBounds(e.target.getBounds());
+    
+    // Open modal with region details
+    openRegionModal(regionId, governorateName);
+}
+
+// Open region modal with details
+function openRegionModal(govId, govName) {
+    const modal = new bootstrap.Modal(document.getElementById('regionModal'));
+    const modalTitle = document.getElementById('regionModalLabel');
+    const modalBody = document.getElementById('regionModalBody');
+    
+    modalTitle.innerHTML = `<i class="fas fa-map-marker-alt me-2"></i>Région de ${govName}`;
+    
+    // Show loading
+    modalBody.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+    `;
+    
+    modal.show();
+    
+    // Load region details
+    loadRegionDetails(govId, govName);
+}
+
+// Load region details from server
+function loadRegionDetails(govId, govName) {
+    const modalBody = document.getElementById('regionModalBody');
+    
+    // Fetch real data from server
+    fetch(`/maps/region/${encodeURIComponent(govName)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            modalBody.innerHTML = `
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h3>${data.stats.associations}</h3>
+                                        <p class="mb-0">Associations</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h3>${data.stats.coalitions}</h3>
+                                        <p class="mb-0">Coalitions</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body">
+                                        <h3>${data.stats.ptfs}</h3>
+                                        <p class="mb-0">PTFs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body">
+                                        <h3>${data.stats.events}</h3>
+                                        <p class="mb-0">Événements</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs" id="regionTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="associations-tab" data-bs-toggle="tab" data-bs-target="#associations" type="button" role="tab">
+                                    <i class="fas fa-users me-1"></i>Associations (${data.stats.associations})
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="coalitions-tab" data-bs-toggle="tab" data-bs-target="#coalitions" type="button" role="tab">
+                                    <i class="fas fa-handshake me-1"></i>Coalitions (${data.stats.coalitions})
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="ptfs-tab" data-bs-toggle="tab" data-bs-target="#ptfs" type="button" role="tab">
+                                    <i class="fas fa-building me-1"></i>PTFs (${data.stats.ptfs})
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">
+                                    <i class="fas fa-calendar me-1"></i>Événements (${data.stats.events})
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="regionTabContent">
+                            <div class="tab-pane fade show active" id="associations" role="tabpanel">
+                                <div class="p-3">
+                                    ${data.associations.length > 0 ? 
+                                        `<div class="row g-3">
+                                            ${data.associations.map(assoc => `
+                                                <div class="col-md-6">
+                                                    <div class="card h-100 shadow-sm association-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.open('/association/${assoc.slug}', '_blank')">
+                                                        <div class="card-body d-flex align-items-center">
+                                                            ${assoc.logo ? `<img src="/uploads/logos/${assoc.logo}" alt="Logo" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">` : `<div class="bg-primary rounded me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="fas fa-users text-white"></i></div>`}
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="card-title mb-1 text-primary" style="font-weight: 600;">${assoc.titre}</h6>
+                                                                <p class="card-text text-muted small mb-1">${assoc.description ? (assoc.description.length > 80 ? assoc.description.substring(0, 80) + '...' : assoc.description) : 'Aucune description disponible'}</p>
+                                                                ${assoc.domaine ? `<span class="badge bg-primary bg-opacity-10 text-primary"><i class="fas fa-tag me-1"></i>${assoc.domaine}</span>` : ''}
+                                                                ${assoc.lieux ? `<small class="text-muted d-block mt-1"><i class="fas fa-map-marker-alt me-1"></i>${assoc.lieux}</small>` : ''}
+                                                            </div>
+                                                            <i class="fas fa-arrow-right text-primary"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>` : 
+                                        `<p class="text-muted text-center py-4">Aucune association trouvée dans cette région.</p>`
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="coalitions" role="tabpanel">
+                                <div class="p-3">
+                                    ${data.coalitions.length > 0 ? 
+                                        `<div class="row g-3">
+                                            ${data.coalitions.map(coalition => `
+                                                <div class="col-md-6">
+                                                    <div class="card h-100 shadow-sm coalition-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.open('/coalition/${coalition.slug}', '_blank')">
+                                                        <div class="card-body d-flex align-items-center">
+                                                            ${coalition.logo ? `<img src="/uploads/logos/${coalition.logo}" alt="Logo" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">` : `<div class="bg-success rounded me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="fas fa-handshake text-white"></i></div>`}
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="card-title mb-1 text-success" style="font-weight: 600;">${coalition.titre}</h6>
+                                                                <p class="card-text text-muted small mb-1">${coalition.description ? (coalition.description.length > 80 ? coalition.description.substring(0, 80) + '...' : coalition.description) : 'Aucune description disponible'}</p>
+                                                                ${coalition.domaine ? `<span class="badge bg-success bg-opacity-10 text-success"><i class="fas fa-tag me-1"></i>${coalition.domaine}</span>` : ''}
+                                                                ${coalition.lieux ? `<small class="text-muted d-block mt-1"><i class="fas fa-map-marker-alt me-1"></i>${coalition.lieux}</small>` : ''}
+                                                            </div>
+                                                            <i class="fas fa-arrow-right text-success"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>` : 
+                                        `<p class="text-muted text-center py-4">Aucune coalition trouvée dans cette région.</p>`
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="ptfs" role="tabpanel">
+                                <div class="p-3">
+                                    ${data.ptfs.length > 0 ? 
+                                        `<div class="row g-3">
+                                            ${data.ptfs.map(ptf => `
+                                                <div class="col-md-6">
+                                                    <div class="card h-100 shadow-sm ptf-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.open('/ptf/${ptf.slug}', '_blank')">
+                                                        <div class="card-body d-flex align-items-center">
+                                                            ${ptf.logo ? `<img src="/uploads/logos/${ptf.logo}" alt="Logo" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">` : `<div class="bg-info rounded me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="fas fa-building text-white"></i></div>`}
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="card-title mb-1 text-info" style="font-weight: 600;">${ptf.titre}</h6>
+                                                                <p class="card-text text-muted small mb-1">${ptf.description ? (ptf.description.length > 80 ? ptf.description.substring(0, 80) + '...' : ptf.description) : 'Aucune description disponible'}</p>
+                                                                ${ptf.domaine ? `<span class="badge bg-info bg-opacity-10 text-info"><i class="fas fa-tag me-1"></i>${ptf.domaine}</span>` : ''}
+                                                                ${ptf.lieux ? `<small class="text-muted d-block mt-1"><i class="fas fa-map-marker-alt me-1"></i>${ptf.lieux}</small>` : ''}
+                                                            </div>
+                                                            <i class="fas fa-arrow-right text-info"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>` : 
+                                        `<p class="text-muted text-center py-4">Aucun PTF trouvé dans cette région.</p>`
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="events" role="tabpanel">
+                                <div class="p-3">
+                                    ${data.events.length > 0 ? 
+                                        `<div class="row g-3">
+                                            ${data.events.map(event => `
+                                                <div class="col-md-6">
+                                                    <div class="card h-100 shadow-sm event-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.open('/event/${event.slug}', '_blank')">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                                <h6 class="card-title text-warning mb-0" style="font-weight: 600;">${event.titre}</h6>
+                                                                <i class="fas fa-arrow-right text-warning"></i>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <span class="badge bg-warning bg-opacity-10 text-warning me-2">
+                                                                    <i class="fas fa-calendar me-1"></i>${new Date(event.dateDebut).toLocaleDateString('fr-FR')}
+                                                                </span>
+                                                                ${event.statut ? `<span class="badge bg-secondary">${event.statut}</span>` : ''}
+                                                            </div>
+                                                            <p class="card-text text-muted small mb-2">${event.description ? (event.description.length > 100 ? event.description.substring(0, 100) + '...' : event.description) : 'Aucune description disponible'}</p>
+                                                            ${event.lieu ? `<small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>${event.lieu}</small>` : ''}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>` : 
+                                        `<p class="text-muted text-center py-4">Aucun événement trouvé dans cette région.</p>`
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Error loading region data:', error);
+            modalBody.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Erreur lors du chargement des données de la région. Veuillez réessayer.
+                </div>
+            `;
+        });
+}
+
+// Populate statistics table
+function populateStatsTable() {
+    const tableBody = document.getElementById('statsTableBody');
+    let html = '';
+    
+    Object.entries(regionStats).forEach(([regionName, stats]) => {
+        const govId = regionIdMapping[regionName] || regionName;
+        const total = stats.associations + stats.coalitions + stats.ptfs + stats.events;
+        html += `
+            <tr class="region-row" data-gov-id="${govId}" data-region-name="${regionName}" style="cursor: pointer;">
+                <td><strong>${regionName}</strong></td>
+                <td class="text-center"><span class="badge bg-primary">${stats.associations}</span></td>
+                <td class="text-center"><span class="badge bg-success">${stats.coalitions}</span></td>
+                <td class="text-center"><span class="badge bg-info">${stats.ptfs}</span></td>
+                <td class="text-center"><span class="badge bg-warning">${stats.events}</span></td>
+            </tr>
+        `;
+    });
+    
+    tableBody.innerHTML = html;
+    
+    // Add click handlers to table rows
+    document.querySelectorAll('.region-row').forEach(row => {
+        row.addEventListener('click', function() {
+            const govId = this.dataset.govId;
+            const regionName = this.dataset.regionName;
+            openRegionModal(govId, regionName);
+        });
+    });
+}
+
+// Filter functions
+function applyFilters() {
+    const region = document.getElementById('regionFilter').value;
+    const theme = document.getElementById('themeFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    
+    console.log('Applying filters:', { region, theme, type });
+    // Implement filter logic here
+}
+
+function resetFilters() {
+    document.getElementById('mapFilters').reset();
+    console.log('Filters reset');
+}
+
+// Initialize everything when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initMap();
+    populateStatsTable();
+});
+</script>
+
+<style>
+/* Hero Card Styling */
+.hero-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Filter Card Styling */
+.filter-card {
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.filter-group .form-label {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.filter-group .form-select {
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            height: 48px;
+        }
+
+.filter-group .form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+    border-color: #80bdff;
+}
+
+.filter-actions .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filter-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Map and Stats Card Styling */
+.map-card, .stats-card {
+    border: 1px solid #e9ecef;
+    background: white;
+}
+
+.stats-card .table th {
+    background-color: #f8f9fa;
+    font-size: 0.85rem;
+    padding: 12px 8px;
+}
+
+.stats-card .table td {
+    font-size: 0.9rem;
+    padding: 10px 8px;
+}
+
+.region-row:hover {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.badge {
+    font-size: 0.75rem;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.filters-section {
+    border-bottom: 1px solid #dee2e6;
+}
+
+#tunisia-leaflet-map {
+    border-radius: 0.375rem;
+}
+
+.modal-xl {
+    max-width: 1200px;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: #6c757d;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom-color: #0d6efd;
+    color: #0d6efd;
+    background: none;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+}
+
+.list-group-item:first-child {
+    border-top: none;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Clickable card hover effects */
+.association-card-clickable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,123,255,0.15) !important;
+    border-color: #007bff;
+}
+.association-card-clickable:hover .card-title {
+    color: #0056b3 !important;
+}
+.association-card-clickable:hover .fa-arrow-right {
+    transform: translateX(3px);
+}
+
+.coalition-card-clickable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(40,167,69,0.15) !important;
+    border-color: #28a745;
+}
+.coalition-card-clickable:hover .card-title {
+    color: #1e7e34 !important;
+}
+.coalition-card-clickable:hover .fa-arrow-right {
+    transform: translateX(3px);
+}
+
+.ptf-card-clickable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(23,162,184,0.15) !important;
+    border-color: #17a2b8;
+}
+.ptf-card-clickable:hover .card-title {
+    color: #117a8b !important;
+}
+.ptf-card-clickable:hover .fa-arrow-right {
+    transform: translateX(3px);
+}
+
+.event-card-clickable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255,193,7,0.15) !important;
+    border-color: #ffc107;
+}
+.event-card-clickable:hover .card-title {
+    color: #d39e00 !important;
+}
+.event-card-clickable:hover .fa-arrow-right {
+    transform: translateX(3px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-card {
+        text-align: center;
+    }
+    
+    .filter-actions .btn {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    
+    .filter-actions .d-flex {
+        flex-direction: column;
+        gap: 8px !important;
+    }
+    
+    .stats-card .table th,
+    .stats-card .table td {
+        font-size: 0.8rem;
+        padding: 8px 4px;
+    }
+}
+</style>
+{% endblock %}

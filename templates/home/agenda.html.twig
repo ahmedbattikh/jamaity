@@ -1,0 +1,604 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agenda - Jamaity{% endblock %}
+
+{% block body %}
+<!-- Hero Section with Background Slider -->
+<div class="agenda-hero hero-slider">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content">
+                    <div class="hero-icon mb-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h1 class="hero-title mb-3">Agenda des Événements</h1>
+                    <p class="hero-subtitle">Découvrez et planifiez votre participation aux événements de la société civile tunisienne</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- Calendar Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="calendar-icon me-3">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">Calendrier Interactif</h4>
+                                <small class="text-muted">Cliquez sur un événement pour plus de détails</small>
+                            </div>
+                        </div>
+                        <div class="calendar-stats">
+                            <span class="stat-badge">
+                                <i class="fas fa-chart-line me-1"></i>
+                                {{ events|length }} événements
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="calendar-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend and Quick Actions -->
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="legend-card">
+                <div class="legend-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-palette me-2"></i>
+                        Légende des Statuts
+                    </h5>
+                </div>
+                <div class="legend-body">
+                    <div class="legend-grid">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                            <span class="legend-text">Planifié</span>
+                            <small class="legend-count">{{ events|filter(e => e.statut == 'planifie')|length }}</small>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                            <span class="legend-text">En cours</span>
+                            <small class="legend-count">{{ events|filter(e => e.statut == 'en_cours')|length }}</small>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                            <span class="legend-text">Terminé</span>
+                            <small class="legend-count">{{ events|filter(e => e.statut == 'termine')|length }}</small>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                            <span class="legend-text">Annulé</span>
+                            <small class="legend-count">{{ events|filter(e => e.statut == 'annule')|length }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="quick-actions-card">
+                <div class="quick-actions-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>
+                        Actions Rapides
+                    </h5>
+                </div>
+                <div class="quick-actions-body">
+                    <a href="{{ path('app_events') }}" class="quick-action-btn">
+                        <i class="fas fa-list me-2"></i>
+                        Voir tous les événements
+                    </a>
+                    <button class="quick-action-btn" onclick="calendar.today()">
+                        <i class="fas fa-calendar-day me-2"></i>
+                        Aller à aujourd'hui
+                    </button>
+                    <button class="quick-action-btn" onclick="calendar.changeView('listWeek')">
+                        <i class="fas fa-th-list me-2"></i>
+                        Vue liste
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Hero Section with Background Slider */
+.agenda-hero.hero-slider {
+    background-color: #f4ede9;
+    display: flex;
+    align-items: center;
+    padding: 50px 0;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+    overflow: hidden;
+}
+
+.agenda-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(139, 115, 95, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 115, 95, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-icon i {
+    font-size: 2.5rem;
+    color: #6b5b4d;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4a3f36;
+    text-shadow: 0 2px 10px rgba(139, 115, 95, 0.2);
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #6b5b4d;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Calendar Card */
+.calendar-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.calendar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+}
+
+.calendar-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.calendar-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.stat-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.calendar-body {
+    padding: 30px;
+}
+
+/* Legend Card */
+.legend-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.legend-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.legend-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.legend-body {
+    padding: 25px;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.legend-text {
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+}
+
+.legend-count {
+    background: #e9ecef;
+    color: #6c757d;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Quick Actions Card */
+.quick-actions-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.quick-actions-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.quick-actions-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.quick-actions-body {
+    padding: 25px;
+}
+
+.quick-action-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.quick-action-btn:last-child {
+    margin-bottom: 0;
+}
+
+/* Enhanced FullCalendar Styles */
+.fc {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.fc-toolbar {
+    margin-bottom: 2rem;
+    padding: 0;
+}
+
+.fc-toolbar-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.fc-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 8px 16px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+}
+
+.fc-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+}
+
+.fc-button:focus {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3) !important;
+}
+
+.fc-button-active {
+    background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%) !important;
+}
+
+.fc-daygrid-day {
+    transition: all 0.2s ease;
+}
+
+.fc-daygrid-day:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+.fc-day-today {
+    background-color: rgba(102, 126, 234, 0.1) !important;
+}
+
+.fc-event {
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 2px 6px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.fc-event:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.fc-daygrid-event {
+    margin: 2px !important;
+}
+
+.fc-list-event:hover {
+    background-color: rgba(102, 126, 234, 0.05) !important;
+}
+
+/* Custom Tooltip Styles */
+.tooltip.show {
+    opacity: 1;
+}
+
+.tooltip-inner {
+    background: linear-gradient(135deg, #333 0%, #555 100%);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    max-width: 300px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .calendar-header {
+        padding: 20px;
+    }
+    
+    .calendar-body {
+        padding: 20px;
+    }
+    
+    .legend-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .fc-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .calendar-header {
+        padding: 15px;
+    }
+    
+    .calendar-body {
+        padding: 15px;
+    }
+}
+</style>
+
+<!-- FullCalendar CSS -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+
+<!-- FullCalendar JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales/fr.global.min.js'></script>
+
+<script>
+let calendar; // Global variable for calendar access
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'fr',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listWeek'
+        },
+        height: 'auto',
+        events: [
+            {% for event in events %}
+            {
+                title: '{{ event.titre|e('js') }}',
+                start: '{{ event.dateDebut|date('Y-m-d') }}',
+                {% if event.dateFin %}
+                end: '{{ event.dateFin|date('Y-m-d') }}',
+                {% endif %}
+                url: '{{ path('app_event_detail', {'slug': event.slug}) }}',
+                backgroundColor: {% if event.statut == 'planifie' %}'#667eea'{% elseif event.statut == 'en_cours' %}'#f093fb'{% elseif event.statut == 'termine' %}'#4facfe'{% elseif event.statut == 'annule' %}'#fa709a'{% else %}'#6c757d'{% endif %},
+                borderColor: {% if event.statut == 'planifie' %}'#764ba2'{% elseif event.statut == 'en_cours' %}'#f5576c'{% elseif event.statut == 'termine' %}'#00f2fe'{% elseif event.statut == 'annule' %}'#fee140'{% else %}'#6c757d'{% endif %},
+                extendedProps: {
+                    description: '{{ event.description|slice(0, 100)|e('js') }}',
+                    lieu: '{{ event.lieu|e('js') }}',
+                    statut: '{{ event.statut|e('js') }}'
+                }
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        eventClick: function(info) {
+            info.jsEvent.preventDefault();
+            if (info.event.url) {
+                window.open(info.event.url, '_self');
+            }
+        },
+        eventMouseEnter: function(info) {
+            var tooltip = document.createElement('div');
+            tooltip.className = 'tooltip bs-tooltip-top show';
+            
+            // Get status badge color
+            var statusColor = info.event.backgroundColor;
+            var statusText = {
+                'planifie': 'Planifié',
+                'en_cours': 'En cours',
+                'termine': 'Terminé',
+                'annule': 'Annulé'
+            }[info.event.extendedProps.statut] || 'Inconnu';
+            
+            tooltip.innerHTML = `
+                <div class="tooltip-arrow"></div>
+                <div class="tooltip-inner">
+                    <div class="d-flex align-items-center mb-2">
+                        <strong class="flex-grow-1">${info.event.title}</strong>
+                        <span class="badge ms-2" style="background-color: ${statusColor}; font-size: 0.7rem;">${statusText}</span>
+                    </div>
+                    ${info.event.extendedProps.description ? '<p class="mb-2 text-light" style="font-size: 0.85rem; opacity: 0.9;">' + info.event.extendedProps.description + '</p>' : ''}
+                    ${info.event.extendedProps.lieu ? '<div class="d-flex align-items-center"><i class="fas fa-map-marker-alt me-2" style="color: #ffd700;"></i><small>' + info.event.extendedProps.lieu + '</small></div>' : ''}
+                    <div class="mt-2 pt-2 border-top border-secondary">
+                        <small class="text-light" style="opacity: 0.8;"><i class="fas fa-calendar me-1"></i>${info.event.start.toLocaleDateString('fr-FR')}</small>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(tooltip);
+            
+            var rect = info.el.getBoundingClientRect();
+            tooltip.style.position = 'absolute';
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            tooltip.style.zIndex = '1070';
+            tooltip.style.opacity = '0';
+            tooltip.style.transform = 'translateY(10px)';
+            tooltip.style.transition = 'all 0.3s ease';
+            
+            // Animate in
+            setTimeout(() => {
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+            }, 10);
+            
+            info.el._tooltip = tooltip;
+        },
+        eventMouseLeave: function(info) {
+            if (info.el._tooltip) {
+                var tooltip = info.el._tooltip;
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(-10px)';
+                
+                setTimeout(() => {
+                    if (tooltip.parentNode) {
+                        document.body.removeChild(tooltip);
+                    }
+                }, 300);
+                
+                delete info.el._tooltip;
+            }
+        }
+    });
+    
+    calendar.render();
+});
+</script>
+{% endblock %}

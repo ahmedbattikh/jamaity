@@ -1,0 +1,400 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ coalition.titre }} - Coalition{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <!-- Coalition Header -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            {% if coalition.logo %}
+                <img src="{{ asset('uploads/logos/' ~ coalition.logo) }}" alt="{{ coalition.titre }}" class="img-fluid rounded shadow">
+            {% else %}
+                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-users fa-3x text-muted"></i>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <h1 class="mb-3">{{ coalition.titre }}</h1>
+            {% if coalition.abreviation %}
+                <p class="text-muted mb-2"><strong>Abréviation:</strong> {{ coalition.abreviation }}</p>
+            {% endif %}
+            {% if coalition.domaine %}
+                <span class="badge bg-primary mb-3">{{ coalition.domaine }}</span>
+            {% endif %}
+            {% if coalition.region %}
+                <span class="badge bg-secondary mb-3 ms-2">{{ coalition.region }}</span>
+            {% endif %}
+            {% if coalition.description %}
+                <p class="lead">{{ coalition.description|slice(0, 200) }}{% if coalition.description|length > 200 %}...{% endif %}</p>
+            {% endif %}
+            
+            <!-- Quick Info -->
+            <div class="row mt-3">
+                {% if coalition.dateFondation %}
+                <div class="col-md-4">
+                    <small class="text-muted">Année de fondation</small>
+                    <div class="fw-bold">{{ coalition.dateFondation|date('Y') }}</div>
+                </div>
+                {% endif %}
+                {% if coalition.president %}
+                <div class="col-md-4">
+                    <small class="text-muted">Président</small>
+                    <div class="fw-bold">{{ coalition.president }}</div>
+                </div>
+                {% endif %}
+                {% if coalition.structure %}
+                <div class="col-md-4">
+                    <small class="text-muted">Structure</small>
+                    <div class="fw-bold">{{ coalition.structure }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Information Block -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-address-book me-2"></i>Informations de Contact</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if coalition.adresse %}
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i>Adresse:</strong>
+                            <p class="mb-0">{{ coalition.adresse }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="col-md-6 mb-3">
+                            {% if coalition.telephone %}
+                            <div class="mb-2">
+                                <strong><i class="fas fa-phone me-2 text-primary"></i>Téléphone:</strong>
+                                <span>{{ coalition.telephone }}</span>
+                            </div>
+                            {% endif %}
+                            {% if coalition.mobile %}
+                            <div class="mb-2">
+                                <strong><i class="fas fa-mobile-alt me-2 text-primary"></i>Mobile:</strong>
+                                <span>{{ coalition.mobile }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if coalition.email %}
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-envelope me-2 text-primary"></i>Email:</strong>
+                            <a href="mailto:{{ coalition.email }}" class="text-decoration-none">{{ coalition.email }}</a>
+                        </div>
+                        {% endif %}
+                        
+                        {% if coalition.siteWeb %}
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-globe me-2 text-primary"></i>Site Web:</strong>
+                            <a href="{{ coalition.siteWeb }}" target="_blank" class="text-decoration-none">{{ coalition.siteWeb }}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Social Media -->
+                    {% if coalition.facebook or coalition.twitter or coalition.youtube %}
+                    <div class="border-top pt-3 mt-3">
+                        <strong class="d-block mb-2">Réseaux Sociaux:</strong>
+                        <div class="d-flex gap-3">
+                            {% if coalition.facebook %}
+                            <a href="{{ coalition.facebook }}" target="_blank" class="text-primary">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </a>
+                            {% endif %}
+                            {% if coalition.twitter %}
+                            <a href="{{ coalition.twitter }}" target="_blank" class="text-info">
+                                <i class="fab fa-twitter fa-2x"></i>
+                            </a>
+                            {% endif %}
+                            {% if coalition.youtube %}
+                            <a href="{{ coalition.youtube }}" target="_blank" class="text-danger">
+                                <i class="fab fa-youtube fa-2x"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mb-4" id="coalitionTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">
+                <i class="fas fa-info-circle me-1"></i>À propos
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">
+                <i class="fas fa-calendar me-1"></i>Événements <span class="badge bg-primary ms-1">{{ events|length }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="opportunities-tab" data-bs-toggle="tab" data-bs-target="#opportunities" type="button" role="tab">
+                <i class="fas fa-briefcase me-1"></i>Projets <span class="badge bg-success ms-1">{{ opportunities|length }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="news-tab" data-bs-toggle="tab" data-bs-target="#news" type="button" role="tab">
+                <i class="fas fa-newspaper me-1"></i>Actualités <span class="badge bg-info ms-1">{{ actualites|length }}</span>
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="coalitionTabsContent">
+        <!-- About Tab -->
+        <div class="tab-pane fade show active" id="about" role="tabpanel">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Description</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if coalition.description %}
+                                <p>{{ coalition.description|nl2br }}</p>
+                            {% else %}
+                                <p class="text-muted">Aucune description disponible.</p>
+                            {% endif %}
+                            
+                            {% if coalition.description %}
+                                <hr>
+                                <h6>Présentation</h6>
+                                <p>{{ coalition.description|nl2br }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <!-- Coalition Info -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-info me-2"></i>Informations</h6>
+                        </div>
+                        <div class="card-body">
+                            {% if coalition.lieux %}
+                                <div class="mb-2">
+                                    <small class="text-muted">Lieu</small>
+                                    <div>{{ coalition.lieux }}</div>
+                                </div>
+                            {% endif %}
+                            {% if coalition.domaine %}
+                                <div class="mb-2">
+                                    <small class="text-muted">Domaine</small>
+                                    <div><span class="badge bg-primary">{{ coalition.domaine }}</span></div>
+                                </div>
+                            {% endif %}
+                            {% if coalition.region %}
+                                <div class="mb-2">
+                                    <small class="text-muted">Région</small>
+                                    <div><span class="badge bg-secondary">{{ coalition.region }}</span></div>
+                                </div>
+                            {% endif %}
+                            {% if coalition.lastUpdateDate %}
+                                <div class="mb-2">
+                                    <small class="text-muted">Dernière mise à jour</small>
+                                    <div>{{ coalition.lastUpdateDate|date('d/m/Y') }}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Social Links -->
+                    {% if coalition.facebook or coalition.twitter or coalition.youtube or coalition.siteWeb %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-share-alt me-2"></i>Réseaux sociaux</h6>
+                        </div>
+                        <div class="card-body">
+                            {% if coalition.siteWeb %}
+                                <a href="{{ coalition.siteWeb }}" target="_blank" class="btn btn-outline-primary btn-sm mb-2 w-100">
+                                    <i class="fas fa-globe me-1"></i>Site Web
+                                </a>
+                            {% endif %}
+                            {% if coalition.facebook %}
+                                <a href="{{ coalition.facebook }}" target="_blank" class="btn btn-outline-primary btn-sm mb-2 w-100">
+                                    <i class="fab fa-facebook me-1"></i>Facebook
+                                </a>
+                            {% endif %}
+                            {% if coalition.twitter %}
+                                <a href="{{ coalition.twitter }}" target="_blank" class="btn btn-outline-info btn-sm mb-2 w-100">
+                                    <i class="fab fa-twitter me-1"></i>Twitter
+                                </a>
+                            {% endif %}
+                            {% if coalition.youtube %}
+                                <a href="{{ coalition.youtube }}" target="_blank" class="btn btn-outline-danger btn-sm mb-2 w-100">
+                                    <i class="fab fa-youtube me-1"></i>YouTube
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Events Tab -->
+        <div class="tab-pane fade" id="events" role="tabpanel">
+            {% if events|length > 0 %}
+                <div class="row">
+                    {% for event in events %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ event.titre }}</h6>
+                                    <p class="card-text text-muted">{{ event.description|slice(0, 100) }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>{{ event.dateDebut|date('d/m/Y') }}
+                                        </small>
+                                        <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="btn btn-sm btn-outline-primary">
+                                            Voir détails
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucun événement</h5>
+                    <p class="text-muted">Cette coalition n'a pas encore d'événements associés.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Opportunities Tab -->
+        <div class="tab-pane fade" id="opportunities" role="tabpanel">
+            {% if opportunities|length > 0 %}
+                <div class="row">
+                    {% for opportunity in opportunities %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ opportunity.titre }}</h6>
+                                    <p class="card-text text-muted">{{ opportunity.description|slice(0, 100) }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>{{ opportunity.dateCreation|date('d/m/Y') }}
+                                        </small>
+                                        <a href="{{ path('app_opportunity_detail', {'id': opportunity.id}) }}" class="btn btn-sm btn-outline-success">
+                                            Voir détails
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucun projet</h5>
+                    <p class="text-muted">Cette coalition n'a pas encore de projets associés.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- News Tab -->
+        <div class="tab-pane fade" id="news" role="tabpanel">
+            {% if actualites|length > 0 %}
+                <div class="row">
+                    {% for actualite in actualites %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ actualite.titre }}</h6>
+                                    <p class="card-text text-muted">{{ actualite.contenu|striptags|slice(0, 100) }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>{{ actualite.datePublication|date('d/m/Y') }}
+                                        </small>
+                                        <a href="{{ path('app_actualite_detail', {'id': actualite.id}) }}" class="btn btn-sm btn-outline-info">
+                                            Lire plus
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucune actualité</h5>
+                    <p class="text-muted">Cette coalition n'a pas encore d'actualités associées.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Back to List -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="text-center">
+                <a href="{{ path('app_coalitions') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-1"></i>Retour à la liste des coalitions
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.nav-tabs .nav-link {
+    color: #6c757d;
+}
+
+.nav-tabs .nav-link.active {
+    color: #0d6efd;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+
+@media (max-width: 768px) {
+    .nav-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .nav-tabs .nav-link {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+</style>
+{% endblock %}

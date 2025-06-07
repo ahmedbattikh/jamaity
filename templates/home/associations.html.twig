@@ -1,0 +1,323 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Associations - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4 py-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">Associations</h1>
+            <p class="lead text-muted">Découvrez les associations de la société civile tunisienne</p>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="GET" action="{{ path('app_associations') }}" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="search" class="form-label">Rechercher</label>
+                            <input type="text" class="form-control" id="search" name="search" 
+                                   value="{{ current_search }}" placeholder="Nom de l'association...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="region" class="form-label">Région</label>
+                            <select class="form-select" id="region" name="region">
+                                <option value="">Toutes les régions</option>
+                                {% for region in regions %}
+                                    <option value="{{ region }}" {{ current_region == region ? 'selected' : '' }}>
+                                        {{ region }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="domaine" class="form-label">Domaine</label>
+                            <select class="form-select" id="domaine" name="domaine">
+                                <option value="">Tous les domaines</option>
+                                {% for domaine in domaines %}
+                                    <option value="{{ domaine }}" {{ current_domaine == domaine ? 'selected' : '' }}>
+                                        {{ domaine }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fas fa-search me-1"></i>Filtrer
+                            </button>
+                            <a href="{{ path('app_associations') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-1"></i>Effacer
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Summary -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <p class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                {{ total }} association{{ total > 1 ? 's' : '' }} trouvée{{ total > 1 ? 's' : '' }}
+                {% if current_region or current_domaine or current_search %}
+                    avec les filtres appliqués
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Associations Grid -->
+    {% if associations|length > 0 %}
+    <div class="row g-4 mb-5">
+        {% for association in associations %}
+        <div class="col-lg-4 col-md-6">
+            <div class="association-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                <div class="association-header p-4 pb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="association-logo me-3">
+                            {% if association.logo %}
+                                <img src="{{ asset('uploads/logos/' ~ association.logo) }}" 
+                                     alt="{{ association.titre }}" 
+                                     class="rounded-circle" 
+                                     style="width: 60px; height: 60px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" 
+                                     style="width: 60px; height: 60px;">
+                                    <i class="fas fa-users text-white fa-lg"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="association-title mb-1">{{ association.titre }}</h5>
+                            {% if association.abreviation %}
+                                <small class="text-muted">({{ association.abreviation }})</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="association-content px-4 pb-4">
+                    <div class="association-meta mb-3">
+                        {% if association.region %}
+                            <span class="badge bg-light text-dark me-2">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ association.region }}
+                            </span>
+                        {% endif %}
+                        {% if association.domaine %}
+                            <span class="badge bg-primary">
+                                <i class="fas fa-tag me-1"></i>{{ association.domaine }}
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if association.descriptionPresentation %}
+                        <p class="association-description text-muted mb-3">
+                            {{ association.descriptionPresentation|slice(0, 120) }}{% if association.descriptionPresentation|length > 120 %}...{% endif %}
+                        </p>
+                    {% endif %}
+                    
+                    <div class="association-details">
+                        {% if association.president %}
+                            <small class="text-muted d-block mb-1">
+                                <i class="fas fa-user me-1"></i>Président: {{ association.president }}
+                            </small>
+                        {% endif %}
+                        {% if association.anneeFondation %}
+                            <small class="text-muted d-block mb-1">
+                                <i class="fas fa-calendar me-1"></i>Fondée en {{ association.anneeFondation }}
+                            </small>
+                        {% endif %}
+                        {% if association.telephone %}
+                            <small class="text-muted d-block mb-1">
+                                <i class="fas fa-phone me-1"></i>{{ association.telephone }}
+                            </small>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="association-actions mt-3">
+                        <a href="{{ path('app_association_detail', {'slug': association.slug}) }}" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="fas fa-eye me-1"></i>Voir détails
+                        </a>
+                        {% if association.siteWeb %}
+                            <a href="{{ association.siteWeb }}" target="_blank" class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-globe me-1"></i>Site Web
+                            </a>
+                        {% endif %}
+                        {% if association.facebook %}
+                            <a href="{{ association.facebook }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fab fa-facebook me-1"></i>Facebook
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Navigation des associations">
+                <ul class="pagination justify-content-center">
+                    {% if current_page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_associations', {'page': current_page - 1, 'region': current_region, 'domaine': current_domaine, 'search': current_search}) }}">
+                                <i class="fas fa-chevron-left"></i> Précédent
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for page in 1..total_pages %}
+                        {% if page == current_page %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% elseif page == 1 or page == total_pages or (page >= current_page - 2 and page <= current_page + 2) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_associations', {'page': page, 'region': current_region, 'domaine': current_domaine, 'search': current_search}) }}">{{ page }}</a>
+                            </li>
+                        {% elseif page == current_page - 3 or page == current_page + 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if current_page < total_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_associations', {'page': current_page + 1, 'region': current_region, 'domaine': current_domaine, 'search': current_search}) }}">
+                                Suivant <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <!-- No Results -->
+    <div class="row">
+        <div class="col-12 text-center py-5">
+            <div class="no-results">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted mb-3">Aucune association trouvée</h4>
+                <p class="text-muted mb-4">Essayez de modifier vos critères de recherche ou supprimez les filtres.</p>
+                <a href="{{ path('app_associations') }}" class="btn btn-primary">
+                    <i class="fas fa-refresh me-1"></i>Voir toutes les associations
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Suggestion Block -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="suggestion-block bg-gradient text-white rounded-3 p-5 text-center" 
+                 style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);">
+                <div class="row align-items-center">
+                    <div class="col-md-8 text-md-start">
+                        <h3 class="fw-bold mb-3">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            Votre association n'existe pas sur Jamaity ?
+                        </h3>
+                        <p class="mb-0 fs-5">
+                            Rejoignez notre plateforme et donnez plus de visibilité à votre association. 
+                            Connectez-vous avec d'autres organisations et participez au développement de la société civile tunisienne.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <a href="#" class="btn btn-light btn-lg fw-semibold" 
+                           onclick="alert('Fonctionnalité à venir ! Contactez-nous pour ajouter votre association.')">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Suggérez-la dès maintenant
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.association-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--border-color);
+}
+
+.association-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+.association-title {
+    color: var(--text-dark);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.association-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.suggestion-block {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.page-link {
+    color: var(--primary-color);
+    border-color: var(--border-color);
+}
+
+.page-link:hover {
+    color: white;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+.no-results {
+    padding: 3rem 0;
+}
+
+@media (max-width: 768px) {
+    .association-card {
+        margin-bottom: 1rem;
+    }
+    
+    .suggestion-block {
+        text-align: center !important;
+    }
+    
+    .suggestion-block .col-md-8,
+    .suggestion-block .col-md-4 {
+        text-align: center !important;
+    }
+}
+</style>
+{% endblock %}

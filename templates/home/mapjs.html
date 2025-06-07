@@ -1,0 +1,520 @@
+
+<!-- Tunisia Coordinates -->
+<script src="{{ asset('assets/js/tunisia-coordinates.js') }}"></script>
+
+<script>
+    function navigateTo(id) {
+      if (!id) {
+        console.error('ID invalide fourni à navigateTo');
+        return;
+      }
+      const url = `pages/a?id=${encodeURIComponent(id)}`;
+      window.location.href = url;
+    }
+  
+    var map = L.map('map', {
+      center: [35.13, 10.46],
+      zoom: 6.4,
+      minZoom: 6,
+      maxZoom: 10,
+      maxBounds: [
+        [15.0, 8],
+        [38.0, 12.0]
+      ],
+      maxBoundsViscosity: 1.0
+    });
+  
+    function getColor(value) {
+      return value > 24 ? '#8B0000' : // Dark red
+        value > 22 ? '#A52A2A' :
+        value > 20 ? '#CD5C5C' :
+        value > 18 ? '#FFDAB9' :
+        value > 16 ? '#FFA500' :
+        '#FF6347';
+    }
+  
+    function style(feature) {
+      var governorateName = feature.properties.gouv_fr || "Unknown";
+      var associationCount = 0;
+  
+      var villeEntry = Object.values(statsByVille).find(ville => ville.name === governorateName);
+      if (villeEntry) {
+        associationCount = villeEntry.associations || 0;
+      }
+  
+      return {
+        fillColor: getColor(associationCount),
+        weight: 1,
+        opacity: 1,
+        color: '#FFFFFF',
+        fillOpacity: 0.7
+      };
+    }
+  
+    function highlightFeature(e) {
+      var layer = e.target;
+      layer.setStyle({
+        weight: 2,
+        color: '#666',
+        fillOpacity: 0.9
+      });
+      layer.bringToFront();
+    }
+  
+    function resetHighlight(e) {
+      geojson.resetStyle(e.target);
+    }
+  
+    function openSidebar(governorateName) {
+      console.log("Attempting to open sidebar for:", governorateName);
+  
+      if (!governorateName || governorateName === "Unknown") {
+        console.error("Invalid governorate name:", governorateName);
+        console.log("Available ville names in statsByVille:", Object.values(statsByVille).map(ville => ville.name));
+        return;
+      }
+  
+      var villeEntry = Object.values(statsByVille).find(ville => ville.name === governorateName);
+      if (!villeEntry) {
+        console.error("No villeEntry found for governorate:", governorateName);
+        console.log("Available ville names in statsByVille:", Object.values(statsByVille).map(ville => ville.name));
+        return;
+      }
+  
+      var villeId = Object.keys(statsByVille).find(id => statsByVille[id].name === governorateName);
+      if (!villeId) {
+        console.error("No villeId found for governorate:", governorateName);
+        return;
+      }
+  
+      var projectsInCity = projets.filter(projet => projet.ville_id == villeId); // Changed from projet.ville.id
+      console.log("Projects in city:", projectsInCity);
+  
+      var sidebar = document.getElementById('sidebar');
+      var sidebarTitle = document.getElementById('sidebar-title');
+      var projectCount = document.getElementById('project-count');
+      var projectList = document.getElementById('project-list');
+  
+      if (!sidebar || !sidebarTitle || !projectCount || !projectList) {
+        console.error("Sidebar elements not found in DOM");
+        return;
+      }
+  
+      sidebarTitle.textContent = governorateName;
+      projectCount.textContent = `${projectsInCity.length} projets`;
+      projectList.innerHTML = '';
+  
+      if (projectsInCity.length === 0) {
+        projectList.innerHTML = '<p>Aucun projet trouvé dans cette ville.</p>';
+      } else {
+        projectsInCity.forEach(projet => {
+          var card = document.createElement('div');
+          card.className = 'project-card';
+          card.innerHTML = `
+                          <h4><span class="project-indicator"></span>${projet.titre || 'Sans titre'}</h4>
+                          <p><a href="#" onclick="alert('Voir la description de ${projet.titre || 'Sans titre'}'); return false;">Voir la description</a></p>
+                          <div class="org-list">
+                              ${projet.lieux ? `<p>${projet.lieux}</p>` : ''}
+                          </div>
+                      `;
+          projectList.appendChild(card);
+        });
+      }
+  
+      sidebar.classList.add('open');
+      console.log("Sidebar should now be open");
+    }
+  
+    function closeSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      if (sidebar) {
+        sidebar.classList.remove('open');
+        console.log("Sidebar closed");
+      } else {
+        console.error("Sidebar element not found when trying to close");
+      }
+    }
+  
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: function(e) {
+          var governorateName = feature.properties.gouv_fr || "Unknown";
+          console.log("Clicked governorate:", governorateName);
+          map.fitBounds(e.target.getBounds());
+          openSidebar(governorateName);
+        }
+      });
+    }
+  
+    var geojson;
+    fetch('/js/TN-gouvernorats.geojson')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        geojson = L.geoJSON(data, {
+          style: style,
+          onEachFeature: onEachFeature
+        }).addTo(map);
+      })
+      .catch(err => {
+        console.error('Error loading GeoJSON:', err);
+        alert('Failed to load the map. Please check the GeoJSON file path or contact support.');
+      });
+  
+    var legend = L.control({
+      position: 'bottomleft'
+    });
+    // legend.onAdd = function(map) {
+    //   var div = L.DomUtil.create('div', 'info legend'),
+    //     grades = [16, 18, 20, 22, 24],
+    //     labels = [];
+  
+    //   div.innerHTML = '<b>Légende</b><br>';
+    //   for (var i = 0; i < grades.length; i++) {
+    //     div.innerHTML +=
+    //       '<i style="background:' + getColor(grades[i] + 1) + '; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> ' +
+    //       grades[i] + (grades[i + 1] ? '–' + grades[i + 1] + '<br>' : '+');
+    //   }
+    //   return div;
+    // };
+    // legend.onAdd = function(map) {
+  
+    //   div.innerHTML = '<b>Légende</b><br>';
+    //   div.innerHTML += '<i style="background: red; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> Projet<br>';
+    //   div.innerHTML += '<i style="background: green; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> Association<br>';
+    //   return div;
+    // };
+  
+    // legend.addTo(map);
+  
+    L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8+fM1HgAH1wKJDpFzqwAAAABJRU5ErkJggg==', {
+      attribution: '',
+      noWrap: true
+    }).addTo(map);
+  
+    var redIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34]
+    });
+  
+    var greenIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34]
+    });
+  
+    function addMarkers(category, icon, offset, type) {
+      category.forEach(function(item) {
+        var villeName = item.ville_name; // Changed from item.ville.name to match PDO structure
+        var coordinates = villesCoordinates[villeName];
+  
+        if (coordinates) {
+          var adjustedLat = coordinates.lat + offset.lat;
+          var adjustedLon = coordinates.lon + offset.lon;
+  
+          var popupContent = "<b>" + item.titre + "</b><br>" +
+            (item.description || 'Aucune description') +
+            "<br>Ville: " + villeName +
+            "<br><a href='/" + type + "/" + item.id + "' target='_blank'>Voir la page</a>";
+  
+          L.marker([adjustedLat, adjustedLon], {
+              icon: icon
+            })
+            .addTo(map)
+            .bindPopup(popupContent);
+        } else {
+          console.warn("Coordonnées introuvables pour la ville :", villeName);
+        }
+      });
+    }
+  
+    function clearMarkers() {
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+    }
+  
+    clearMarkers();
+    addMarkers(associations, redIcon, {
+      lat: 0.020,
+      lon: 0.20
+    }, 'associations');
+    addMarkers(projets, greenIcon, {
+      lat: -0.001,
+      lon: 0.02
+    }, 'projets');
+  
+    document.getElementById('applyFilter').addEventListener('click', function() {
+      var selectedVille = document.getElementById('ville_id').value;
+      var selectedDomaine = document.getElementById('domaine').value;
+  
+      var filteredAssociations = associations.filter(function(association) {
+        var matchesVille = selectedVille ? association.ville_id == selectedVille : true;
+        var matchesDomaine = selectedDomaine ? association.domaine == selectedDomaine : true;
+        return matchesVille && matchesDomaine;
+      });
+  
+      var filteredProjets = projets.filter(function(projet) {
+        var matchesVille = selectedVille ? projet.ville_id == selectedVille : true;
+        var matchesDomaine = selectedDomaine ? projet.domaine == selectedDomaine : true;
+        return matchesVille && matchesDomaine;
+      });
+  
+      clearMarkers();
+      if (document.getElementById('showAssociations').checked) {
+        addMarkers(filteredAssociations, redIcon, {
+          lat: 0.001,
+          lon: 0
+        }, 'associations');
+      }
+      if (document.getElementById('showProjets').checked) {
+        addMarkers(filteredProjets, greenIcon, {
+          lat: -0.001,
+          lon: 0.02
+        }, 'projets');
+      }
+  
+      if (geojson) {
+        geojson.setStyle(function(feature) {
+          var governorateName = feature.properties.gouv_fr || "Unknown";
+          var associationCount = 0;
+          var villeEntry = Object.values(statsByVille).find(ville => ville.name === governorateName);
+          if (villeEntry && selectedVille) {
+            if (villeEntry.name === villes[selectedVille]) {
+              associationCount = filteredAssociations.filter(a => a.ville_name === governorateName).length;
+            } else {
+              associationCount = 0;
+            }
+          } else if (villeEntry) {
+            associationCount = filteredAssociations.filter(a => a.ville_name === governorateName).length;
+          }
+  
+          return {
+            fillColor: getColor(associationCount),
+            weight: 1,
+            opacity: 1,
+            color: '#FFFFFF',
+            fillOpacity: 0.7
+          };
+        });
+      }
+  
+      updateStatsTable(selectedVille);
+      chart.data.datasets[0].data = Object.keys(villes).map(id => {
+        return filteredAssociations.filter(a => a.ville_id == id).length;
+      });
+      chart.update({
+        duration: 0
+      });
+    });
+  
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        clearMarkers();
+        if (document.getElementById('showAssociations').checked) {
+          addMarkers(associations, redIcon, {
+            lat: 0.001,
+            lon: 0
+          }, 'associations');
+        }
+        if (document.getElementById('showProjets').checked) {
+          addMarkers(projets, greenIcon, {
+            lat: -0.001,
+            lon: 0.02
+          }, 'projets');
+        }
+      });
+    });
+  
+    document.getElementById('totalAssociations').textContent = totalAssociations;
+    var associationsByVilleList = document.getElementById('associationsByVille');
+    associationsByVille.forEach(function(item) {
+      var villeName = villes[item.ville_id] || 'Inconnue';
+      var li = document.createElement('li');
+      li.textContent = villeName + ': ' + item.count;
+      associationsByVilleList.appendChild(li);
+    });
+  
+    function updateStatsTable(selectedVille) {
+      const tbody = document.getElementById('statsTableBody');
+      tbody.innerHTML = '';
+  
+      const filteredStats = selectedVille ?
+        Object.values(statsByVille).filter(ville => ville.id == selectedVille) :
+        Object.values(statsByVille);
+  
+      filteredStats.forEach(ville => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                      <td>${ville.name}</td>
+                      <td>${ville.associations}</td>
+                      <td>${ville.projets}</td>
+                      <td>${ville.experts}</td>
+                      <td>${ville.events}</td>
+                  `;
+        tbody.appendChild(row);
+      });
+    }
+  
+    updateStatsTable('');
+  
+    var ctx = document.getElementById('associationsChart').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(villes).map(id => villes[id]),
+        datasets: [{
+          label: 'Nombre d\'associations',
+          data: Object.keys(villes).map(id => {
+            return associations.filter(a => a.ville_id == id).length;
+          }),
+          backgroundColor: '#3C58A4',
+          borderColor: '#336699',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        animation: {
+          duration: 0
+        },
+        transitions: {
+          active: {
+            animation: {
+              duration: 0
+            }
+          },
+          resize: {
+            animation: {
+              duration: 0
+            }
+          },
+          show: {
+            animation: {
+              duration: 0
+            }
+          },
+          hide: {
+            animation: {
+              duration: 0
+            }
+          }
+        },
+        hover: {
+          animationDuration: 0
+        },
+        responsiveAnimationDuration: 0,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Nombre d\'associations'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Villes'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            enabled: true,
+            animation: false
+          }
+        }
+      }
+    });
+  
+    document.getElementById('exportExcel').addEventListener('click', function() {
+      var data = associations.map(function(association) {
+        return {
+          Titre: association.titre,
+          Description: association.description || 'Aucune description',
+          Ville: association.ville_name,
+          Thématique: association.domaine || 'Non spécifié'
+        };
+      }).concat(projets.map(function(projet) {
+        return {
+          Titre: projet.titre,
+          Description: projet.description || 'Aucune description',
+          Ville: projet.ville_name,
+          Thématique: projet.domaine || 'Non spécifié'
+        };
+      }));
+  
+      var ws = XLSX.utils.json_to_sheet(data);
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Données');
+      XLSX.writeFile(wb, 'jamaity_data.xlsx');
+    });
+  
+    document.getElementById('exportPdf').addEventListener('click', function() {
+      var selectedVille = document.getElementById('ville_id').value;
+      var filteredStats = selectedVille ?
+        Object.values(statsByVille).filter(ville => ville.id == selectedVille) :
+        Object.values(statsByVille);
+  
+      var latexContent = `
+  \\documentclass{article}
+  \\usepackage{booktabs}
+  \\usepackage[utf8]{inputenc}
+  \\usepackage{geometry}
+  \\geometry{a4paper, margin=1in}
+  \\begin{document}
+  \\section*{Statistiques par ville}
+  \\begin{tabular}{lcccc}
+  \\toprule
+  Ville & Associations & Projets & Experts & Événements \\\\
+  \\midrule
+  ${filteredStats.map(ville => `${ville.name} & ${ville.associations} & ${ville.projets} & ${ville.experts} & ${ville.events} \\\\`).join('\n')}
+  \\bottomrule
+  \\end{tabular}
+  \\end{document}
+              `;
+  
+      var blob = new Blob([latexContent], {
+        type: 'text/plain'
+      });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'stats_by_ville.tex';
+      link.click();
+    });
+  
+    var stats = {
+      totalAssociations: associations.length,
+      totalProjets: projets.length,
+      byVille: {},
+      byDomaine: {}
+    };
+  
+    associations.forEach(function(association) {
+      var villeId = association.ville_id;
+      var domaine = association.domaine || 'Non spécifié';
+      stats.byVille[villeId] = (stats.byVille[villeId] || 0) + 1;
+      stats.byDomaine[domaine] = (stats.byDomaine[domaine] || 0) + 1;
+    });
+  
+    projets.forEach(function(projet) {
+      var villeId = projet.ville_id;
+      var domaine = projet.domaine || 'Non spécifié';
+      stats.byVille[villeId] = (stats.byVille[villeId] || 0) + 1;
+      stats.byDomaine[domaine] = (stats.byDomaine[domaine] || 0) + 1;
+    });
+  
+    console.log('Statistiques :', stats);
+  </script>

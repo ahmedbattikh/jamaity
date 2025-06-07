@@ -1,0 +1,292 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Opportunités - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">Opportunités</h1>
+            <p class="lead text-muted">Découvrez les opportunités disponibles pour la société civile tunisienne</p>
+        </div>
+    </div>
+
+    <!-- Expiring Opportunities Section -->
+    {% if expiringOpportunities|length > 0 %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="alert alert-warning border-0 shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-exclamation-triangle fa-2x text-warning me-3"></i>
+                    <div>
+                        <h4 class="alert-heading mb-1">Opportunités expirant bientôt</h4>
+                        <p class="mb-0">Ces opportunités expirent dans les 10 prochains jours</p>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    {% for opportunity in expiringOpportunities %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-warning h-100">
+                            <div class="card-body">
+                                <h6 class="card-title text-warning">
+                                    <a href="{{ path('app_opportunity_detail', {'id': opportunity.id}) }}" class="text-decoration-none text-warning">
+                                        {{ opportunity.titre }}
+                                    </a>
+                                </h6>
+                                <p class="card-text small text-muted mb-2">
+                                    {% if opportunity.opportunityDetails %}
+                                        {{ opportunity.opportunityDetails|slice(0, 100) }}{% if opportunity.opportunityDetails|length > 100 %}...{% endif %}
+                                    {% endif %}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-danger">
+                                        <i class="fas fa-clock me-1"></i>
+                                        Expire le {{ opportunity.dueDate|date('d/m/Y') }}
+                                    </small>
+                                    {% if opportunity.typeOfOpportunities %}
+                                        <span class="badge bg-warning text-dark">{{ opportunity.typeOfOpportunities }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Filters Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>
+                        Filtres
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="GET" action="{{ path('app_opportunities') }}">
+                        <div class="row g-3">
+                            <div class="col-lg-3 col-md-6">
+                                <label for="search" class="form-label">Recherche</label>
+                                <input type="text" class="form-control" id="search" name="search" value="{{ filters.search }}" placeholder="Titre ou description...">
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label for="type" class="form-label">Type d'opportunités</label>
+                                <select class="form-select" id="type" name="type">
+                                    <option value="">Tous les types</option>
+                                    {% for type in validTypes %}
+                                        <option value="{{ type }}" {% if filters.type == type %}selected{% endif %}>
+                                            {{ type|replace({'_': ' '})|title }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label for="regions" class="form-label">Régions</label>
+                                <select class="form-select" id="regions" name="regions">
+                                    <option value="">Toutes les régions</option>
+                                    {% for region in validRegions %}
+                                        <option value="{{ region }}" {% if filters.regions == region %}selected{% endif %}>
+                                            {{ region }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label for="themes" class="form-label">Thèmes d'intervention</label>
+                                <input type="text" class="form-control" id="themes" name="themes" value="{{ filters.themes }}" placeholder="Thème...">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-search me-1"></i>
+                                    Filtrer
+                                </button>
+                                <a href="{{ path('app_opportunities') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-1"></i>
+                                    Réinitialiser
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Info -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <p class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                {{ total }} opportunité(s) trouvée(s)
+                {% if currentPage > 1 or totalPages > 1 %}
+                    - Page {{ currentPage }} sur {{ totalPages }}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Opportunities List -->
+    {% if opportunities|length > 0 %}
+    <div class="row g-4 mb-5">
+        {% for opportunity in opportunities %}
+        <div class="col-lg-4 col-md-6">
+            <div class="opportunity-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                <div class="opportunity-content p-4">
+                    <div class="opportunity-meta mb-2">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            {{ opportunity.dateCreation|date('d/m/Y') }}
+                            {% if opportunity.dueDate %}
+                                <span class="ms-2 text-danger">
+                                    <i class="fas fa-clock me-1"></i>
+                                    Expire: {{ opportunity.dueDate|date('d/m/Y') }}
+                                </span>
+                            {% endif %}
+                        </small>
+                    </div>
+                    <h5 class="opportunity-title mb-3">
+                        <a href="{{ path('app_opportunity_detail', {'id': opportunity.id}) }}" class="text-decoration-none text-dark">
+                            {{ opportunity.titre }}
+                        </a>
+                    </h5>
+                    {% if opportunity.opportunityDetails %}
+                    <p class="opportunity-excerpt text-muted mb-3">
+                        {{ opportunity.opportunityDetails|slice(0, 150) }}{% if opportunity.opportunityDetails|length > 150 %}...{% endif %}
+                    </p>
+                    {% endif %}
+                    <div class="opportunity-tags mb-3">
+                        {% if opportunity.typeOfOpportunities %}
+                            <span class="badge bg-primary me-1">{{ opportunity.typeOfOpportunities|replace({'_': ' '})|title }}</span>
+                        {% endif %}
+                        {% if opportunity.regions and opportunity.regions|length > 0 %}
+                            {% for region in opportunity.regions|slice(0, 2) %}
+                                <span class="badge bg-secondary me-1">{{ region }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if opportunity.budget %}
+                    <p class="text-success mb-2">
+                        <i class="fas fa-money-bill-wave me-1"></i>
+                        <strong>Budget:</strong> {{ opportunity.budget|slice(0, 50) }}{% if opportunity.budget|length > 50 %}...{% endif %}
+                    </p>
+                    {% endif %}
+                    <a href="{{ path('app_opportunity_detail', {'id': opportunity.id}) }}" class="btn btn-outline-primary btn-sm">
+                        Voir les détails <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if totalPages > 1 %}
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Pagination des opportunités">
+                <ul class="pagination justify-content-center">
+                    {% if currentPage > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_opportunities', filters|merge({'page': currentPage - 1})) }}">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for page in 1..totalPages %}
+                        {% if page == currentPage %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% elseif page <= 3 or page > totalPages - 3 or (page >= currentPage - 1 and page <= currentPage + 1) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_opportunities', filters|merge({'page': page})) }}">{{ page }}</a>
+                            </li>
+                        {% elseif page == 4 or page == totalPages - 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if currentPage < totalPages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_opportunities', filters|merge({'page': currentPage + 1})) }}">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Aucune opportunité disponible pour le moment.
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .opportunity-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .opportunity-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2) !important;
+    }
+    
+    .opportunity-title a:hover {
+        color: #0d6efd !important;
+    }
+    
+    .opportunity-excerpt {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .opportunity-tags .badge {
+        font-size: 0.75rem;
+    }
+    
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffecb5;
+    }
+    
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .pagination .page-link {
+        color: #0d6efd;
+    }
+    
+    .pagination .page-item.active .page-link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.titre }} - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-0 py-5">
+    <div class="row">
+        <div class="col-12 px-4">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('app_actualites') }}">Actualités</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ article.titre|slice(0, 50) }}{% if article.titre|length > 50 %}...{% endif %}</li>
+                </ol>
+            </nav>
+
+            <!-- Article Header -->
+            <div class="article-header mb-4">
+                <h1 class="display-5 fw-bold mb-3">{{ article.titre }}</h1>
+                <div class="article-meta mb-4">
+                    <div class="d-flex flex-wrap align-items-center text-muted">
+                        <span class="me-3">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            {{ article.datePublication|date('d/m/Y à H:i') }}
+                        </span>
+                        {% if article.auteur %}
+                        <span class="me-3">
+                            <i class="fas fa-user me-1"></i>
+                            {{ article.auteur }}
+                        </span>
+                        {% endif %}
+                        {% if article.featured %}
+                        <span class="badge bg-primary me-2">
+                            <i class="fas fa-star me-1"></i>À la une
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article Image -->
+            {% if article.image %}
+            <div class="article-image-container mb-4">
+                <img src="{{ asset('assets/img/' ~ article.image) }}" alt="{{ article.titre }}" class="img-fluid rounded shadow">
+            </div>
+            {% endif %}
+
+            <!-- Article Resume -->
+            {% if article.resume %}
+            <div class="article-resume mb-4">
+                <div class="alert alert-light border-start border-primary border-4">
+                    <h6 class="fw-bold mb-2">Résumé</h6>
+                    <p class="mb-0 lead">{{ article.resume }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Article Content -->
+            <div class="article-content mb-4">
+                {% if article.contenu %}
+                    <div class="content-text">
+                        {{ article.contenu|nl2br }}
+                    </div>
+                {% else %}
+                    <p class="text-muted fst-italic">Contenu non disponible.</p>
+                {% endif %}
+            </div>
+
+            <!-- Article Tags -->
+            {% if article.tags and article.tags|length > 0 %}
+            <div class="article-tags mb-4">
+                <h6 class="fw-bold mb-2">Tags</h6>
+                {% for tag in article.tags %}
+                    <span class="badge bg-secondary me-2 mb-1">{{ tag }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Navigation -->
+            <div class="article-navigation mt-5 pt-4 border-top">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="{{ path('app_actualites') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i>Retour aux actualités
+                        </a>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <div class="d-flex justify-content-md-end">
+                            <button class="btn btn-outline-secondary me-2" onclick="window.print()">
+                                <i class="fas fa-print me-1"></i>Imprimer
+                            </button>
+                            <button class="btn btn-outline-info" onclick="shareArticle()">
+                                <i class="fas fa-share-alt me-1"></i>Partager
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .article-header h1 {
+        color: var(--text-dark);
+        line-height: 1.2;
+    }
+    
+    .article-meta {
+        font-size: 14px;
+    }
+    
+    .article-image-container img {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: cover;
+    }
+    
+    .article-image-container {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+        .article-image-container {
+            margin-left: -3rem;
+            margin-right: -3rem;
+        }
+    }
+    
+    .article-resume {
+        background-color: #f8f9fa;
+    }
+    
+    .content-text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--text-dark);
+    }
+    
+    .content-text p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .article-tags .badge {
+        font-size: 12px;
+        padding: 0.5em 0.75em;
+    }
+    
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: var(--primary-color);
+    }
+    
+    .breadcrumb-item a:hover {
+        text-decoration: underline;
+    }
+    
+    @media print {
+        .article-navigation,
+        .breadcrumb {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+function shareArticle() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ article.titre|e('js') }}',
+            text: '{{ article.resume|default('Découvrez cette actualité sur Jamaity')|e('js') }}',
+            url: window.location.href
+        });
+    } else {
+        // Fallback: copy URL to clipboard
+        navigator.clipboard.writeText(window.location.href).then(function() {
+            alert('Lien copié dans le presse-papiers!');
+        });
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,1665 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Jamaity - Plateforme de la société civile tunisienne{% endblock %}
+
+{% block body %}
+<div class="hero-slider">
+    <div class="container-fluid px-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4">
+                        <span class="text-primary">JAMAITY</span><br>
+                        AU SERVICE DE LA<br>
+                        SOCIÉTÉ CIVILE TUNISIENNE
+                    </h1>
+                    <p class="lead mb-4">
+                        Rejoignez notre plateforme et contribuez au<br>
+                        développement de la vie associative tunisienne !
+                    </p>
+                    <div class="search-section mb-4">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control form-control-lg" placeholder="Que cherchez-vous ?" aria-label="Search">
+                            <button class="btn btn-primary btn-lg" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="slider-images">
+                    <div class="slide active" id="slide1">
+                        <img src="{{ asset('assets/img/slide1.png') }}" alt="Slide 1" class="img-fluid">
+                    </div>
+                    <div class="slide" id="slide2">
+                        <img src="{{ asset('assets/img/slide2.png') }}" alt="Slide 2" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<section class="statistics-section py-5">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Nos Statistiques</h2>
+                <p class="lead text-muted">
+                    Découvrez l'impact de notre plateforme en chiffres
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-users fa-2x text-primary"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-primary">11</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre d'associations</h5>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-project-diagram fa-2x text-success"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-success">11</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre de PTFs</h5>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-tasks fa-2x text-warning"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-warning">11</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre de projets</h5>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-user-tie fa-2x text-info"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-info">11</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre d'experts</h5>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-calendar-alt fa-2x text-danger"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-danger">11</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre d'événements</h5>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-briefcase fa-2x text-secondary"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-secondary">11</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre d'opportunités</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Articles Slider Section -->
+<section class="latest-articles-section py-5">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Dernières Actualités</h2>
+                <p class="lead text-muted">
+                    Restez informé des dernières nouvelles de la société civile tunisienne
+                </p>
+            </div>
+        </div>
+        {% if latestArticles|length > 0 %}
+        <div id="articlesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+                {% for i in 0..(((latestArticles|length - 1) / 4)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..3 %}
+                            {% set articleIndex = i * 4 + j %}
+                            {% if articleIndex < latestArticles|length %}
+                                {% set article = latestArticles[articleIndex] %}
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="article-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                        <div class="article-image">
+                                            {% if article.image %}
+                                                <img src="{{ asset('assets/img/' ~ article.image) }}" alt="{{ article.titre }}" class="img-fluid w-100">
+                                            {% else %}
+                                                <div class="placeholder-image d-flex align-items-center justify-content-center bg-light">
+                                                    <i class="fas fa-newspaper fa-3x text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="article-content p-4">
+                                            <div class="article-meta mb-2">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    {{ article.datePublication|date('d/m/Y') }}
+                                                </small>
+                                            </div>
+                                            <h5 class="article-title mb-3">
+                                                <a href="{{ path('app_actualite_detail', {'id': article.id}) }}" class="text-decoration-none text-dark">{{ article.titre }}</a>
+                                            </h5>
+                                            {% if article.resume %}
+                                            <p class="article-excerpt text-muted mb-3">{{ article.resume|slice(0, 120) }}{% if article.resume|length > 120 %}...{% endif %}</p>
+                                            {% endif %}
+                                            <a href="{{ path('app_actualite_detail', {'id': article.id}) }}" class="btn btn-outline-primary btn-sm">
+                                                Lire la suite <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#articlesCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#articlesCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((latestArticles|length - 1) / 4)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#articlesCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_actualites') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-newspaper me-2"></i>Voir toutes les actualités
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucune actualité disponible pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Upcoming Events Section -->
+<section class="upcoming-events-section py-5 bg-light">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-calendar-alt text-primary me-3"></i>
+                    Événements à venir
+                </h2>
+                <p class="lead text-muted">
+                    Découvrez les prochains événements organisés par notre réseau
+                </p>
+            </div>
+        </div>
+        {% if upcomingEvents|length > 0 %}
+        <div id="eventsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                {% for i in 0..(((upcomingEvents|length - 1) / 4)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..3 %}
+                            {% set eventIndex = i * 4 + j %}
+                            {% if eventIndex < upcomingEvents|length %}
+                                {% set event = upcomingEvents[eventIndex] %}
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="event-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                        <div class="event-image">
+                                            {% if event.image %}
+                                                <img src="{{ asset('uploads/events/' ~ event.image) }}" alt="{{ event.titre }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                                            {% else %}
+                                                <div class="placeholder-image d-flex align-items-center justify-content-center bg-primary text-white" style="height: 200px;">
+                                                    <i class="fas fa-calendar-alt fa-3x"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="event-content p-4">
+                                            <div class="event-date mb-2">
+                                                <span class="badge bg-primary">
+                                                    <i class="fas fa-calendar me-1"></i>
+                                                    {{ event.dateDebut|date('d/m/Y') }}
+                                                </span>
+                                                {% if event.lieu %}
+                                                <span class="badge bg-secondary ms-1">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                                    {{ event.lieu }}
+                                                </span>
+                                                {% endif %}
+                                            </div>
+                                            <h5 class="event-title mb-3">
+                                                <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="text-decoration-none text-dark">{{ event.titre }}</a>
+                                            </h5>
+                                            {% if event.description %}
+                                            <p class="event-description text-muted mb-3">{{ event.description|slice(0, 100) }}{% if event.description|length > 100 %}...{% endif %}</p>
+                                            {% endif %}
+                                            <div class="event-meta mb-3">
+                                                {% if event.statut %}
+                                                <span class="badge {% if event.statut == 'confirme' %}bg-success{% elseif event.statut == 'reporte' %}bg-warning{% else %}bg-info{% endif %} mb-1">{{ event.statut|title }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="btn btn-outline-primary btn-sm">
+                                                En savoir plus <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#eventsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#eventsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((upcomingEvents|length - 1) / 4)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#eventsCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_events') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar-alt me-2"></i>Voir tous les événements
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucun événement à venir pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Latest Projects Slider Section -->
+<section class="latest-projects-section py-5">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-project-diagram text-primary me-3"></i>
+                    Nos Derniers Projets
+                </h2>
+                <p class="lead text-muted">
+                    Découvrez les derniers projets lancés par notre réseau
+                </p>
+            </div>
+        </div>
+        {% if latestProjects|length > 0 %}
+        <div id="projectsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                {% for i in 0..(((latestProjects|length - 1) / 4)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..3 %}
+                            {% set projectIndex = i * 4 + j %}
+                            {% if projectIndex < latestProjects|length %}
+                                {% set project = latestProjects[projectIndex] %}
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="project-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                        <div class="project-image">
+                                            {% if project.logo %}
+                                                <img src="{{ asset('uploads/projects/' ~ project.logo) }}" alt="{{ project.title }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                                            {% else %}
+                                                <div class="placeholder-image d-flex align-items-center justify-content-center bg-primary text-white" style="height: 200px;">
+                                                    <i class="fas fa-project-diagram fa-3x"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="project-content p-4">
+                                            <div class="project-dates mb-2">
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-calendar me-1"></i>
+                                                    {{ project.dateBegin|date('d/m/Y') }}
+                                                </span>
+                                                <span class="badge bg-warning ms-1">
+                                                    <i class="fas fa-calendar-check me-1"></i>
+                                                    {{ project.dateEnd|date('d/m/Y') }}
+                                                </span>
+                                            </div>
+                                            <h5 class="project-title mb-3">
+                                                <a href="#" class="text-decoration-none text-dark">{{ project.title }}</a>
+                                            </h5>
+                                            {% if project.generalObjective %}
+                                            <p class="project-description text-muted mb-3">{{ project.generalObjective|slice(0, 100) }}{% if project.generalObjective|length > 100 %}...{% endif %}</p>
+                                            {% endif %}
+                                            <div class="project-meta mb-3">
+                                                {% if project.region and project.region|length > 0 %}
+                                                <span class="badge bg-info mb-1">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                                    {{ project.region[0] }}
+                                                    {% if project.region|length > 1 %}
+                                                        +{{ project.region|length - 1 }}
+                                                    {% endif %}
+                                                </span>
+                                                {% endif %}
+                                                {% if project.organizations|length > 0 %}
+                                                <span class="badge bg-secondary mb-1">
+                                                    <i class="fas fa-users me-1"></i>
+                                                    {{ project.organizations|length }} partenaire{% if project.organizations|length > 1 %}s{% endif %}
+                                                </span>
+                                                {% endif %}
+                                            </div>
+                                            {% if project.website %}
+                                            <div class="project-website mb-3">
+                                                <a href="{{ project.website }}" target="_blank" class="btn btn-outline-info btn-sm">
+                                                    <i class="fas fa-external-link-alt me-1"></i>Site web
+                                                </a>
+                                            </div>
+                                            {% endif %}
+                                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                                En savoir plus <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#projectsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((latestProjects|length - 1) / 4)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#projectsCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="#" class="btn btn-primary btn-lg">
+                    <i class="fas fa-project-diagram me-2"></i>Voir tous les projets
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucun projet disponible pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Latest Experts Slider Section -->
+<section class="latest-experts-section py-5 bg-light">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-user-tie text-primary me-3"></i>
+                    Nos Derniers Experts
+                </h2>
+                <p class="lead text-muted">
+                    Découvrez les derniers experts qui ont rejoint notre plateforme
+                </p>
+            </div>
+        </div>
+        {% if latestExperts|length > 0 %}
+        <div id="expertsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+                {% for i in 0..(((latestExperts|length - 1) / 5)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..4 %}
+                            {% set expertIndex = i * 5 + j %}
+                            {% if expertIndex < latestExperts|length %}
+                                {% set expert = latestExperts[expertIndex] %}
+                                <div class="col-lg-2 col-md-6">
+                                    <div class="expert-card h-100 bg-white rounded-3 shadow-sm overflow-hidden text-center">
+                                        <div class="expert-image p-3">
+                                            {% if expert.picture %}
+                                                <img src="{{ asset('uploads/experts/' ~ expert.picture) }}" alt="{{ expert.firstName }} {{ expert.lastName }}" class="img-fluid rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+                                            {% else %}
+                                                <div class="placeholder-image d-flex align-items-center justify-content-center bg-light rounded-circle mx-auto" style="width: 120px; height: 120px;">
+                                                    <i class="fas fa-user fa-3x text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="expert-content p-3">
+                                            <h5 class="expert-name mb-2">
+                                                <a href="{{ path('app_expert_detail', {'slug': expert.slug}) }}" class="text-decoration-none text-dark">{{ expert.firstName }} {{ expert.lastName }}</a>
+                                            </h5>
+                                            {% if expert.region %}
+                                            <div class="expert-region mb-2">
+                                                <span class="badge bg-secondary">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                                    {{ expert.region }}
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            {% if expert.areaOfExpertise %}
+                                            <div class="expert-expertise mb-3">
+                                                <span class="badge bg-primary">
+                                                    <i class="fas fa-briefcase me-1"></i>
+                                                    {{ expert.areaOfExpertise }}
+                                                </span>
+                                            </div>
+                                            {% endif %}
+                                            <a href="{{ path('app_expert_detail', {'slug': expert.slug}) }}" class="btn btn-outline-primary btn-sm">
+                                                Voir le profil <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#expertsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#expertsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((latestExperts|length - 1) / 5)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#expertsCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_experts') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-tie me-2"></i>Voir tous les experts
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucun expert disponible pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Associations Slider Section -->
+<section class="associations-section py-5">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Nos Associations</h2>
+                <p class="lead text-muted">
+                    Découvrez les associations membres de notre réseau
+                </p>
+            </div>
+        </div>
+        {% if associations|length > 0 %}
+        <div id="associationsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                {% for i in 0..(((associations|length - 1) / 5)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..4 %}
+                            {% set associationIndex = i * 5 + j %}
+                            {% if associationIndex < associations|length %}
+                                {% set association = associations[associationIndex] %}
+                                <div class="col-lg-2 col-md-6">
+                                    <div class="association-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                        <div class="association-logo">
+                                            {% if association.logo %}
+                                                <img src="{{ asset('uploads/logos/' ~ association.logo) }}" alt="{{ association.titre }}" class="img-fluid w-100">
+                                            {% else %}
+                                                <div class="placeholder-logo d-flex align-items-center justify-content-center bg-light">
+                                                    <i class="fas fa-users fa-3x text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="association-content p-4">
+                                            <h5 class="association-title mb-3">
+                                                <a href="#" class="text-decoration-none text-dark">{{ association.titre }}</a>
+                                            </h5>
+                                            {% if association.description %}
+                                            <p class="association-description text-muted mb-3">{{ association.description|slice(0, 100) }}{% if association.description|length > 100 %}...{% endif %}</p>
+                                            {% endif %}
+                                            <div class="association-meta mb-3">
+                                                {% if association.domaine %}
+                                                <span class="badge bg-primary mb-1">{{ association.domaine }}</span>
+                                                {% endif %}
+                                                {% if association.lieux %}
+                                                <small class="text-muted d-block">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>{{ association.lieux }}
+                                                </small>
+                                                {% endif %}
+                                            </div>
+                                            <a href="{{ path('app_association_detail', {'slug': association.slug}) }}" class="btn btn-outline-primary btn-sm">
+                                                En savoir plus <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#associationsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#associationsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((associations|length - 1) / 5)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#associationsCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_associations') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-users me-2"></i>Voir toutes les associations
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucune association disponible pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- JAMAITY MAPS Section -->
+<section class="jamaity-maps-section py-5 bg-light">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-map-marked-alt text-primary me-3"></i>
+                    JAMAITY MAPS
+                </h2>
+                <p class="lead text-muted">
+                    Découvrez la répartition géographique des associations tunisiennes par région
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="map-container bg-white rounded-3 shadow-sm p-4">
+                    <!-- Interactive Tunisia Map -->
+                    <div id="tunisia-leaflet-map" style="height: 500px; width: 100%; border-radius: 15px;"></div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Region Details Modal -->
+        <div class="modal fade" id="regionModal" tabindex="-1" aria-labelledby="regionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="regionModalLabel">Associations par région</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="regionModalBody">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_associations') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-map-marked-alt me-2"></i>Explorer toutes les associations
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Coalitions Section -->
+<section class="coalitions-section py-5 bg-light">
+    <div class="container-fluid px-4">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-5 fw-bold mb-3">Coalitions</h2>
+                <p class="lead text-muted">Découvrez les coalitions qui œuvrent pour le développement de la société civile tunisienne</p>
+            </div>
+        </div>
+        
+        {% if coalitions|length > 0 %}
+        <div id="coalitionsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for i in 0..(((coalitions|length - 1) / 5)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..4 %}
+                            {% set index = i * 5 + j %}
+                            {% if index < coalitions|length %}
+                                {% set coalition = coalitions[index] %}
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="coalition-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                        <div class="coalition-logo">
+                                            {% if coalition.logo %}
+                                                <img src="{{ asset('uploads/logos/' ~ coalition.logo) }}" alt="{{ coalition.titre }}" class="img-fluid w-100">
+                                            {% else %}
+                                                <div class="placeholder-logo d-flex align-items-center justify-content-center bg-light">
+                                                    <i class="fas fa-users fa-3x text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="coalition-content p-4">
+                                            <h5 class="coalition-title mb-3">
+                                                <a href="{{ path('app_coalition_detail', {'slug': coalition.slug}) }}" class="text-decoration-none text-dark">{{ coalition.titre }}</a>
+                                            </h5>
+                                            {% if coalition.description %}
+                                            <p class="coalition-description text-muted mb-3">{{ coalition.description|slice(0, 100) }}{% if coalition.description|length > 100 %}...{% endif %}</p>
+                                            {% endif %}
+                                            <div class="coalition-meta mb-3">
+                                                {% if coalition.domaine %}
+                                                <span class="badge bg-success mb-1">{{ coalition.domaine }}</span>
+                                                {% endif %}
+                                                {% if coalition.lieux %}
+                                                <small class="text-muted d-block">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>{{ coalition.lieux }}
+                                                </small>
+                                                {% endif %}
+                                            </div>
+                                            <a href="{{ path('app_coalition_detail', {'slug': coalition.slug}) }}" class="btn btn-outline-success btn-sm">
+                                                En savoir plus <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#coalitionsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#coalitionsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((coalitions|length - 1) / 5)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#coalitionsCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_coalitions') }}" class="btn btn-success btn-lg">
+                    <i class="fas fa-users me-2"></i>Voir toutes les coalitions
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucune coalition disponible pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- PTFs Section -->
+<section class="ptfs-section py-5">
+    <div class="container-fluid px-4">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-3">Nos Partenaires Techniques & Financiers (PTFs)</h2>
+                <p class="lead text-muted mb-4">
+                    Découvrez les partenaires techniques & financiers qui œuvrent pour le développement de la société civile tunisienne
+                </p>
+            </div>
+        </div>
+        {% if ptfs|length > 0 %}
+        <div id="ptfsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+            <div class="carousel-inner">
+                {% for i in 0..(((ptfs|length - 1) / 5)|round(0, 'floor')) %}
+                <div class="carousel-item {% if i == 0 %}active{% endif %}">
+                    <div class="row g-4">
+                        {% for j in 0..4 %}
+                            {% set ptfIndex = i * 5 + j %}
+                            {% if ptfIndex < ptfs|length %}
+                                {% set ptf = ptfs[ptfIndex] %}
+                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="ptf-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                        <div class="ptf-logo">
+                                            {% if ptf.logo %}
+                                                <img src="{{ asset('uploads/logos/' ~ ptf.logo) }}" alt="{{ ptf.titre }}" class="img-fluid w-100">
+                                            {% else %}
+                                                <div class="placeholder-logo d-flex align-items-center justify-content-center bg-light">
+                                                    <i class="fas fa-project-diagram fa-3x text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="ptf-content p-4">
+                                            <h5 class="ptf-title mb-3">
+                                                <a href="{{ path('app_ptf_detail', {'slug': ptf.slug}) }}" class="text-decoration-none text-dark">{{ ptf.titre }}</a>
+                                            </h5>
+                                            {% if ptf.description %}
+                                            <p class="ptf-description text-muted mb-3">{{ ptf.description|slice(0, 100) }}{% if ptf.description|length > 100 %}...{% endif %}</p>
+                                            {% endif %}
+                                            <div class="ptf-meta mb-3">
+                                                {% if ptf.domaine %}
+                                                <span class="badge bg-warning mb-1">{{ ptf.domaine }}</span>
+                                                {% endif %}
+                                                {% if ptf.region %}
+                                                <small class="text-muted d-block">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>{{ ptf.region }}
+                                                </small>
+                                                {% endif %}
+                                            </div>
+                                            <a href="{{ path('app_ptf_detail', {'slug': ptf.slug}) }}" class="btn btn-outline-warning btn-sm">
+                                                En savoir plus <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#ptfsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#ptfsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            
+            <!-- Carousel indicators -->
+            <div class="carousel-indicators">
+                {% for i in 0..(((ptfs|length - 1) / 5)|round(0, 'floor')) %}
+                <button type="button" data-bs-target="#ptfsCarousel" data-bs-slide-to="{{ i }}" {% if i == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="{{ path('app_ptfs') }}" class="btn btn-warning btn-lg">
+                    <i class="fas fa-project-diagram me-2"></i>Voir tous les partenaires techniques & financiers
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aucune plateforme disponible pour le moment.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="cta-section py-5">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Rejoignez la communauté Jamaity</h2>
+                <p class="lead mb-4">
+                    Inscrivez-vous dès maintenant pour accéder à toutes nos ressources 
+                    et faire partie du réseau de la société civile tunisienne.
+                </p>
+                <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>S'inscrire maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .hero-slider {
+        background-color: var(--secondary-color);
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        padding: 60px 0;
+        position: relative;
+        z-index: 1;
+        margin-top: 0;
+    }
+    
+    .slider-images {
+        position: relative;
+        height: calc(70vh - 120px);
+        overflow: hidden;
+        z-index: 2;
+    }
+    
+    .slide {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 1;
+    }
+    
+    .slide.active {
+        opacity: 1;
+    }
+    
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .hero-content h1 {
+        color: var(--text-dark);
+        line-height: 1.2;
+    }
+    
+    .hero-content .text-primary {
+        color: var(--primary-color) !important;
+    }
+    
+    .search-section .input-group {
+        max-width: 400px;
+    }
+    
+    .search-section .form-control {
+        border-radius: 25px 0 0 25px;
+        border: 2px solid var(--border-color);
+        padding: 12px 20px;
+    }
+    
+    .search-section .btn {
+        border-radius: 0 25px 25px 0;
+        padding: 12px 20px;
+    }
+    
+    .features-section .feature-item {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .features-section .feature-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    .statistics-section {
+        background-color: #f9f9f9;
+    }
+    
+    .statistics-section .stat-item {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .statistics-section .stat-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    }
+    
+    .statistics-section .stat-number {
+        line-height: 1;
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+    
+    .cta-section h2 {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    /* Latest Articles Section */
+    .latest-articles-section {
+        background-color: #ffffff;
+        position: relative;
+    }
+    
+    /* Associations Section */
+    .associations-section {
+        background-color: var(--secondary-color);
+        position: relative;
+    }
+    
+    .association-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .association-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+        z-index: 2;
+        position: relative;
+    }
+    
+    .association-logo {
+        height: 150px;
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+    
+    .association-logo img {
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        padding: 10px;
+    }
+    
+    .association-card:hover .association-logo img {
+        transform: scale(1.05);
+    }
+    
+    .placeholder-logo {
+        height: 150px;
+    }
+    
+    .association-title a {
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .association-title a:hover {
+        color: var(--primary-color) !important;
+    }
+    
+    .association-description {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    /* Coalition Cards Styles */
+    .coalition-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .coalition-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+    }
+    
+    .coalition-logo {
+        height: 150px;
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+    
+    .coalition-logo img {
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        padding: 10px;
+    }
+    
+    .coalition-card:hover .coalition-logo img {
+        transform: scale(1.05);
+    }
+    
+    .coalition-title a {
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .coalition-title a:hover {
+        color: #198754 !important;
+    }
+    
+    .coalition-description {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    /* PTF Cards Styles */
+    .ptf-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .ptf-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+    }
+    
+    .ptf-logo {
+        height: 150px;
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+    
+    .ptf-logo img {
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        padding: 10px;
+    }
+    
+    .ptf-card:hover .ptf-logo img {
+        transform: scale(1.05);
+    }
+    
+    .ptf-title a {
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .ptf-title a:hover {
+        color: #ffc107 !important;
+    }
+    
+    .ptf-description {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .association-meta .badge {
+        font-size: 11px;
+        padding: 0.4em 0.6em;
+    }
+    
+    #associationsCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    #associationsCarousel .carousel-item {
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    #associationsCarousel .carousel-control-prev,
+    #associationsCarousel .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        position: absolute;
+    }
+    
+    #associationsCarousel .carousel-control-prev {
+        left: 15px;
+    }
+    
+    #associationsCarousel .carousel-control-next {
+        right: 15px;
+    }
+    
+    #associationsCarousel .carousel-control-prev:hover,
+    #associationsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    #associationsCarousel .carousel-indicators {
+        bottom: -50px;
+    }
+    
+    #associationsCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #associationsCarousel .carousel-indicators button.active {
+        background-color: var(--primary-color);
+    }
+    
+    /* Coalitions Carousel Styles */
+    #coalitionsCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    #coalitionsCarousel .carousel-item {
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    #coalitionsCarousel .carousel-control-prev,
+    #coalitionsCarousel .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        position: absolute;
+    }
+    
+    #coalitionsCarousel .carousel-control-prev {
+        left: 15px;
+    }
+    
+    #coalitionsCarousel .carousel-control-next {
+        right: 15px;
+    }
+    
+    #coalitionsCarousel .carousel-control-prev:hover,
+    #coalitionsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    #coalitionsCarousel .carousel-indicators {
+        bottom: -50px;
+    }
+    
+    #coalitionsCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0,0,0,0.3);
+        border: none;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+    }
+    
+    #coalitionsCarousel .carousel-indicators button.active {
+        background-color: #198754;
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    
+    .article-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .article-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+        z-index: 2;
+        position: relative;
+    }
+    
+    .article-image {
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .article-image img {
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .article-card:hover .article-image img {
+        transform: scale(1.05);
+    }
+    
+    .article-title a {
+        transition: color 0.3s ease;
+    }
+    
+    .article-title a:hover {
+        color: var(--primary-color) !important;
+    }
+    
+    .article-excerpt {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    .article-meta {
+        font-size: 12px;
+    }
+    
+    .placeholder-image {
+        height: 200px;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    /* Articles Carousel Styles */
+    #articlesCarousel .carousel-control-prev,
+    #articlesCarousel .carousel-control-next {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+        position: absolute;
+    }
+    
+    #articlesCarousel .carousel-control-prev {
+        left: 10px;
+    }
+    
+    #articlesCarousel .carousel-control-next {
+        right: 10px;
+    }
+    
+    #articlesCarousel .carousel-control-prev:hover,
+    #articlesCarousel .carousel-control-next:hover {
+        opacity: 0.9;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    #articlesCarousel .carousel-indicators {
+        bottom: -50px;
+        margin-bottom: 0;
+    }
+    
+    #articlesCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #dee2e6;
+        border: none;
+        margin: 0 5px;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+    }
+    
+    #articlesCarousel .carousel-indicators button.active {
+        background-color: var(--primary-color);
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    
+    #articlesCarousel .carousel-item {
+        transition: transform 0.6s ease-in-out;
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    #articlesCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .article-card {
+        min-height: 350px;
+    }
+    
+    @media (max-width: 768px) {
+        #articlesCarousel .carousel-control-prev,
+        #articlesCarousel .carousel-control-next {
+            display: none;
+        }
+    }
+    
+    /* JAMAITY MAPS Styles */
+    .jamaity-maps-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .tunisia-svg-map {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .region-pin {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        stroke: #fff;
+        stroke-width: 2;
+    }
+    
+    .region-pin:hover {
+        opacity: 1 !important;
+        transform: scale(1.2);
+        stroke-width: 3;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+    
+    .map-container {
+        border: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+    
+    .map-container:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    }
+    
+    .map-legend .legend-circle {
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .stats-grid .stat-item {
+        padding: 4px 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+    
+    .stats-grid .stat-item:last-child {
+        border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+        .tunisia-svg-map {
+            max-height: 300px !important;
+        }
+        
+        .region-pin {
+            stroke-width: 1;
+        }
+        
+        .region-pin:hover {
+            stroke-width: 2;
+        }
+    }
+    
+    /* Animation for map pins */
+    @keyframes pulse {
+        0% { opacity: 0.7; }
+        50% { opacity: 1; }
+        100% { opacity: 0.7; }
+    }
+    
+    .region-pin.active {
+        animation: pulse 2s infinite;
+    }
+    
+    /* Leaflet Map Styles */
+    .leaflet-container {
+        border-radius: 15px;
+    }
+    
+    .leaflet-popup-content {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .leaflet-popup-content h6 {
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+<!-- Leaflet CSS and JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Tunisia Coordinates -->
+<script src="{{ asset('assets/js/tunisia-coordinates.js') }}"></script>
+
+<script>
+// Association data from Twig
+var associations = {{ associations|json_encode|raw }};
+
+// Initialize the map
+var map = L.map('tunisia-leaflet-map', {
+    center: [35.13, 10.46],
+    zoom: 6.4,
+    minZoom: 6,
+    maxZoom: 10,
+    maxBounds: [[15.0, 8], [38.0, 12.0]],
+    maxBoundsViscosity: 1.0
+});
+
+// Color function based on association count
+function getColor(value) {
+    return value > 24 ? '#8B0000' : // Dark red
+           value > 22 ? '#A52A2A' :
+           value > 20 ? '#CD5C5C' :
+           value > 18 ? '#FFDAB9' :
+           value > 16 ? '#FFA500' :
+           '#FF6347';
+}
+
+// Style function for governorates
+function style(feature) {
+    var governorateName = feature.properties.gouv_fr || "Unknown";
+    var associationCount = 0;
+    
+    // Count associations in this governorate
+    if (associations && associations.length > 0) {
+        associationCount = associations.filter(function(association) {
+            return association.ville && association.ville.name === governorateName;
+        }).length;
+    }
+    
+    return {
+        fillColor: getColor(associationCount),
+        weight: 1,
+        opacity: 1,
+        color: '#FFFFFF',
+        fillOpacity: 0.7
+    };
+}
+
+// Highlight feature on hover
+function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 2,
+        color: '#666',
+        fillOpacity: 0.9
+    });
+    layer.bringToFront();
+}
+
+// Reset highlight
+function resetHighlight(e) {
+    if (geojson) {
+        geojson.resetStyle(e.target);
+    }
+}
+
+// Click handler for governorates
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: function(e) {
+            var governorateName = feature.properties.gouv_fr || "Unknown";
+            var associationCount = 0;
+            var governorateAssociations = [];
+            
+            if (associations && associations.length > 0) {
+                governorateAssociations = associations.filter(function(association) {
+                    return association.ville && association.ville.name === governorateName;
+                });
+                associationCount = governorateAssociations.length;
+            }
+            
+            // Create popup content
+            var popupContent = '<div class="p-2">';
+            popupContent += '<h6 class="fw-bold mb-2">' + governorateName + '</h6>';
+            popupContent += '<p class="mb-2"><strong>' + associationCount + '</strong> association(s)</p>';
+            
+            if (governorateAssociations.length > 0) {
+                popupContent += '<div class="mb-2">';
+                popupContent += '<small class="text-muted">Quelques associations:</small><br>';
+                governorateAssociations.slice(0, 3).forEach(function(association) {
+                    popupContent += '<small>• ' + (association.nom || 'Sans nom') + '</small><br>';
+                });
+                if (governorateAssociations.length > 3) {
+                    popupContent += '<small class="text-muted">... et ' + (governorateAssociations.length - 3) + ' autres</small>';
+                }
+                popupContent += '</div>';
+            }
+            
+            popupContent += '<a href="{{ path('app_associations') }}" class="btn btn-sm btn-primary">Voir toutes</a>';
+            popupContent += '</div>';
+            
+            layer.bindPopup(popupContent).openPopup();
+            map.fitBounds(e.target.getBounds());
+        }
+    });
+}
+
+// Load GeoJSON data
+var geojson;
+fetch('{{ asset('assets/json/TN-gouvernorats.geojson') }}')
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        geojson = L.geoJSON(data, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+    })
+    .catch(err => {
+        console.error('Error loading GeoJSON:', err);
+        // Fallback: show a simple message
+        document.getElementById('tunisia-leaflet-map').innerHTML = 
+            '<div class="d-flex align-items-center justify-content-center h-100 text-muted">' +
+            '<div class="text-center">' +
+            '<i class="fas fa-map fa-3x mb-3"></i><br>' +
+            'Carte interactive en cours de chargement...' +
+            '</div></div>';
+    });
+
+// Add a transparent tile layer (no background map)
+L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8+fM1HgAH1wKJDpFzqwAAAABJRU5ErkJggg==', {
+    attribution: '',
+    noWrap: true
+}).addTo(map);
+</script>
+{% endblock %}

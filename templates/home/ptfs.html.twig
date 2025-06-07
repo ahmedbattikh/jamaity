@@ -1,0 +1,245 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PTFs - Partenaires Techniques & Financiers{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4 py-5">
+    <!-- Header Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold mb-3">Partenaires Techniques & Financiers (PTFs)</h1>
+        <p class="lead text-muted mb-5">
+            Découvrez les partenaires techniques & financiers qui œuvrent pour le développement de la société civile tunisienne
+            </p>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="GET" action="{{ path('app_ptfs') }}">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="search" class="form-label">Rechercher</label>
+                                <input type="text" class="form-control" id="search" name="search" 
+                                       value="{{ app.request.query.get('search') }}" 
+                                       placeholder="Nom de la plateforme...">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="region" class="form-label">Région</label>
+                                <select class="form-select" id="region" name="region">
+                                    <option value="">Toutes les régions</option>
+                                    <option value="Tunis" {{ app.request.query.get('region') == 'Tunis' ? 'selected' : '' }}>Tunis</option>
+                                    <option value="Ariana" {{ app.request.query.get('region') == 'Ariana' ? 'selected' : '' }}>Ariana</option>
+                                    <option value="Ben Arous" {{ app.request.query.get('region') == 'Ben Arous' ? 'selected' : '' }}>Ben Arous</option>
+                                    <option value="Manouba" {{ app.request.query.get('region') == 'Manouba' ? 'selected' : '' }}>Manouba</option>
+                                    <option value="Nabeul" {{ app.request.query.get('region') == 'Nabeul' ? 'selected' : '' }}>Nabeul</option>
+                                    <option value="Zaghouan" {{ app.request.query.get('region') == 'Zaghouan' ? 'selected' : '' }}>Zaghouan</option>
+                                    <option value="Bizerte" {{ app.request.query.get('region') == 'Bizerte' ? 'selected' : '' }}>Bizerte</option>
+                                    <option value="Béja" {{ app.request.query.get('region') == 'Béja' ? 'selected' : '' }}>Béja</option>
+                                    <option value="Jendouba" {{ app.request.query.get('region') == 'Jendouba' ? 'selected' : '' }}>Jendouba</option>
+                                    <option value="Kef" {{ app.request.query.get('region') == 'Kef' ? 'selected' : '' }}>Kef</option>
+                                    <option value="Siliana" {{ app.request.query.get('region') == 'Siliana' ? 'selected' : '' }}>Siliana</option>
+                                    <option value="Kairouan" {{ app.request.query.get('region') == 'Kairouan' ? 'selected' : '' }}>Kairouan</option>
+                                    <option value="Kasserine" {{ app.request.query.get('region') == 'Kasserine' ? 'selected' : '' }}>Kasserine</option>
+                                    <option value="Sidi Bouzid" {{ app.request.query.get('region') == 'Sidi Bouzid' ? 'selected' : '' }}>Sidi Bouzid</option>
+                                    <option value="Sousse" {{ app.request.query.get('region') == 'Sousse' ? 'selected' : '' }}>Sousse</option>
+                                    <option value="Monastir" {{ app.request.query.get('region') == 'Monastir' ? 'selected' : '' }}>Monastir</option>
+                                    <option value="Mahdia" {{ app.request.query.get('region') == 'Mahdia' ? 'selected' : '' }}>Mahdia</option>
+                                    <option value="Sfax" {{ app.request.query.get('region') == 'Sfax' ? 'selected' : '' }}>Sfax</option>
+                                    <option value="Gafsa" {{ app.request.query.get('region') == 'Gafsa' ? 'selected' : '' }}>Gafsa</option>
+                                    <option value="Tozeur" {{ app.request.query.get('region') == 'Tozeur' ? 'selected' : '' }}>Tozeur</option>
+                                    <option value="Kebili" {{ app.request.query.get('region') == 'Kebili' ? 'selected' : '' }}>Kebili</option>
+                                    <option value="Gabès" {{ app.request.query.get('region') == 'Gabès' ? 'selected' : '' }}>Gabès</option>
+                                    <option value="Médenine" {{ app.request.query.get('region') == 'Médenine' ? 'selected' : '' }}>Médenine</option>
+                                    <option value="Tataouine" {{ app.request.query.get('region') == 'Tataouine' ? 'selected' : '' }}>Tataouine</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="domaine" class="form-label">Domaine</label>
+                                <select class="form-select" id="domaine" name="domaine">
+                                    <option value="">Tous les domaines</option>
+                                    <option value="Éducation" {{ app.request.query.get('domaine') == 'Éducation' ? 'selected' : '' }}>Éducation</option>
+                                    <option value="Santé" {{ app.request.query.get('domaine') == 'Santé' ? 'selected' : '' }}>Santé</option>
+                                    <option value="Environnement" {{ app.request.query.get('domaine') == 'Environnement' ? 'selected' : '' }}>Environnement</option>
+                                    <option value="Culture" {{ app.request.query.get('domaine') == 'Culture' ? 'selected' : '' }}>Culture</option>
+                                    <option value="Sport" {{ app.request.query.get('domaine') == 'Sport' ? 'selected' : '' }}>Sport</option>
+                                    <option value="Développement" {{ app.request.query.get('domaine') == 'Développement' ? 'selected' : '' }}>Développement</option>
+                                    <option value="Droits de l'Homme" {{ app.request.query.get('domaine') == "Droits de l'Homme" ? 'selected' : '' }}>Droits de l'Homme</option>
+                                    <option value="Jeunesse" {{ app.request.query.get('domaine') == 'Jeunesse' ? 'selected' : '' }}>Jeunesse</option>
+                                    <option value="Femmes" {{ app.request.query.get('domaine') == 'Femmes' ? 'selected' : '' }}>Femmes</option>
+                                    <option value="Technologie" {{ app.request.query.get('domaine') == 'Technologie' ? 'selected' : '' }}>Technologie</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-2"></i>Rechercher
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PTFs Grid -->
+    {% if ptfs|length > 0 %}
+    <div class="row g-4 mb-5">
+        {% for ptf in ptfs %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm hover-shadow">
+                <div class="card-img-top position-relative">
+                    {% if ptf.logo %}
+                        <img src="{{ asset('uploads/logos/' ~ ptf.logo) }}" alt="{{ ptf.titre }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-project-diagram fa-4x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="position-absolute top-0 end-0 m-3">
+                        {% if ptf.domaine %}
+                            <span class="badge bg-primary">{{ ptf.domaine }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title mb-3">
+                        <a href="{{ path('app_ptf_detail', {'slug': ptf.slug}) }}" class="text-decoration-none text-dark">{{ ptf.titre }}</a>
+                    </h5>
+                    {% if ptf.abreviation %}
+                        <p class="text-muted mb-2"><strong>Abréviation:</strong> {{ ptf.abreviation }}</p>
+                    {% endif %}
+                    {% if ptf.description %}
+                        <p class="card-text text-muted mb-3">{{ ptf.description|slice(0, 150) }}{% if ptf.description|length > 150 %}...{% endif %}</p>
+                    {% endif %}
+                    <div class="mt-auto">
+                        <div class="row text-center mb-3">
+                            {% if ptf.dateFondation %}
+                            <div class="col-4">
+                                <small class="text-muted d-block">Fondée en</small>
+                                <strong>{{ ptf.dateFondation|date('Y') }}</strong>
+                            </div>
+                            {% endif %}
+                            {% if ptf.region %}
+                            <div class="col-4">
+                                <small class="text-muted d-block">Région</small>
+                                <strong>{{ ptf.region }}</strong>
+                            </div>
+                            {% endif %}
+                            {% if ptf.president %}
+                            <div class="col-4">
+                                <small class="text-muted d-block">Président</small>
+                                <strong>{{ ptf.president|slice(0, 15) }}{% if ptf.president|length > 15 %}...{% endif %}</strong>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-grid">
+                            <a href="{{ path('app_ptf_detail', {'slug': ptf.slug}) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-eye me-2"></i>Voir détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if totalPages > 1 %}
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Navigation des pages">
+                <ul class="pagination justify-content-center">
+                    {% if currentPage > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_ptfs', app.request.query.all|merge({'page': currentPage - 1})) }}">
+                                <i class="fas fa-chevron-left"></i> Précédent
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for page in 1..totalPages %}
+                        {% if page == currentPage %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% elseif page == 1 or page == totalPages or (page >= currentPage - 2 and page <= currentPage + 2) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path('app_ptfs', app.request.query.all|merge({'page': page})) }}">{{ page }}</a>
+                            </li>
+                        {% elseif page == currentPage - 3 or page == currentPage + 3 %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if currentPage < totalPages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_ptfs', app.request.query.all|merge({'page': currentPage + 1})) }}">
+                                Suivant <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                {% if app.request.query.get('search') or app.request.query.get('region') or app.request.query.get('domaine') %}
+                    Aucune plateforme ne correspond à vos critères de recherche.
+                {% else %}
+                    Aucune plateforme disponible pour le moment.
+                {% endif %}
+            </div>
+            {% if app.request.query.get('search') or app.request.query.get('region') or app.request.query.get('domaine') %}
+                <a href="{{ path('app_ptfs') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-times me-2"></i>Effacer les filtres
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .hover-shadow {
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-2px);
+    }
+    
+    .card-img-top img {
+        transition: transform 0.3s ease;
+    }
+    
+    .card:hover .card-img-top img {
+        transform: scale(1.05);
+    }
+    
+    .page-link {
+        color: var(--primary-color);
+    }
+    
+    .page-item.active .page-link {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+</style>
+{% endblock %}

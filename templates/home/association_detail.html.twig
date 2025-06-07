@@ -1,0 +1,377 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ association.titre }} - Association{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <!-- Association Header -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            {% if association.logo %}
+                <img src="{{ asset('uploads/logos/' ~ association.logo) }}" alt="{{ association.titre }}" class="img-fluid rounded shadow">
+            {% else %}
+                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-users fa-3x text-muted"></i>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <h1 class="mb-3">{{ association.titre }}</h1>
+            {% if association.abreviation %}
+                <p class="text-muted mb-2"><strong>Abréviation:</strong> {{ association.abreviation }}</p>
+            {% endif %}
+            {% if association.domaine %}
+                <span class="badge bg-primary mb-3">{{ association.domaine }}</span>
+            {% endif %}
+            {% if association.region %}
+                <span class="badge bg-secondary mb-3 ms-2">{{ association.region }}</span>
+            {% endif %}
+            {% if association.descriptionPresentation %}
+                <p class="lead">{{ association.descriptionPresentation|slice(0, 200) }}{% if association.descriptionPresentation|length > 200 %}...{% endif %}</p>
+            {% endif %}
+            
+            <!-- Quick Info -->
+            <div class="row mt-3">
+                {% if association.anneeFondation %}
+                <div class="col-md-4">
+                    <small class="text-muted">Année de fondation</small>
+                    <div class="fw-bold">{{ association.anneeFondation }}</div>
+                </div>
+                {% endif %}
+                {% if association.president %}
+                <div class="col-md-4">
+                    <small class="text-muted">Président</small>
+                    <div class="fw-bold">{{ association.president }}</div>
+                </div>
+                {% endif %}
+                {% if association.structure %}
+                <div class="col-md-4">
+                    <small class="text-muted">Structure</small>
+                    <div class="fw-bold">{{ association.structure }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Information Block -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-address-book me-2"></i>Informations de Contact</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if association.adresse %}
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i>Adresse:</strong>
+                            <p class="mb-0">{{ association.adresse }}</p>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="col-md-6 mb-3">
+                            {% if association.telephone %}
+                            <div class="mb-2">
+                                <strong><i class="fas fa-phone me-2 text-primary"></i>Téléphone:</strong>
+                                <span>{{ association.telephone }}</span>
+                            </div>
+                            {% endif %}
+                            {% if association.telephone2 %}
+                            <div class="mb-2">
+                                <strong><i class="fas fa-phone me-2 text-primary"></i>Téléphone 2:</strong>
+                                <span>{{ association.telephone2 }}</span>
+                            </div>
+                            {% endif %}
+                            {% if association.mobile %}
+                            <div class="mb-2">
+                                <strong><i class="fas fa-mobile-alt me-2 text-primary"></i>Mobile:</strong>
+                                <span>{{ association.mobile }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if association.email %}
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-envelope me-2 text-primary"></i>Email:</strong>
+                            <a href="mailto:{{ association.email }}" class="text-decoration-none">{{ association.email }}</a>
+                        </div>
+                        {% endif %}
+                        
+                        {% if association.siteWeb %}
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-globe me-2 text-primary"></i>Site Web:</strong>
+                            <a href="{{ association.siteWeb }}" target="_blank" class="text-decoration-none">{{ association.siteWeb }}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Social Media -->
+                    {% if association.facebook or association.twitter or association.youtube or association.google %}
+                    <div class="border-top pt-3 mt-3">
+                        <strong class="d-block mb-2">Réseaux Sociaux:</strong>
+                        <div class="d-flex gap-3">
+                            {% if association.facebook %}
+                            <a href="{{ association.facebook }}" target="_blank" class="text-primary">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </a>
+                            {% endif %}
+                            {% if association.twitter %}
+                            <a href="{{ association.twitter }}" target="_blank" class="text-info">
+                                <i class="fab fa-twitter fa-2x"></i>
+                            </a>
+                            {% endif %}
+                            {% if association.youtube %}
+                            <a href="{{ association.youtube }}" target="_blank" class="text-danger">
+                                <i class="fab fa-youtube fa-2x"></i>
+                            </a>
+                            {% endif %}
+                            {% if association.google %}
+                            <a href="{{ association.google }}" target="_blank" class="text-warning">
+                                <i class="fab fa-google fa-2x"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="associationTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
+                        <i class="fas fa-info-circle me-2"></i>Description
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">
+                        <i class="fas fa-calendar-alt me-2"></i>Événements <span class="badge bg-secondary">{{ events|length }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab">
+                        <i class="fas fa-project-diagram me-2"></i>Projets <span class="badge bg-secondary">{{ opportunities|length }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="news-tab" data-bs-toggle="tab" data-bs-target="#news" type="button" role="tab">
+                        <i class="fas fa-newspaper me-2"></i>Actualités <span class="badge bg-secondary">{{ actualites|length }}</span>
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-4" id="associationTabsContent">
+                <!-- Description Tab -->
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            {% if association.description %}
+                                <h5>Description</h5>
+                                <p>{{ association.description|nl2br }}</p>
+                            {% endif %}
+                            
+                            {% if association.descriptionPresentation %}
+                                <h5>Présentation</h5>
+                                <p>{{ association.descriptionPresentation|nl2br }}</p>
+                            {% endif %}
+                            
+                            {% if association.contactInformation %}
+                                <h5>Informations de Contact Supplémentaires</h5>
+                                <p>{{ association.contactInformation|nl2br }}</p>
+                            {% endif %}
+                            
+                            {% if association.visAVis %}
+                                <h5>Vis-à-vis</h5>
+                                <p>{{ association.visAVis|nl2br }}</p>
+                            {% endif %}
+                            
+                            {% if not association.description and not association.descriptionPresentation and not association.contactInformation and not association.visAVis %}
+                                <div class="text-center text-muted py-5">
+                                    <i class="fas fa-info-circle fa-3x mb-3"></i>
+                                    <p>Aucune description disponible pour cette association.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Events Tab -->
+                <div class="tab-pane fade" id="events" role="tabpanel">
+                    {% if events|length > 0 %}
+                        <div class="row">
+                            {% for event in events %}
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    {% if event.image %}
+                                    <img src="{{ asset('uploads/events/' ~ event.image) }}" class="card-img-top" alt="{{ event.titre }}" style="height: 200px; object-fit: cover;">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ event.titre }}</h5>
+                                        {% if event.description %}
+                                        <p class="card-text">{{ event.description|slice(0, 150) }}{% if event.description|length > 150 %}...{% endif %}</p>
+                                        {% endif %}
+                                        
+                                        <div class="text-muted small">
+                                            {% if event.dateDebut %}
+                                            <i class="fas fa-calendar me-1"></i>{{ event.dateDebut|date('d/m/Y') }}
+                                            {% endif %}
+                                            {% if event.lieu %}
+                                            <br><i class="fas fa-map-marker-alt me-1"></i>{{ event.lieu }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if event.statut %}
+                                    <div class="card-footer">
+                                        <span class="badge bg-{% if event.statut == 'actif' %}success{% elseif event.statut == 'terminé' %}secondary{% else %}warning{% endif %}">
+                                            {{ event.statut|title }}
+                                        </span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-5">
+                            <i class="fas fa-calendar-alt fa-3x mb-3"></i>
+                            <p>Aucun événement trouvé pour cette association.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Projects Tab -->
+                <div class="tab-pane fade" id="projects" role="tabpanel">
+                    {% if opportunities|length > 0 %}
+                        <div class="row">
+                            {% for opportunity in opportunities %}
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ opportunity.titre }}</h5>
+                                        {% if opportunity.opportunityDetails %}
+                                        <p class="card-text">{{ opportunity.opportunityDetails|slice(0, 200) }}{% if opportunity.opportunityDetails|length > 200 %}...{% endif %}</p>
+                                        {% endif %}
+                                        
+                                        {% if opportunity.typeOfOpportunities %}
+                                        <span class="badge bg-primary mb-2">{{ opportunity.typeOfOpportunities }}</span>
+                                        {% endif %}
+                                        
+                                        <div class="text-muted small">
+                                            {% if opportunity.dueDate %}
+                                            <i class="fas fa-clock me-1"></i>Date limite: {{ opportunity.dueDate|date('d/m/Y') }}
+                                            {% endif %}
+                                            {% if opportunity.organisme %}
+                                            <br><i class="fas fa-building me-1"></i>{{ opportunity.organisme }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-5">
+                            <i class="fas fa-project-diagram fa-3x mb-3"></i>
+                            <p>Aucun projet trouvé pour cette association.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- News Tab -->
+                <div class="tab-pane fade" id="news" role="tabpanel">
+                    {% if actualites|length > 0 %}
+                        <div class="row">
+                            {% for actualite in actualites %}
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    {% if actualite.image %}
+                                    <img src="{{ asset('uploads/actualites/' ~ actualite.image) }}" class="card-img-top" alt="{{ actualite.titre }}" style="height: 200px; object-fit: cover;">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ actualite.titre }}</h5>
+                                        {% if actualite.resume %}
+                                        <p class="card-text">{{ actualite.resume }}</p>
+                                        {% elseif actualite.contenu %}
+                                        <p class="card-text">{{ actualite.contenu|slice(0, 150) }}{% if actualite.contenu|length > 150 %}...{% endif %}</p>
+                                        {% endif %}
+                                        
+                                        <div class="text-muted small">
+                                            <i class="fas fa-calendar me-1"></i>{{ actualite.datePublication|date('d/m/Y') }}
+                                            {% if actualite.auteur %}
+                                            <br><i class="fas fa-user me-1"></i>{{ actualite.auteur }}
+                                            {% endif %}
+                                        </div>
+                                        
+                                        {% if actualite.tags %}
+                                        <div class="mt-2">
+                                            {% for tag in actualite.tags %}
+                                            <span class="badge bg-light text-dark me-1">{{ tag }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% if actualite.featured %}
+                                    <div class="card-footer">
+                                        <span class="badge bg-warning"><i class="fas fa-star me-1"></i>À la une</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-5">
+                            <i class="fas fa-newspaper fa-3x mb-3"></i>
+                            <p>Aucune actualité trouvée pour cette association.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back to Associations -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <a href="{{ path('app_associations') }}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>Retour à la liste des associations
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.nav-tabs .nav-link {
+    color: #495057;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    isolation: isolate;
+}
+
+.nav-tabs .nav-link.active {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.15s ease-in-out;
+}
+</style>
+{% endblock %}

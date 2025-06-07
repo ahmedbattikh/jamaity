@@ -1,0 +1,286 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ opportunity.titre }} - Opportunités - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('app_opportunities') }}">Opportunités</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ opportunity.titre }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-12">
+            <!-- Opportunity Header -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                <h1 class="display-5 fw-bold text-primary mb-0">{{ opportunity.titre }}</h1>
+                <a href="{{ path('app_opportunities') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Retour à la liste
+                </a>
+            </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                <strong>Publié le:</strong> {{ opportunity.dateCreation|date('d/m/Y à H:i') }}
+                            </p>
+                            {% if opportunity.dueDate %}
+                            <p class="text-danger mb-1">
+                                <i class="fas fa-clock me-2"></i>
+                                <strong>Date limite:</strong> {{ opportunity.dueDate|date('d/m/Y') }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if opportunity.organisme %}
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-building me-2"></i>
+                                <strong>Organisme:</strong> {{ opportunity.organisme }}
+                            </p>
+                            {% endif %}
+                            {% if opportunity.typeOfOpportunities %}
+                            <p class="mb-1">
+                                <span class="badge bg-primary fs-6">
+                                    {{ opportunity.typeOfOpportunities|replace({'_': ' '})|title }}
+                                </span>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if opportunity.regions and opportunity.regions|length > 0 %}
+                    <div class="mb-3">
+                        <strong class="text-muted">Régions concernées:</strong>
+                        {% for region in opportunity.regions %}
+                            <span class="badge bg-secondary me-1">{{ region }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if opportunity.interventionThemes and opportunity.interventionThemes|length > 0 %}
+                    <div class="mb-3">
+                        <strong class="text-muted">Thèmes d'intervention:</strong>
+                        {% for theme in opportunity.interventionThemes %}
+                            <span class="badge bg-info me-1">{{ theme }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Opportunity Details -->
+            {% if opportunity.opportunityDetails %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Détails de l'opportunité
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="opportunity-details">
+                        {{ opportunity.opportunityDetails|nl2br }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Eligibility Criteria -->
+            {% if opportunity.eligibilityCriteria and opportunity.eligibilityCriteria|length > 0 %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Critères d'éligibilité
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for criteria in opportunity.eligibilityCriteria %}
+                        <li class="list-group-item d-flex align-items-start">
+                            <i class="fas fa-check text-success me-3 mt-1"></i>
+                            <span>{{ criteria }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- How to Apply (Collapsible) -->
+            {% if opportunity.howToApply %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">
+                        <button class="btn btn-link text-decoration-none p-0 text-start w-100 d-flex justify-content-between align-items-center" 
+                                type="button" 
+                                data-bs-toggle="collapse" 
+                                data-bs-target="#howToApplyCollapse" 
+                                aria-expanded="false" 
+                                aria-controls="howToApplyCollapse">
+                            <span>
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Comment postuler
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </h4>
+                </div>
+                <div class="collapse" id="howToApplyCollapse">
+                    <div class="card-body">
+                        <div class="how-to-apply">
+                            {{ opportunity.howToApply|nl2br }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Budget Information -->
+            {% if opportunity.budget %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">
+                        <i class="fas fa-money-bill-wave me-2"></i>
+                        Budget
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="budget-info">
+                        {{ opportunity.budget|nl2br }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .opportunity-details,
+    .how-to-apply,
+    .budget-info {
+        line-height: 1.6;
+        font-size: 1rem;
+    }
+    
+
+    
+    .list-group-item {
+        border-left: none;
+        border-right: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    .list-group-item:first-child {
+        border-top: none;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+    
+    .btn-link {
+        color: #212529 !important;
+        font-weight: 500;
+    }
+    
+    .btn-link:hover {
+        color: #0d6efd !important;
+    }
+    
+    .btn-link .fas {
+        transition: transform 0.3s ease;
+    }
+    
+    .btn-link[aria-expanded="true"] .fas {
+        transform: rotate(180deg);
+    }
+    
+    @media print {
+        .sidebar,
+        .breadcrumb,
+        .btn {
+            display: none !important;
+        }
+        
+        .col-lg-8 {
+            width: 100% !important;
+        }
+        
+        .card {
+            border: 1px solid #dee2e6 !important;
+            box-shadow: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    function shareOpportunity() {
+        if (navigator.share) {
+            navigator.share({
+                title: '{{ opportunity.titre }}',
+                text: 'Découvrez cette opportunité sur Jamaity',
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href).then(function() {
+                showNotification('Lien copié dans le presse-papiers!', 'success');
+            }, function(err) {
+                console.error('Erreur lors de la copie: ', err);
+                showNotification('Erreur lors de la copie', 'error');
+            });
+        }
+    }
+    
+    function addToFavorites() {
+        // Simulate adding to favorites
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const opportunityId = {{ opportunity.id }};
+        
+        if (!favorites.includes(opportunityId)) {
+            favorites.push(opportunityId);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            showNotification('Ajouté aux favoris!', 'success');
+        } else {
+            showNotification('Déjà dans vos favoris', 'info');
+        }
+    }
+    
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation-triangle' : 'info'}-circle me-2"></i>
+            ${message}
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.yaml
+compose.yml
+compose.yaml
+.dockerignore
+
+# Symfony
+/var/
+/vendor/
+/public/bundles/
+/node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Cache
+.cache
+
+# Temporary files
+*.tmp
+*.temp
+
+# Composer
+composer.phar
+composer-setup.php
