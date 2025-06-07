@@ -41,6 +41,135 @@
                 padding-top: 0;
             }
             
+            /* Override Bootstrap's text-primary class */
+            .text-primary {
+                color: var(--primary-color) !important;
+            }
+            
+            /* Override Bootstrap's btn-primary class */
+            .btn-primary {
+                background-color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+            
+            .btn-primary:hover,
+            .btn-primary:focus,
+            .btn-primary:active {
+                background-color: #2a4080 !important;
+                border-color: #2a4080 !important;
+            }
+            
+            /* Override Bootstrap's btn-outline-primary class */
+            .btn-outline-primary {
+                color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+            
+            .btn-outline-primary:hover,
+            .btn-outline-primary:focus,
+            .btn-outline-primary:active {
+                background-color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+                color: white !important;
+            }
+            
+            /* Override Bootstrap's bg-primary class */
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+        /* Override Bootstrap's info classes */
+        .bg-info {
+            background-color: #69bfac !important;
+        }
+        
+        .text-info {
+            color: #69bfac !important;
+        }
+        
+        .btn-info {
+            background-color: #69bfac !important;
+            border-color: #69bfac !important;
+            color: white !important;
+        }
+        
+        .btn-info:hover,
+        .btn-info:focus,
+        .btn-info:active {
+            background-color: #5aa896 !important;
+            border-color: #5aa896 !important;
+            color: white !important;
+        }
+        
+        .btn-outline-info {
+            color: #69bfac !important;
+            border-color: #69bfac !important;
+        }
+        
+        .btn-outline-info:hover,
+        .btn-outline-info:focus,
+        .btn-outline-info:active {
+            background-color: #69bfac !important;
+            border-color: #69bfac !important;
+            color: white !important;
+        }
+        
+        .border-info {
+            border-color: #69bfac !important;
+        }
+        
+        .alert-info {
+            background-color: rgba(105, 191, 172, 0.1) !important;
+            border-color: #69bfac !important;
+            color: #4a8a7a !important;
+        }
+        
+        /* Override Bootstrap's success classes */
+        .bg-success {
+            background-color: #69bfac !important;
+        }
+        
+        .text-success {
+            color: #69bfac !important;
+        }
+        
+        .btn-success {
+            background-color: #69bfac !important;
+            border-color: #69bfac !important;
+            color: white !important;
+        }
+        
+        .btn-success:hover,
+        .btn-success:focus,
+        .btn-success:active {
+            background-color: #5aa896 !important;
+            border-color: #5aa896 !important;
+            color: white !important;
+        }
+        
+        .btn-outline-success {
+            color: #69bfac !important;
+            border-color: #69bfac !important;
+        }
+        
+        .btn-outline-success:hover,
+        .btn-outline-success:focus,
+        .btn-outline-success:active {
+            background-color: #69bfac !important;
+            border-color: #69bfac !important;
+            color: white !important;
+        }
+        
+        .border-success {
+            border-color: #69bfac !important;
+        }
+        
+        .alert-success {
+            background-color: rgba(105, 191, 172, 0.1) !important;
+            border-color: #69bfac !important;
+            color: #4a8a7a !important;
+        }
+            
             main {
                 margin-top: 0;
                 padding-top: 0;
@@ -669,42 +798,42 @@
                             </div>
                             <div class="social-links">
                                 <p>Suivez-nous sur :</p>
-                                <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://www.facebook.com/jamaity.org" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
+                                <a href="https://twitter.com/jamaity_org" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/company/jamaity" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <h5 class="footer-title">Jamaity</h5>
                         <ul class="footer-links">
-                            <li><a href="#">À propos</a></li>
-                            <li><a href="#">L'équipe</a></li>
-                            <li><a href="#">Nos projets</a></li>
-                            <li><a href="#">Nos rapports</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="{{ path('app_about') }}">À propos</a></li>
+                            <li><a href="{{ path('app_team') }}">L'équipe</a></li>
+                            <li><a href="{{ path('app_projects') }}">Nos projets</a></li>
+                            <li><a href="{{ path('app_reports') }}">Nos rapports</a></li>
+                            <li><a href="{{ path('app_contact') }}">Contact</a></li>
                         </ul>
                     </div>
                     <div class="col-md-2">
                         <h5 class="footer-title">Société civile</h5>
                         <ul class="footer-links">
-                            <li><a href="#">Associations</a></li>
-                            <li><a href="#">PTF</a></li>
-                            <li><a href="#">Coalitions</a></li>
-                            <li><a href="#">Experts</a></li>
-                            <li><a href="#">Projets</a></li>
+                            <li><a href="{{ path('app_associations') }}">Associations</a></li>
+                            <li><a href="{{ path('app_ptfs') }}">PTF</a></li>
+                            <li><a href="{{ path('app_coalitions') }}">Coalitions</a></li>
+                            <li><a href="{{ path('app_experts') }}">Experts</a></li>
+                            <li><a href="{{ path('app_projects') }}">Projets</a></li>
                         </ul>
                     </div>
                     <div class="col-md-2">
                         <h5 class="footer-title">Services</h5>
                         <ul class="footer-links">
-                            <li><a href="#">Opportunités</a></li>
-                            <li><a href="#">Centre de ressources</a></li>
-                            <li><a href="#">Événements</a></li>
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">E-learning</a></li>
-                            <li><a href="#">Jamaity Maps</a></li>
-                            <li><a href="#">Station 47</a></li>
+                            <li><a href="{{ path('app_opportunities') }}">Opportunités</a></li>
+                            <li><a href="{{ path('app_resources') }}">Centre de ressources</a></li>
+                            <li><a href="{{ path('app_events') }}">Événements</a></li>
+                            <li><a href="{{ path('app_actualites') }}">News</a></li>
+                            <li><a href="{{ path('app_elearning') }}">E-learning</a></li>
+                            <li><a href="{{ path('app_maps') }}">Jamaity Maps</a></li>
+                            <li><a href="{{ path('app_station47') }}">Station 47</a></li>
                         </ul>
                     </div>
                     <div class="col-md-3">
@@ -732,9 +861,9 @@
                                 <p>&copy; 2024 Jamaity.org</p>
                             </div>
                             <div class="col-md-6 text-end">
-                                <a href="#" class="footer-link">FAQ</a>
-                                <a href="#" class="footer-link">Politique de confidentialité</a>
-                                <a href="#" class="footer-link">Termes & conditions</a>
+                                <a href="{{ path('app_faq') }}" class="footer-link">FAQ</a>
+                                <a href="{{ path('app_privacy') }}" class="footer-link">Politique de confidentialité</a>
+                                <a href="{{ path('app_terms') }}" class="footer-link">Termes & conditions</a>
                             </div>
                         </div>
                     </div>

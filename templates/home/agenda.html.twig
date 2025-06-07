@@ -64,7 +64,7 @@
                 <div class="legend-body">
                     <div class="legend-grid">
                         <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                            <div class="legend-color" style="background: linear-gradient(135deg, #3d57a2 0%, #2a4080 100%);"></div>
                             <span class="legend-text">Planifié</span>
                             <small class="legend-count">{{ events|filter(e => e.statut == 'planifie')|length }}</small>
                         </div>
@@ -207,7 +207,7 @@
 .calendar-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #3d57a2 0%, #2a4080 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -217,7 +217,7 @@
 }
 
 .stat-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #3d57a2 0%, #2a4080 100%);
     color: white;
     padding: 8px 16px;
     border-radius: 25px;
@@ -328,7 +328,7 @@
     width: 100%;
     padding: 12px 20px;
     margin-bottom: 10px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #3d57a2 0%, #2a4080 100%);
     color: white;
     text-decoration: none;
     border: none;
@@ -367,7 +367,7 @@
 }
 
 .fc-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(135deg, #3d57a2 0%, #2a4080 100%) !important;
     border: none !important;
     border-radius: 10px !important;
     padding: 8px 16px !important;
@@ -386,7 +386,7 @@
 }
 
 .fc-button-active {
-    background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%) !important;
+    background: linear-gradient(135deg, #2a4080 0%, #3d57a2 100%) !important;
 }
 
 .fc-daygrid-day {
@@ -519,8 +519,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 end: '{{ event.dateFin|date('Y-m-d') }}',
                 {% endif %}
                 url: '{{ path('app_event_detail', {'slug': event.slug}) }}',
-                backgroundColor: {% if event.statut == 'planifie' %}'#667eea'{% elseif event.statut == 'en_cours' %}'#f093fb'{% elseif event.statut == 'termine' %}'#4facfe'{% elseif event.statut == 'annule' %}'#fa709a'{% else %}'#6c757d'{% endif %},
-                borderColor: {% if event.statut == 'planifie' %}'#764ba2'{% elseif event.statut == 'en_cours' %}'#f5576c'{% elseif event.statut == 'termine' %}'#00f2fe'{% elseif event.statut == 'annule' %}'#fee140'{% else %}'#6c757d'{% endif %},
+                backgroundColor: {% if event.statut == 'planifie' %}'#3d57a2'{% elseif event.statut == 'en_cours' %}'#f093fb'{% elseif event.statut == 'termine' %}'#4facfe'{% elseif event.statut == 'annule' %}'#fa709a'{% else %}'#6c757d'{% endif %},
+                borderColor: {% if event.statut == 'planifie' %}'#2a4080'{% elseif event.statut == 'en_cours' %}'#f5576c'{% elseif event.statut == 'termine' %}'#00f2fe'{% elseif event.statut == 'annule' %}'#fee140'{% else %}'#6c757d'{% endif %},
                 extendedProps: {
                     description: '{{ event.description|slice(0, 100)|e('js') }}',
                     lieu: '{{ event.lieu|e('js') }}',
