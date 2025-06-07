@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     wait-for-it \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl opcache
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -26,6 +26,10 @@ COPY . /var/www/html
 
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www/html
+
+# Copy OPcache configuration files
+COPY docker/php/opcache-dev.ini /usr/local/etc/php/conf.d/opcache-dev.ini
+COPY docker/php/opcache-prod.ini /usr/local/etc/php/conf.d/opcache-prod.ini
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader
@@ -44,6 +48,23 @@ RUN echo '[global]' > /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo 'pm.start_servers = 2' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo 'pm.min_spare_servers = 1' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo 'pm.max_spare_servers = 3' >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
+# Create OPcache log directory
+RUN mkdir -p /var/log && touch /var/log/opcache.log && chown www-data:www-data /var/log/opcache.log
+
+# Create OPcache file cache directory
+RUN mkdir -p /tmp/opcache && chown www-data:www-data /tmp/opcache
+
+# Create script to enable appropriate OPcache configuration based on environment
+RUN echo '#!/bin/bash' > /usr/local/bin/configure-opcache.sh && \
+    echo 'if [ "$APP_ENV" = "prod" ]; then' >> /usr/local/bin/configure-opcache.sh && \
+    echo '    ln -sf /usr/local/etc/php/conf.d/opcache-prod.ini /usr/local/etc/php/conf.d/opcache.ini' >> /usr/local/bin/configure-opcache.sh && \
+    echo '    echo "OPcache configured for production"' >> /usr/local/bin/configure-opcache.sh && \
+    echo 'else' >> /usr/local/bin/configure-opcache.sh && \
+    echo '    ln -sf /usr/local/etc/php/conf.d/opcache-dev.ini /usr/local/etc/php/conf.d/opcache.ini' >> /usr/local/bin/configure-opcache.sh && \
+    echo '    echo "OPcache configured for development"' >> /usr/local/bin/configure-opcache.sh && \
+    echo 'fi' >> /usr/local/bin/configure-opcache.sh && \
+    chmod +x /usr/local/bin/configure-opcache.sh
 
 # Expose port 9000
 EXPOSE 9000

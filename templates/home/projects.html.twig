@@ -92,7 +92,12 @@
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title">{{ project.title }}</h5>
                                     <p class="card-text text-muted small mb-2">
-                                        <i class="fas fa-map-marker-alt me-1"></i> {{ project.region }}
+                                        <i class="fas fa-map-marker-alt me-1"></i> 
+                                        {% if project.region and project.region|length > 0 %}
+                                            {{ project.region|join(', ') }}
+                                        {% else %}
+                                            Non spécifié
+                                        {% endif %}
                                     </p>
                                     {% if project.dateBegin %}
                                         <p class="card-text text-muted small mb-2">
@@ -104,11 +109,16 @@
                                         </p>
                                     {% endif %}
                                     <p class="card-text flex-grow-1">{{ project.generalObjective|slice(0, 150) }}{% if project.generalObjective|length > 150 %}...{% endif %}</p>
-                                    {% if project.website %}
-                                        <a href="{{ project.website }}" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
-                                            <i class="fas fa-external-link-alt me-1"></i> Voir le site
+                                    <div class="d-flex gap-2 mt-auto">
+                                        <a href="{{ path('app_project_detail', {'slug': project.slug}) }}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i> Voir détails
                                         </a>
-                                    {% endif %}
+                                        {% if project.website %}
+                                            <a href="{{ project.website }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-external-link-alt me-1"></i> Site web
+                                            </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>

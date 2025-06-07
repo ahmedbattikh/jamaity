@@ -9,8 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class OrganizationCrudController extends AbstractCrudController
 {
@@ -36,14 +35,10 @@ class OrganizationCrudController extends AbstractCrudController
                 ->setNumOfRows(3),
             TextareaField::new('visAVis', 'Vis-à-vis')
                 ->setNumOfRows(3),
-            Field::new('logo', 'Logo')
-                ->setFormType(FileType::class)
-                ->setFormTypeOptions([
-                    'attr' => [
-                        'accept' => '.jpg,.jpeg,.png,.gif'
-                    ],
-                    'help' => 'Upload logo (JPG, PNG, or GIF)'
-                ])
+            ImageField::new('logo', 'Logo')
+                ->setBasePath('uploads/logos')
+                ->setUploadDir('public/uploads/logos')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->onlyOnForms(),
             TextField::new('logo', 'Logo File')
                 ->onlyOnIndex()

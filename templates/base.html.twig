@@ -161,6 +161,47 @@
                 background-color: rgba(37, 99, 235, 0.1);
             }
             
+            /* Dropdown Submenu Styles */
+            .dropdown-submenu-trigger {
+                position: relative;
+            }
+            
+            .dropdown-submenu {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                min-width: 300px;
+                background: white;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateX(-10px);
+                transition: all 0.3s ease;
+                z-index: 1001;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            
+            .dropdown-submenu-trigger:hover + .dropdown-submenu,
+            .dropdown-submenu:hover {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(0);
+            }
+            
+            .dropdown-submenu .dropdown-item {
+                padding: 8px 15px;
+                font-size: 13px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            
+            .dropdown-submenu .dropdown-item:hover {
+                background-color: rgba(37, 99, 235, 0.1);
+                color: var(--primary-color);
+            }
+            
             .navbar-nav .nav-link {
                 padding: 8px 15px !important;
                 margin: 0;
@@ -526,35 +567,38 @@
                                 <div class="nav-dropdown-menu">
                                     <a href="#" class="dropdown-item">Présentation</a>
                                     <a href="#" class="dropdown-item">Notre équipe</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown-container">
-                                <a class="nav-link dropdown-trigger" href="{{ path('app_projects') }}">PROJETS PHARES</a>
-                                <div class="nav-dropdown-menu projects-submenu">
-                                    {% set latestProjects = get_latest_projects(8) %}
-                                    {% for project in latestProjects %}
-                                        <a href="{{ path('app_projects') }}" class="dropdown-item">
-                                            <i class="fas fa-project-diagram me-2"></i>
-                                            {{ project.title|slice(0, 30) }}{% if project.title|length > 30 %}...{% endif %}
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
-                                            <i class="fas fa-info-circle me-2"></i>
-                                            Aucun projet disponible
-                                        </a>
-                                    {% endfor %}
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-primary fw-bold">
-                                        <i class="fas fa-arrow-right me-2"></i>
-                                        Voir tous les projets
+                                    <a href="{{ path('app_projects') }}" class="dropdown-item dropdown-submenu-trigger">
+                                        <i class="fas fa-project-diagram me-2"></i>
+                                        PROJETS PHARES
+                                        <i class="fas fa-chevron-right ms-auto"></i>
                                     </a>
+                                    <div class="dropdown-submenu projects-submenu">
+                                        {% set latestProjects = get_latest_projects(8) %}
+                                        {% for project in latestProjects %}
+                                            <a href="{{ path('app_projects') }}" class="dropdown-item">
+                                                <i class="fas fa-project-diagram me-2"></i>
+                                                {{ project.title|slice(0, 30) }}{% if project.title|length > 30 %}...{% endif %}
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                Aucun projet disponible
+                                            </a>
+                                        {% endfor %}
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{{ path('app_projects') }}" class="dropdown-item text-primary fw-bold">
+                                            <i class="fas fa-arrow-right me-2"></i>
+                                            Voir tous les projets
+                                        </a>
+                                    </div>
                                 </div>
                             </li>
                             <li class="nav-item dropdown-container">
                                 <a class="nav-link dropdown-trigger" href="{{ path('app_societe_civile') }}">SOCIÉTÉ CIVILE</a>
                                 <div class="nav-dropdown-menu">
-                                    <a href="#" class="dropdown-item">Associations</a>
-                                    <a href="#" class="dropdown-item">Coalitions</a>
+                                    <a href="{{ path('app_associations') }}" class="dropdown-item">Associations</a>
+                                    <a href="{{ path('app_coalitions') }}" class="dropdown-item">Coalitions</a>
                                 </div>
                             </li>
                             <li class="nav-item">

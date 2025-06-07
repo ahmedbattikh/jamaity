@@ -18,9 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use Symfony\Component\Validator\Constraints\File;
 
 class ExpertCrudController extends AbstractCrudController
 {
@@ -74,23 +72,6 @@ class ExpertCrudController extends AbstractCrudController
                 ->setBasePath('uploads/experts')
                 ->setUploadDir('public/uploads/experts')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setFileConstraints(new File([
-                    'mimeTypes' => [
-                        'application/pdf',
-                        'application/msword',
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        'image/jpeg',
-                        'image/png',
-                        'image/jpg'
-                    ],
-                    'mimeTypesMessage' => 'Please upload a valid file (PDF, Word document, or image)',
-                ]))
-                ->setFormTypeOptions([
-                    'attr' => [
-                        'accept' => '.pdf,.doc,.docx,.jpg,.jpeg,.png'
-                    ],
-                    'help' => 'Upload resume file (PDF, Word document, or image)'
-                ])
                 ->onlyOnForms(),
             TextField::new('resume', 'Resume File')
                 ->onlyOnIndex()
@@ -101,12 +82,7 @@ class ExpertCrudController extends AbstractCrudController
                 ->setBasePath('uploads/experts')
                 ->setUploadDir('public/uploads/experts')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setFormTypeOptions([
-                    'attr' => [
-                        'accept' => '.jpg,.jpeg,.png,.gif'
-                    ],
-                    'help' => 'Upload profile picture (JPG, PNG, or GIF)'
-                ])
+                ->setHelp('Upload profile picture (JPG, PNG, or GIF)')
                 ->onlyOnForms(),
             TextField::new('picture', 'Picture File')
                 ->onlyOnIndex()

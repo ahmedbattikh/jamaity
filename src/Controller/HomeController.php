@@ -1104,4 +1104,19 @@ class HomeController extends AbstractController
             'actualites' => $actualites
         ]);
     }
+
+    #[Route('/project/{slug}', name: 'app_project_detail')]
+    public function projectDetail(string $slug, EntityManagerInterface $entityManager): Response
+    {
+        $repository = $entityManager->getRepository(Project::class);
+        $project = $repository->findOneBy(['slug' => $slug]);
+        
+        if (!$project) {
+            throw $this->createNotFoundException('Projet non trouvé');
+        }
+        
+        return $this->render('home/project_detail.html.twig', [
+            'project' => $project
+        ]);
+    }
 }

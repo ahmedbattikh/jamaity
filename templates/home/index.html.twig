@@ -146,7 +146,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((latestArticles|length - 1) / 4)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..3 %}
                             {% set articleIndex = i * 4 + j %}
                             {% if articleIndex < latestArticles|length %}
@@ -245,7 +245,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((upcomingEvents|length - 1) / 4)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..3 %}
                             {% set eventIndex = i * 4 + j %}
                             {% if eventIndex < upcomingEvents|length %}
@@ -355,7 +355,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((latestProjects|length - 1) / 4)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..3 %}
                             {% set projectIndex = i * 4 + j %}
                             {% if projectIndex < latestProjects|length %}
@@ -482,7 +482,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((latestExperts|length - 1) / 5)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..4 %}
                             {% set expertIndex = i * 5 + j %}
                             {% if expertIndex < latestExperts|length %}
@@ -585,7 +585,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((associations|length - 1) / 5)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..4 %}
                             {% set associationIndex = i * 5 + j %}
                             {% if associationIndex < associations|length %}
@@ -734,7 +734,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((coalitions|length - 1) / 5)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..4 %}
                             {% set index = i * 5 + j %}
                             {% if index < coalitions|length %}
@@ -834,7 +834,7 @@
             <div class="carousel-inner">
                 {% for i in 0..(((ptfs|length - 1) / 5)|round(0, 'floor')) %}
                 <div class="carousel-item {% if i == 0 %}active{% endif %}">
-                    <div class="row g-4">
+                    <div class="row justify-content-center g-4">
                         {% for j in 0..4 %}
                             {% set ptfIndex = i * 5 + j %}
                             {% if ptfIndex < ptfs|length %}
@@ -958,7 +958,7 @@
     }
     
     .slide {
-        position: relative;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
@@ -1185,6 +1185,184 @@
         padding: 0.4em 0.6em;
     }
     
+    /* Events Carousel Styles */
+    #eventsCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    #eventsCarousel .carousel-item {
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+    }
+    
+    #eventsCarousel .carousel-control-prev,
+    #eventsCarousel .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        position: absolute;
+    }
+    
+    #eventsCarousel .carousel-control-prev {
+        left: 15px;
+    }
+    
+    #eventsCarousel .carousel-control-next {
+        right: 15px;
+    }
+    
+    #eventsCarousel .carousel-control-prev:hover,
+    #eventsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    #eventsCarousel .carousel-indicators {
+        bottom: -50px;
+    }
+    
+    #eventsCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #eventsCarousel .carousel-indicators button.active {
+        background-color: var(--primary-color);
+    }
+    
+    /* Projects Carousel Styles */
+    #projectsCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    #projectsCarousel .carousel-item {
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+    }
+    
+    #projectsCarousel .carousel-control-prev,
+    #projectsCarousel .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        position: absolute;
+    }
+    
+    #projectsCarousel .carousel-control-prev {
+        left: 15px;
+    }
+    
+    #projectsCarousel .carousel-control-next {
+        right: 15px;
+    }
+    
+    #projectsCarousel .carousel-control-prev:hover,
+    #projectsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    #projectsCarousel .carousel-indicators {
+        bottom: -50px;
+    }
+    
+    #projectsCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #projectsCarousel .carousel-indicators button.active {
+        background-color: var(--primary-color);
+    }
+    
+    /* Experts Carousel Styles */
+    #expertsCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    #expertsCarousel .carousel-item {
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+    }
+    
+    #expertsCarousel .carousel-control-prev,
+    #expertsCarousel .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        position: absolute;
+    }
+    
+    #expertsCarousel .carousel-control-prev {
+        left: 15px;
+    }
+    
+    #expertsCarousel .carousel-control-next {
+        right: 15px;
+    }
+    
+    #expertsCarousel .carousel-control-prev:hover,
+    #expertsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    #expertsCarousel .carousel-indicators {
+        bottom: -50px;
+    }
+    
+    #expertsCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #expertsCarousel .carousel-indicators button.active {
+        background-color: var(--primary-color);
+    }
+    
+    /* Associations Carousel Styles */
     #associationsCarousel {
         min-height: 400px;
         position: relative;
@@ -1404,6 +1582,65 @@
         background-color: var(--primary-color);
         opacity: 1;
         transform: scale(1.2);
+    }
+    
+    /* PTFs Carousel Styles */
+    #ptfsCarousel {
+        min-height: 400px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    #ptfsCarousel .carousel-item {
+        min-height: 400px;
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+    }
+    
+    #ptfsCarousel .carousel-control-prev,
+    #ptfsCarousel .carousel-control-next {
+        width: 5%;
+        opacity: 0.8;
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        position: absolute;
+    }
+    
+    #ptfsCarousel .carousel-control-prev {
+        left: 15px;
+    }
+    
+    #ptfsCarousel .carousel-control-next {
+        right: 15px;
+    }
+    
+    #ptfsCarousel .carousel-control-prev:hover,
+    #ptfsCarousel .carousel-control-next:hover {
+        opacity: 1;
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    #ptfsCarousel .carousel-indicators {
+        bottom: -50px;
+    }
+    
+    #ptfsCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: rgba(0,0,0,0.3);
+    }
+    
+    #ptfsCarousel .carousel-indicators button.active {
+        background-color: #ffc107;
     }
     
     #articlesCarousel .carousel-item {

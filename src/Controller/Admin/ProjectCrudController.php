@@ -3,19 +3,19 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Project;
-use App\Entity\Organization;
+use App\Controller\Admin\OrganizationCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Validator\Constraints\File;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
 class ProjectCrudController extends AbstractCrudController
 {
@@ -26,74 +26,105 @@ class ProjectCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $validRegions = [
+            'Tunis' => 'Tunis',
+            'Ariana' => 'Ariana',
+            'Ben Arous' => 'Ben Arous',
+            'Manouba' => 'Manouba',
+            'Nabeul' => 'Nabeul',
+            'Zaghouan' => 'Zaghouan',
+            'Bizerte' => 'Bizerte',
+            'Béja' => 'Béja',
+            'Jendouba' => 'Jendouba',
+            'Kef' => 'Kef',
+            'Siliana' => 'Siliana',
+            'Kairouan' => 'Kairouan',
+            'Kasserine' => 'Kasserine',
+            'Sidi Bouzid' => 'Sidi Bouzid',
+            'Sousse' => 'Sousse',
+            'Monastir' => 'Monastir',
+            'Mahdia' => 'Mahdia',
+            'Sfax' => 'Sfax',
+            'Gafsa' => 'Gafsa',
+            'Tozeur' => 'Tozeur',
+            'Kebili' => 'Kebili',
+            'Gabès' => 'Gabès',
+            'Medenine' => 'Medenine',
+            'Tataouine' => 'Tataouine'
+        ];
+
         return [
-            FormField::addTab('Project Information'),
+            FormField::addTab('Basic Information'),
+            IdField::new('id')
+                ->hideOnForm(),
+            
             TextField::new('title', 'Project Title')
                 ->setRequired(true)
-                ->setColumns(8),
+                ->setColumns(6)
+                ->setHelp('Enter the project title'),
+            
             SlugField::new('slug', 'Slug')
                 ->setTargetFieldName('title')
-                ->setUnlockConfirmationMessage('It is highly recommended to let the slug be automatically generated.')
-                ->setHelp('The slug is used to build the project URL')
-                ->setColumns(4),
+                ->setColumns(6)
+                ->setHelp('URL-friendly version of the title'),
             
-            FormField::addRow(),
             DateField::new('dateBegin', 'Start Date')
                 ->setRequired(true)
                 ->setColumns(6),
+            
             DateField::new('dateEnd', 'End Date')
                 ->setRequired(true)
                 ->setColumns(6),
             
-            ImageField::new('logo', 'Logo')
-                ->setBasePath('uploads/projects')
-                ->setUploadDir('public/uploads/projects')
-                ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setFormType(FileType::class)
-                ->setFormTypeOptions([
-                    'constraints' => [
-                        new File([
-                            'maxSize' => '2M',
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/png',
-                                'image/gif',
-                                'image/webp'
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid image file (JPEG, PNG, GIF, WebP)',
-                        ])
-                    ],
-                    'required' => false
-                ])
-                ->setColumns(12),
+            UrlField::new('website', 'Website')
+                ->setColumns(6)
+                ->setHelp('Project website URL'),
+            
+            ChoiceField::new('region', 'Regions')
+                ->setChoices($validRegions)
+                ->allowMultipleChoices()
+                ->setColumns(6)
+                ->setHelp('Select the regions where this project operates'),
             
             FormField::addRow(),
+            
             TextareaField::new('generalObjective', 'General Objective')
                 ->setRequired(true)
                 ->setColumns(12)
-                ->setNumOfRows(4),
+                ->setNumOfRows(4)
+                ->setHelp('Describe the main objective of the project'),
             
             TextareaField::new('moreDetails', 'More Details')
                 ->setColumns(12)
-                ->setNumOfRows(6),
+                ->setNumOfRows(4)
+                ->setHelp('Additional details about the project'),
             
             ArrayField::new('specificObjectives', 'Specific Objectives')
-                ->setHelp('Add specific objectives for this project')
-                ->setColumns(12),
+                ->setColumns(12)
+                ->setHelp('List specific objectives, one per line'),
             
-            UrlField::new('website', 'Website')
-                ->setColumns(12),
+            FormField::addTab('Media & Organizations'),
             
-            ArrayField::new('region', 'Regions')
-                ->setHelp('Add regions where this project is active')
-                ->setColumns(12),
+            ImageField::new('logo', 'Project Logo')
+                ->setBasePath('uploads/projects')
+                ->setUploadDir('public/uploads/projects')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setHelp('Upload project logo (JPG, PNG, or GIF)')
+                ->onlyOnForms(),
             
-            FormField::addTab('Organizations'),
+            TextField::new('logo', 'Logo File')
+                ->onlyOnIndex()
+                ->formatValue(function ($value) {
+                    return $value ? basename($value) : 'No logo uploaded';
+                }),
+            
             AssociationField::new('organizations', 'Partner Organizations')
                 ->setFormTypeOptions([
                     'by_reference' => false,
                     'multiple' => true,
                 ])
+                ->autocomplete()
+                ->setCrudController(OrganizationCrudController::class)
                 ->setHelp('Select organizations involved in this project')
                 ->setColumns(12)
         ];
