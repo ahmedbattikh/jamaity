@@ -1,0 +1,204 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projets - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-0">
+    <!-- Hero Section -->
+    <section class="hero-section bg-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-3">Projets</h1>
+                    <p class="lead mb-4">Découvrez les projets innovants et impactants de la société civile tunisienne</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <i class="fas fa-project-diagram fa-5x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section py-4 bg-light">
+        <div class="container">
+            <form method="GET" class="row g-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control" name="search" placeholder="Rechercher un projet..." value="{{ filters.search }}">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" name="region">
+                        <option value="">Toutes les régions</option>
+                        <option value="Tunis" {% if filters.region == 'Tunis' %}selected{% endif %}>Tunis</option>
+                        <option value="Ariana" {% if filters.region == 'Ariana' %}selected{% endif %}>Ariana</option>
+                        <option value="Ben Arous" {% if filters.region == 'Ben Arous' %}selected{% endif %}>Ben Arous</option>
+                        <option value="Manouba" {% if filters.region == 'Manouba' %}selected{% endif %}>Manouba</option>
+                        <option value="Nabeul" {% if filters.region == 'Nabeul' %}selected{% endif %}>Nabeul</option>
+                        <option value="Zaghouan" {% if filters.region == 'Zaghouan' %}selected{% endif %}>Zaghouan</option>
+                        <option value="Bizerte" {% if filters.region == 'Bizerte' %}selected{% endif %}>Bizerte</option>
+                        <option value="Béja" {% if filters.region == 'Béja' %}selected{% endif %}>Béja</option>
+                        <option value="Jendouba" {% if filters.region == 'Jendouba' %}selected{% endif %}>Jendouba</option>
+                        <option value="Le Kef" {% if filters.region == 'Le Kef' %}selected{% endif %}>Le Kef</option>
+                        <option value="Siliana" {% if filters.region == 'Siliana' %}selected{% endif %}>Siliana</option>
+                        <option value="Kairouan" {% if filters.region == 'Kairouan' %}selected{% endif %}>Kairouan</option>
+                        <option value="Kasserine" {% if filters.region == 'Kasserine' %}selected{% endif %}>Kasserine</option>
+                        <option value="Sidi Bouzid" {% if filters.region == 'Sidi Bouzid' %}selected{% endif %}>Sidi Bouzid</option>
+                        <option value="Sousse" {% if filters.region == 'Sousse' %}selected{% endif %}>Sousse</option>
+                        <option value="Monastir" {% if filters.region == 'Monastir' %}selected{% endif %}>Monastir</option>
+                        <option value="Mahdia" {% if filters.region == 'Mahdia' %}selected{% endif %}>Mahdia</option>
+                        <option value="Sfax" {% if filters.region == 'Sfax' %}selected{% endif %}>Sfax</option>
+                        <option value="Gafsa" {% if filters.region == 'Gafsa' %}selected{% endif %}>Gafsa</option>
+                        <option value="Tozeur" {% if filters.region == 'Tozeur' %}selected{% endif %}>Tozeur</option>
+                        <option value="Kebili" {% if filters.region == 'Kebili' %}selected{% endif %}>Kebili</option>
+                        <option value="Gabès" {% if filters.region == 'Gabès' %}selected{% endif %}>Gabès</option>
+                        <option value="Médenine" {% if filters.region == 'Médenine' %}selected{% endif %}>Médenine</option>
+                        <option value="Tataouine" {% if filters.region == 'Tataouine' %}selected{% endif %}>Tataouine</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-filter me-1"></i> Filtrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h3>Projets trouvés</h3>
+                    <p class="text-muted">{{ total }} projet(s) trouvé(s)</p>
+                </div>
+            </div>
+
+            {% if projects|length > 0 %}
+                <div class="row">
+                    {% for project in projects %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100 shadow-sm hover-card">
+                                {% if project.logo %}
+                                    <img src="{{ asset('uploads/projects/' ~ project.logo) }}" class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-project-diagram fa-3x text-muted"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ project.title }}</h5>
+                                    <p class="card-text text-muted small mb-2">
+                                        <i class="fas fa-map-marker-alt me-1"></i> {{ project.region }}
+                                    </p>
+                                    {% if project.dateBegin %}
+                                        <p class="card-text text-muted small mb-2">
+                                            <i class="fas fa-calendar me-1"></i> 
+                                            {{ project.dateBegin|date('d/m/Y') }}
+                                            {% if project.dateEnd %}
+                                                - {{ project.dateEnd|date('d/m/Y') }}
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
+                                    <p class="card-text flex-grow-1">{{ project.generalObjective|slice(0, 150) }}{% if project.generalObjective|length > 150 %}...{% endif %}</p>
+                                    {% if project.website %}
+                                        <a href="{{ project.website }}" target="_blank" class="btn btn-outline-primary btn-sm mt-auto">
+                                            <i class="fas fa-external-link-alt me-1"></i> Voir le site
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if totalPages > 1 %}
+                    <nav aria-label="Projects pagination" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            {% if currentPage > 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_projects', filters|merge({'page': currentPage - 1})) }}">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for page in 1..totalPages %}
+                                {% if page == currentPage %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page }}</span>
+                                    </li>
+                                {% elseif page == 1 or page == totalPages or (page >= currentPage - 2 and page <= currentPage + 2) %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ path('app_projects', filters|merge({'page': page})) }}">{{ page }}</a>
+                                    </li>
+                                {% elseif page == currentPage - 3 or page == currentPage + 3 %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if currentPage < totalPages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path('app_projects', filters|merge({'page': currentPage + 1})) }}">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4>Aucun projet trouvé</h4>
+                    <p class="text-muted">Essayez de modifier vos critères de recherche.</p>
+                    <a href="{{ path('app_projects') }}" class="btn btn-primary">
+                        <i class="fas fa-refresh me-1"></i> Voir tous les projets
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+<style>
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+}
+
+.filters-section {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-link {
+    color: var(--primary-color);
+    border-color: var(--border-color);
+}
+
+.page-link:hover {
+    color: white;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+</style>
+{% endblock %}

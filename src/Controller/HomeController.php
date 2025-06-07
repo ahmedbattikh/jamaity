@@ -93,6 +93,43 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        // Get counts for statistics section
+        $associationsCount = $entityManager->getRepository(Association::class)
+            ->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $ptfsCount = $entityManager->getRepository(Ptf::class)
+            ->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $projectsCount = $entityManager->getRepository(Project::class)
+            ->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $expertsCount = $entityManager->getRepository(Expert::class)
+            ->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $eventsCount = $entityManager->getRepository(Event::class)
+            ->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $opportunitiesCount = $entityManager->getRepository(Opportunity::class)
+            ->createQueryBuilder('o')
+            ->select('COUNT(o.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'latestArticles' => $latestArticles,
@@ -103,6 +140,12 @@ class HomeController extends AbstractController
             'upcomingEvents' => $upcomingEvents,
             'latestExperts' => $latestExperts,
             'latestProjects' => $latestProjects,
+            'associationsCount' => $associationsCount,
+            'ptfsCount' => $ptfsCount,
+            'projectsCount' => $projectsCount,
+            'expertsCount' => $expertsCount,
+            'eventsCount' => $eventsCount,
+            'opportunitiesCount' => $opportunitiesCount,
         ]);
     }
 
@@ -197,6 +240,55 @@ class HomeController extends AbstractController
             ],
             'validTypes' => Opportunity::getValidOpportunityTypes(),
             'validRegions' => Opportunity::getValidRegions()
+        ]);
+    }
+    
+    #[Route('/projects', name: 'app_projects')]
+    public function projects(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $repository = $entityManager->getRepository(Project::class);
+        
+        // Get filter parameters
+        $search = $request->query->get('search');
+        $region = $request->query->get('region');
+        $page = max(1, (int) $request->query->get('page', 1));
+        $limit = 12;
+        $offset = ($page - 1) * $limit;
+        
+        // Build query for projects list
+        $qb = $repository->createQueryBuilder('p');
+        
+        if ($search) {
+            $qb->andWhere('p.title LIKE :search OR p.generalObjective LIKE :search OR p.moreDetails LIKE :search')
+               ->setParameter('search', '%' . $search . '%');
+        }
+        
+        if ($region) {
+            $qb->andWhere('p.region = :region')
+               ->setParameter('region', $region);
+        }
+        
+        // Get total count for pagination
+        $totalQuery = clone $qb;
+        $total = $totalQuery->select('COUNT(p.id)')->getQuery()->getSingleScalarResult();
+        $totalPages = ceil($total / $limit);
+        
+        // Get paginated results
+        $projects = $qb->orderBy('p.dateBegin', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+        
+        return $this->render('home/projects.html.twig', [
+            'projects' => $projects,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'total' => $total,
+            'filters' => [
+                'search' => $search,
+                'region' => $region
+            ]
         ]);
     }
     

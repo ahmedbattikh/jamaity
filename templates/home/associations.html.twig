@@ -19,7 +19,7 @@
                     <form method="GET" action="{{ path('app_associations') }}" class="row g-3">
                         <div class="col-md-3">
                             <label for="search" class="form-label">Rechercher</label>
-                            <input type="text" class="form-control" id="search" name="search" 
+                            <input type="text" class="jamaity-input" id="search" name="search" 
                                    value="{{ current_search }}" placeholder="Nom de l'association...">
                         </div>
                         <div class="col-md-3">
@@ -45,7 +45,7 @@
                             </select>
                         </div>
                         <div class="col-md-3 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary me-2">
+                            <button type="submit" class="jamaity-btn me-2">
                                 <i class="fas fa-search me-1"></i>Filtrer
                             </button>
                             <a href="{{ path('app_associations') }}" class="btn btn-outline-secondary">
@@ -211,7 +211,7 @@
                 <i class="fas fa-search fa-3x text-muted mb-3"></i>
                 <h4 class="text-muted mb-3">Aucune association trouvée</h4>
                 <p class="text-muted mb-4">Essayez de modifier vos critères de recherche ou supprimez les filtres.</p>
-                <a href="{{ path('app_associations') }}" class="btn btn-primary">
+                <a href="{{ path('app_associations') }}" class="jamaity-btn" style="text-decoration: none;">
                     <i class="fas fa-refresh me-1"></i>Voir toutes les associations
                 </a>
             </div>

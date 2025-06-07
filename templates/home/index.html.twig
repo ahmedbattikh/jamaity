@@ -18,9 +18,9 @@
                         développement de la vie associative tunisienne !
                     </p>
                     <div class="search-section mb-4">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control form-control-lg" placeholder="Que cherchez-vous ?" aria-label="Search">
-                            <button class="btn btn-primary btn-lg" type="button">
+                        <div class="email-signup-combo">
+                            <input type="text" class="jamaity-input" style="font-size: 18px; padding: 16px 20px;" placeholder="Que cherchez-vous ?" aria-label="Search">
+                            <button class="jamaity-btn" style="font-size: 18px; padding: 16px 24px;" type="button">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -61,7 +61,7 @@
                         <i class="fas fa-users fa-2x text-primary"></i>
                     </div>
                     <div class="stat-number mb-2">
-                        <span class="display-4 fw-bold text-primary">11</span>
+                        <span class="display-4 fw-bold text-primary">{{ associationsCount }}</span>
                     </div>
                     <h5 class="h6 mb-0 text-muted">Nombre d'associations</h5>
                 </div>
@@ -73,7 +73,7 @@
                         <i class="fas fa-project-diagram fa-2x text-success"></i>
                     </div>
                     <div class="stat-number mb-2">
-                        <span class="display-4 fw-bold text-success">11</span>
+                        <span class="display-4 fw-bold text-success">{{ ptfsCount }}</span>
                     </div>
                     <h5 class="h6 mb-0 text-muted">Nombre de PTFs</h5>
                 </div>
@@ -85,7 +85,7 @@
                         <i class="fas fa-tasks fa-2x text-warning"></i>
                     </div>
                     <div class="stat-number mb-2">
-                        <span class="display-4 fw-bold text-warning">11</span>
+                        <span class="display-4 fw-bold text-warning">{{ projectsCount }}</span>
                     </div>
                     <h5 class="h6 mb-0 text-muted">Nombre de projets</h5>
                 </div>
@@ -97,7 +97,7 @@
                         <i class="fas fa-user-tie fa-2x text-info"></i>
                     </div>
                     <div class="stat-number mb-2">
-                        <span class="display-4 fw-bold text-info">11</span>
+                        <span class="display-4 fw-bold text-info">{{ expertsCount }}</span>
                     </div>
                     <h5 class="h6 mb-0 text-muted">Nombre d'experts</h5>
                 </div>
@@ -109,7 +109,7 @@
                         <i class="fas fa-calendar-alt fa-2x text-danger"></i>
                     </div>
                     <div class="stat-number mb-2">
-                        <span class="display-4 fw-bold text-danger">11</span>
+                        <span class="display-4 fw-bold text-danger">{{ eventsCount }}</span>
                     </div>
                     <h5 class="h6 mb-0 text-muted">Nombre d'événements</h5>
                 </div>
@@ -121,7 +121,7 @@
                         <i class="fas fa-briefcase fa-2x text-secondary"></i>
                     </div>
                     <div class="stat-number mb-2">
-                        <span class="display-4 fw-bold text-secondary">11</span>
+                        <span class="display-4 fw-bold text-secondary">{{ opportunitiesCount }}</span>
                     </div>
                     <h5 class="h6 mb-0 text-muted">Nombre d'opportunités</h5>
                 </div>
@@ -208,7 +208,7 @@
         
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="{{ path('app_actualites') }}" class="btn btn-primary btn-lg">
+                <a href="{{ path('app_actualites') }}" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-newspaper me-2"></i>Voir toutes les actualités
                 </a>
             </div>
@@ -318,7 +318,7 @@
         
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="{{ path('app_events') }}" class="btn btn-primary btn-lg">
+                <a href="{{ path('app_events') }}" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-calendar-alt me-2"></i>Voir tous les événements
                 </a>
             </div>
@@ -445,7 +445,7 @@
         
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="#" class="btn btn-primary btn-lg">
+                <a href="#" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-project-diagram me-2"></i>Voir tous les projets
                 </a>
             </div>
@@ -551,7 +551,7 @@
         
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="{{ path('app_experts') }}" class="btn btn-primary btn-lg">
+                <a href="{{ path('app_experts') }}" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-user-tie me-2"></i>Voir tous les experts
                 </a>
             </div>
@@ -651,7 +651,7 @@
         
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="{{ path('app_associations') }}" class="btn btn-primary btn-lg">
+                <a href="{{ path('app_associations') }}" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-users me-2"></i>Voir toutes les associations
                 </a>
             </div>
@@ -711,7 +711,7 @@
         
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <a href="{{ path('app_associations') }}" class="btn btn-primary btn-lg">
+                <a href="{{ path('app_associations') }}" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-map-marked-alt me-2"></i>Explorer toutes les associations
                 </a>
             </div>
@@ -927,7 +927,7 @@
                     Inscrivez-vous dès maintenant pour accéder à toutes nos ressources 
                     et faire partie du réseau de la société civile tunisienne.
                 </p>
-                <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">
+                <a href="{{ path('app_login') }}" class="jamaity-btn" style="font-size: 18px; padding: 16px 32px; text-decoration: none; display: inline-block;">
                     <i class="fas fa-user-plus me-2"></i>S'inscrire maintenant
                 </a>
             </div>

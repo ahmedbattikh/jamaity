@@ -119,7 +119,7 @@
                                value="{{ last_username }}" 
                                name="_username" 
                                id="inputEmail" 
-                               class="form-control" 
+                               class="jamaity-input" 
                                autocomplete="email" 
                                required 
                                autofocus
@@ -133,7 +133,7 @@
                         <input type="password" 
                                name="_password" 
                                id="inputPassword" 
-                               class="form-control" 
+                               class="jamaity-input" 
                                autocomplete="current-password" 
                                required
                                placeholder="Mot de passe">
@@ -154,7 +154,7 @@
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                    <button class="btn btn-primary btn-login" type="submit">
+                    <button class="jamaity-btn" style="width: 100%; font-size: 16px; padding: 12px;" type="submit">
                         <i class="fas fa-sign-in-alt me-2"></i>
                         Se connecter
                     </button>
