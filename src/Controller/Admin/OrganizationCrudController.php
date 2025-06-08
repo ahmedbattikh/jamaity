@@ -10,6 +10,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class OrganizationCrudController extends AbstractCrudController
 {
@@ -45,6 +47,9 @@ class OrganizationCrudController extends AbstractCrudController
                 ->formatValue(function ($value) {
                     return $value ? basename($value) : 'No logo uploaded';
                 }),
+            CollectionField::new('resources', 'Resources')
+                ->onlyOnDetail()
+                ->setTemplatePath('admin/field/resources_collection.html.twig'),
         ];
     }
 }

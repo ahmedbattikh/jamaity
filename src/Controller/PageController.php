@@ -50,6 +50,60 @@ class PageController extends AbstractController
         return $this->render('pages/faq.html.twig');
     }
 
+    #[Route('/jamaity-tour', name: 'app_jamaity_tour')]
+    public function jamaityTour(): Response
+    {
+        return $this->render('pages/jamaity_tour.html.twig');
+    }
+
+    #[Route('/projet-rose', name: 'app_projet_rose')]
+    public function projetRose(): Response
+    {
+        return $this->render('pages/projet_rose.html.twig');
+    }
+
+    #[Route('/xchange', name: 'app_xchange')]
+    public function xchange(): Response
+    {
+        return $this->render('pages/xchange.html.twig');
+    }
+
+    #[Route('/projet-iwatch', name: 'app_projet_iwatch')]
+    public function projetIwatch(): Response
+    {
+        return $this->render('pages/projet_iwatch.html.twig');
+    }
+
+    #[Route('/jamaity-coordination', name: 'app_jamaity_coordination')]
+    public function jamaityCoordination(): Response
+    {
+        return $this->render('pages/jamaity_coordination.html.twig');
+    }
+
+    #[Route('/dare-4-0', name: 'app_dare_4_0')]
+    public function dare40(): Response
+    {
+        return $this->render('pages/dare_4_0.html.twig');
+    }
+
+    #[Route('/bladi', name: 'app_bladi')]
+    public function bladi(): Response
+    {
+        return $this->render('pages/bladi.html.twig');
+    }
+
+    #[Route('/ambassadeurs', name: 'app_ambassadeurs')]
+    public function ambassadeurs(): Response
+    {
+        return $this->render('pages/ambassadeurs.html.twig');
+    }
+
+    #[Route('/7oumti', name: 'app_7oumti')]
+    public function sevenOumti(): Response
+    {
+        return $this->render('pages/7oumti.html.twig');
+    }
+
     #[Route('/privacy', name: 'app_privacy')]
     public function privacy(): Response
     {

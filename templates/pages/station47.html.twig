@@ -1,3 +1,98 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Station47 - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-0">
+    <!-- Hero Section -->
+    <div class="hero-section bg-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-3">Station 47</h1>
+                    <p class="lead mb-4">Coworking space de Jamaity</p>
+                    <p class="fs-5">Station 47 Coworking Space est un espace de travail et d'échanges mis en place par Jamaity dans le but de contribuer au développement des acteurs de la Société Civile en Tunisie.</p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="hero-icon">
+                        <i class="fas fa-building fa-5x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Du virtuel au réel Section -->
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="h3 fw-bold text-primary mb-4">Du virtuel au réel</h2>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p class="mb-4">Afin de créer un cadre favorable au développement des associations en Tunisie, Jamaity ouvre ses locaux aux acteurs de la société civile visant ainsi, la création d'un espace de partage et d'échange et la mise en réseaux de ces acteurs.</p>
+                            <p class="mb-4">Pour ce faire, Jamaity passe du virtuel au réel pour mettre à votre disposition plus qu'un simple espace de co-travail :</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary mb-3">Nos Services</h5>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Espace de travail décontracté dans une atmosphère conviviale</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Espace de partage et échange de compétence</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Espace de rencontre et networking</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Accessibilité privilégiée aux associations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impact Section -->
+    <div class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="h3 fw-bold text-primary mb-4">Impact</h2>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center">
+                                    <div class="display-4 text-primary fw-bold mb-3">40</div>
+                                    <h5 class="card-title">Événements organisés</h5>
+                                    <p class="card-text">Au total, environ 40 événements ont été organisés dont 6 sont en ligne au niveau du Coworking Space</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary mb-3">Positionnement stratégique</h5>
+                                    <p class="card-text">Au niveau du fonctionnement, le coworking space a certes permis à Jamaity de se positionner comme un acteur de proximité auprès des acteurs de la société civile.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="h3 fw-bold mb-3">Rejoignez notre communauté</h2>
+                    <p class="lead mb-4">Découvrez un espace de travail collaboratif dédié au développement de la société civile tunisienne.</p>
+                    <a href="{{ path('app_contact') }}" class="btn btn-light btn-lg">Nous contacter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

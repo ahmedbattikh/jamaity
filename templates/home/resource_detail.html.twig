@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ resource.name }} - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-0">
+    <!-- Header Section -->
+    <section class="resource-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 0; color: white;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Breadcrumb -->
+                    <nav style="margin-bottom: 30px;">
+                        <ol class="breadcrumb" style="background: transparent; padding: 0; margin: 0;">
+                            <li class="breadcrumb-item"><a href="{{ path('app_home') }}" style="color: rgba(255,255,255,0.8); text-decoration: none;">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_organization_resources', {'slug': resource.organization.slug}) }}" style="color: rgba(255,255,255,0.8); text-decoration: none;">{{ resource.organization.slug|title }}</a></li>
+                            <li class="breadcrumb-item active" style="color: white;">{{ resource.name }}</li>
+                        </ol>
+                    </nav>
+                    
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center mb-4 mb-md-0">
+                            {% if resource.organization.logo %}
+                                <img src="{{ asset('uploads/logos/' ~ resource.organization.logo) }}" 
+                                     alt="{{ resource.organization.slug }}" 
+                                     style="width: 100px; height: 100px; object-fit: contain; border-radius: 15px; background: white; padding: 10px;">
+                            {% else %}
+                                <div style="width: 100px; height: 100px; background: rgba(255,255,255,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <i class="fas fa-building" style="color: white; font-size: 2rem;"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-10">
+                            <div class="resource-type mb-2">
+                                <span class="badge" style="background: rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">{{ resource.type|title }}</span>
+                            </div>
+                            <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px;">{{ resource.name }}</h1>
+                            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px;">Par {{ resource.organization.slug|title }}</p>
+                            <div class="meta-info" style="display: flex; gap: 30px; flex-wrap: wrap; opacity: 0.8;">
+                                <div>
+                                    <i class="fas fa-calendar" style="margin-right: 8px;"></i>
+                                    Créé le {{ resource.createdAt|date('d/m/Y') }}
+                                </div>
+                                {% if resource.updatedAt != resource.createdAt %}
+                                    <div>
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i>
+                                        Mis à jour le {{ resource.updatedAt|date('d/m/Y') }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Content -->
+    <section class="resource-content" style="padding: 80px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Description -->
+                    {% if resource.description %}
+                        <div class="content-section mb-5">
+                            <h3 style="color: #333; font-weight: 600; margin-bottom: 25px; font-size: 1.5rem;">Description</h3>
+                            <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                                <p style="color: #666; line-height: 1.8; font-size: 1.1rem; margin: 0;">{{ resource.description|nl2br }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Document -->
+                    {% if resource.document %}
+                        <div class="content-section mb-5">
+                            <h3 style="color: #333; font-weight: 600; margin-bottom: 25px; font-size: 1.5rem;">Document</h3>
+                            <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                                <div class="document-preview" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-file-alt" style="font-size: 4rem; color: #667eea; margin-bottom: 20px;"></i>
+                                    <h4 style="color: #333; margin-bottom: 15px;">Document principal</h4>
+                                    <a href="{{ asset('uploads/resources/' ~ resource.document) }}" 
+                                       target="_blank" 
+                                       class="btn" 
+                                       style="background: #667eea; color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+                                        <i class="fas fa-download"></i>
+                                        Télécharger
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Files -->
+                    {% if resource.files and resource.files|length > 0 %}
+                        <div class="content-section mb-5">
+                            <h3 style="color: #333; font-weight: 600; margin-bottom: 25px; font-size: 1.5rem;">Fichiers annexes</h3>
+                            <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                                <div class="files-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                                    {% for file in resource.files %}
+                                        {% if file %}
+                                            <div class="file-item" style="border: 2px dashed #e9ecef; border-radius: 10px; padding: 20px; text-align: center; transition: all 0.3s ease; cursor: pointer;" 
+                                                 onmouseover="this.style.borderColor='#667eea'; this.style.backgroundColor='#f8f9ff'" 
+                                                 onmouseout="this.style.borderColor='#e9ecef'; this.style.backgroundColor='transparent'">
+                                                <i class="fas fa-file" style="font-size: 2rem; color: #667eea; margin-bottom: 10px;"></i>
+                                                <p style="margin: 0 0 10px 0; color: #333; font-weight: 500;">{{ file|split('/')|last|split('.')|first[:20] }}{% if file|split('/')|last|split('.')|first|length > 20 %}...{% endif %}</p>
+                                                <a href="{{ asset('uploads/resources/' ~ file) }}" 
+                                                   target="_blank" 
+                                                   class="btn btn-sm" 
+                                                   style="background: #667eea; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85rem;">
+                                                    <i class="fas fa-download" style="margin-right: 5px;"></i>
+                                                    Télécharger
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <!-- Organization Info -->
+                    <div class="sidebar-section mb-4">
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                            <h4 style="color: #333; font-weight: 600; margin-bottom: 20px;">Organisation</h4>
+                            <div class="org-info" style="text-align: center;">
+                                {% if resource.organization.logo %}
+                                    <img src="{{ asset('uploads/logos/' ~ resource.organization.logo) }}" 
+                                         alt="{{ resource.organization.slug }}" 
+                                         style="width: 80px; height: 80px; object-fit: contain; border-radius: 10px; margin-bottom: 15px;">
+                                {% endif %}
+                                <h5 style="color: #333; margin-bottom: 15px;">{{ resource.organization.slug|title }}</h5>
+                                <a href="{{ path('app_organization_resources', {'slug': resource.organization.slug}) }}" 
+                                   class="btn" 
+                                   style="background: #667eea; color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem;">
+                                    Voir toutes les ressources
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Related Resources -->
+                    {% if relatedResources is not empty %}
+                        <div class="sidebar-section">
+                            <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                                <h4 style="color: #333; font-weight: 600; margin-bottom: 20px;">Autres ressources</h4>
+                                <div class="related-resources">
+                                    {% for relatedResource in relatedResources %}
+                                        <div class="related-item" style="padding: 15px 0; border-bottom: 1px solid #eee;">
+                                            <div class="related-type mb-1">
+                                                <span class="badge" style="background: #f8f9fa; color: #667eea; padding: 4px 8px; border-radius: 10px; font-size: 0.7rem;">{{ relatedResource.type|title }}</span>
+                                            </div>
+                                            <h6 style="margin: 0; margin-bottom: 5px;">
+                                                <a href="{{ path('app_resource_detail', {'slug': relatedResource.slug}) }}" 
+                                                   style="color: #333; text-decoration: none; font-weight: 500;">
+                                                    {{ relatedResource.name|length > 50 ? relatedResource.name|slice(0, 50) ~ '...' : relatedResource.name }}
+                                                </a>
+                                            </h6>
+                                            <small style="color: #999;">{{ relatedResource.createdAt|date('d/m/Y') }}</small>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.file-item:hover {
+    border-color: #667eea;
+    background: #f8f9fa;
+}
+
+.related-item:last-child {
+    border-bottom: none !important;
+}
+
+.related-item:hover {
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin: 0 -10px;
+    padding: 15px 10px;
+}
+</style>
+{% endblock %}

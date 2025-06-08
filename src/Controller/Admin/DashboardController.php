@@ -10,6 +10,7 @@ use App\Entity\Expert;
 use App\Entity\Opportunity;
 use App\Entity\Project;
 use App\Entity\Ptf;
+use App\Entity\Resource;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -55,6 +56,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Events', 'fas fa-calendar', Event::class);
         yield MenuItem::linkToCrud('Opportunities', 'fas fa-briefcase', Opportunity::class);
         yield MenuItem::linkToCrud('Projects', 'fas fa-project-diagram', Project::class);
+        yield MenuItem::linkToCrud('Resources', 'fas fa-file-alt', Resource::class);
         yield MenuItem::linkToLogout('Logout', 'fa fa-exit');
     }
 }

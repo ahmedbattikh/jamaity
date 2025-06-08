@@ -1,0 +1,26 @@
+{% extends '@EasyAdmin/crud/field/text.html.twig' %}
+
+{% block field %}
+    {% if ea.crud.currentAction == 'detail' %}
+        {% if field.value %}
+            <div class="multiple-files-display">
+                {% for file in field.value %}
+                    {% if file %}
+                        <div class="file-item mb-2">
+                            <a href="{{ asset(field.customOptions.get('basePath') ~ '/' ~ file) }}" 
+                               target="_blank" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-download"></i>
+                                {{ file|split('/')|last }}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <span class="text-muted">No files uploaded</span>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

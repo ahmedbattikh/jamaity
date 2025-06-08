@@ -1,0 +1,86 @@
+<div class="resources-collection">
+    <h4>Resources ({{ value|length }})</h4>
+    
+    {% if value is empty %}
+        <p class="text-muted">No resources available for this organization.</p>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resource in value %}
+                        <tr>
+                            <td>
+                                <strong>{{ resource.name }}</strong>
+                                <br>
+                                <small class="text-muted">{{ resource.slug }}</small>
+                            </td>
+                            <td>
+                                <span class="badge badge-secondary">{{ resource.type|title }}</span>
+                            </td>
+                            <td>
+                                {% if resource.description %}
+                                    {{ resource.description|length > 100 ? resource.description|slice(0, 100) ~ '...' : resource.description }}
+                                {% else %}
+                                    <em class="text-muted">No description</em>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ resource.createdAt|date('d/m/Y H:i') }}
+                            </td>
+                            <td>
+                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\ResourceCrudController').setAction('detail').setEntityId(resource.id) }}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\ResourceCrudController').setAction('edit').setEntityId(resource.id) }}" 
+                                   class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-3">
+            <a href="{{ ea_url().setController('App\\Controller\\Admin\\ResourceCrudController').setAction('new').set('organization_id', entity.id) }}" 
+               class="btn btn-success">
+                <i class="fas fa-plus"></i> Add New Resource
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.resources-collection {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.resources-collection h4 {
+    margin-bottom: 15px;
+    color: #495057;
+}
+
+.resources-collection .table {
+    background-color: white;
+    margin-bottom: 0;
+}
+
+.resources-collection .badge {
+    font-size: 0.75em;
+}
+</style>

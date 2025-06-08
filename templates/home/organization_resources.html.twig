@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ressources - {{ organization.slug|title }} - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-0">
+    <!-- Header Section -->
+    <section class="organization-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 0; color: white;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center mb-4 mb-md-0">
+                    {% if organization.logo %}
+                        <img src="{{ asset('uploads/logos/' ~ organization.logo) }}" 
+                             alt="{{ organization.slug }}" 
+                             style="width: 120px; height: 120px; object-fit: contain; border-radius: 15px; background: white; padding: 10px;">
+                    {% else %}
+                        <div style="width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                            <i class="fas fa-building" style="color: white; font-size: 3rem;"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-10">
+                    <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 15px;">{{ organization.slug|title }}</h1>
+                    <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 20px;">Centre de ressources</p>
+                    <div class="stats" style="display: flex; gap: 30px; flex-wrap: wrap;">
+                        <div>
+                            <span style="font-size: 2rem; font-weight: 700; display: block;">{{ resources|length }}</span>
+                            <span style="opacity: 0.8;">Ressource{{ resources|length > 1 ? 's' : '' }}</span>
+                        </div>
+                        {% set types = [] %}
+                        {% for resource in resources %}
+                            {% if resource.type not in types %}
+                                {% set types = types|merge([resource.type]) %}
+                            {% endif %}
+                        {% endfor %}
+                        <div>
+                            <span style="font-size: 2rem; font-weight: 700; display: block;">{{ types|length }}</span>
+                            <span style="opacity: 0.8;">Type{{ types|length > 1 ? 's' : '' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources-list" style="padding: 80px 0; background: #f8f9fa;">
+        <div class="container">
+            {% if resources is not empty %}
+                <!-- Filter by Type -->
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="filter-tabs" style="text-align: center;">
+                            <button class="filter-btn active" data-type="all" style="background: #667eea; color: white; border: none; padding: 10px 20px; margin: 5px; border-radius: 25px; cursor: pointer;">Tous</button>
+                            {% for type in types %}
+                                <button class="filter-btn" data-type="{{ type }}" style="background: #e9ecef; color: #333; border: none; padding: 10px 20px; margin: 5px; border-radius: 25px; cursor: pointer;">{{ type|title }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources Grid -->
+                <div class="row" id="resources-grid">
+                    {% for resource in resources %}
+                        <div class="col-lg-4 col-md-6 mb-4 resource-item" data-type="{{ resource.type }}">
+                            <div class="resource-card" style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease; height: 100%; cursor: pointer;"
+                                 onclick="window.location.href='{{ path('app_resource_detail', {'slug': resource.slug}) }}'">
+                                <div class="resource-type mb-3">
+                                    <span class="badge" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">{{ resource.type|title }}</span>
+                                </div>
+                                
+                                <h4 style="color: #333; font-weight: 600; margin-bottom: 15px; font-size: 1.3rem;">{{ resource.name }}</h4>
+                                
+                                {% if resource.description %}
+                                    <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">{{ resource.description|length > 150 ? resource.description|slice(0, 150) ~ '...' : resource.description }}</p>
+                                {% endif %}
+                                
+                                <div class="resource-meta" style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; border-top: 1px solid #eee;">
+                                    <small style="color: #999;">{{ resource.createdAt|date('d/m/Y') }}</small>
+                                    <div style="color: #667eea; font-weight: 600;">
+                                        Voir <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div style="padding: 80px 20px;">
+                            <i class="fas fa-folder-open" style="font-size: 5rem; color: #ccc; margin-bottom: 30px;"></i>
+                            <h3 style="color: #666; margin-bottom: 15px;">Aucune ressource disponible</h3>
+                            <p style="color: #999;">Cette organisation n'a pas encore partagé de ressources.</p>
+                            <a href="{{ path('app_home') }}" class="btn" style="background: #667eea; color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; margin-top: 20px;">Retour à l'accueil</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+<script>
+// Filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const resourceItems = document.querySelectorAll('.resource-item');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filterType = this.getAttribute('data-type');
+            
+            // Update active button
+            filterBtns.forEach(b => {
+                b.style.background = '#e9ecef';
+                b.style.color = '#333';
+            });
+            this.style.background = '#667eea';
+            this.style.color = 'white';
+            
+            // Filter resources
+            resourceItems.forEach(item => {
+                if (filterType === 'all' || item.getAttribute('data-type') === filterType) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Add hover effects
+    document.querySelectorAll('.resource-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+
+<style>
+.filter-btn:hover {
+    background: #667eea !important;
+    color: white !important;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+}
+</style>
+{% endblock %}

@@ -61,10 +61,14 @@ abstract class Organization
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'organizations')]
     private Collection $projects;
 
+    #[ORM\OneToMany(targetEntity: Resource::class, mappedBy: 'organization', cascade: ['persist', 'remove'])]
+    private Collection $resources;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->resources = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,6 +257,36 @@ abstract class Organization
     {
         if ($this->projects->removeElement($project)) {
             $project->removeOrganization($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Resource>
+     */
+    public function getResources(): Collection
+    {
+        return $this->resources;
+    }
+
+    public function addResource(Resource $resource): static
+    {
+        if (!$this->resources->contains($resource)) {
+            $this->resources->add($resource);
+            $resource->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResource(Resource $resource): static
+    {
+        if ($this->resources->removeElement($resource)) {
+            // set the owning side to null (unless already changed)
+            if ($resource->getOrganization() === $this) {
+                $resource->setOrganization(null);
+            }
         }
 
         return $this;

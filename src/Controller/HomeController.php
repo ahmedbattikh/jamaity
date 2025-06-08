@@ -8,8 +8,10 @@ use App\Entity\Coalition;
 use App\Entity\Event;
 use App\Entity\Expert;
 use App\Entity\Opportunity;
+use App\Entity\Organization;
 use App\Entity\Project;
 use App\Entity\Ptf;
+use App\Entity\Resource;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -130,6 +132,17 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        // Fetch organizations with resources for resources center
+        $organizationsWithResources = $entityManager->getRepository(Organization::class)
+            ->createQueryBuilder('o')
+            ->leftJoin('o.resources', 'r')
+            ->where('r.id IS NOT NULL')
+            ->groupBy('o.id')
+            ->orderBy('o.slug', 'ASC')
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult();
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'latestArticles' => $latestArticles,
@@ -146,6 +159,7 @@ class HomeController extends AbstractController
             'expertsCount' => $expertsCount,
             'eventsCount' => $eventsCount,
             'opportunitiesCount' => $opportunitiesCount,
+            'organizationsWithResources' => $organizationsWithResources,
         ]);
     }
 
@@ -1118,6 +1132,53 @@ class HomeController extends AbstractController
         
         return $this->render('home/project_detail.html.twig', [
             'project' => $project
+        ]);
+    }
+
+    #[Route('/organization/{slug}/resources', name: 'app_organization_resources')]
+    public function organizationResources(string $slug, EntityManagerInterface $entityManager): Response
+    {
+        $organization = $entityManager->getRepository(Organization::class)
+            ->findOneBy(['slug' => $slug]);
+        
+        if (!$organization) {
+            throw $this->createNotFoundException('Organisation non trouvée');
+        }
+        
+        $resources = $entityManager->getRepository(Resource::class)
+            ->findByOrganization($organization);
+        
+        return $this->render('home/organization_resources.html.twig', [
+            'organization' => $organization,
+            'resources' => $resources
+        ]);
+    }
+
+    #[Route('/resource/{slug}', name: 'app_resource_detail')]
+    public function resourceDetail(string $slug, EntityManagerInterface $entityManager): Response
+    {
+        $resource = $entityManager->getRepository(Resource::class)
+            ->findOneBySlug($slug);
+        
+        if (!$resource) {
+            throw $this->createNotFoundException('Ressource non trouvée');
+        }
+        
+        // Get related resources from the same organization
+        $relatedResources = $entityManager->getRepository(Resource::class)
+            ->createQueryBuilder('r')
+            ->where('r.organization = :organization')
+            ->andWhere('r.id != :currentId')
+            ->setParameter('organization', $resource->getOrganization())
+            ->setParameter('currentId', $resource->getId())
+            ->orderBy('r.createdAt', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+        
+        return $this->render('home/resource_detail.html.twig', [
+            'resource' => $resource,
+            'relatedResources' => $relatedResources
         ]);
     }
 }

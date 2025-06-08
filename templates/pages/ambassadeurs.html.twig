@@ -1,0 +1,260 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ambassadeurs de Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-0">
+    <!-- Hero Section -->
+    <section class="hero-section bg-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">Ambassadeurs de Jamaity</h1>
+                    <p class="lead mb-4">Une initiative pour garantir la proximité et maintenir un lien dynamique entre les PTFs et la société civile au niveau local</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <i class="fas fa-users fa-5x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Origine de l'initiative -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h3 text-primary mb-4">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                Origine de l'initiative
+                            </h2>
+                            <p class="mb-3">
+                                L'initiative "Ambassadeurs de Jamaity" a été développée suite à une observation des membres de l'équipe de Jamaity lors des déplacements effectués dans le cadre du projet <strong>"Jamaity Tour"</strong> qui avait pour objectif de collecter les attentes et les besoins des OSCs et PTFs en vue d'offrir un service adapté.
+                            </p>
+                            <p class="mb-0">
+                                La visite des différentes régions de la Tunisie a permis de découvrir un tissu associatif local dense et des initiatives nombreuses mais qui restent cependant peu visibles ou méconnues au niveau national et même international.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constat -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h3 text-primary mb-4">
+                                <i class="fas fa-search me-2"></i>
+                                Constat sur le terrain
+                            </h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-exclamation-triangle text-warning fa-lg mt-1"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5 class="mb-2">Manque de visibilité</h5>
+                                            <p class="mb-0">Les associations locales restent peu visibles au niveau national et international</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-comments text-warning fa-lg mt-1"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5 class="mb-2">Communication insuffisante</h5>
+                                            <p class="mb-0">Les associations ne communiquent pas de manière systématique et fiable sur leurs activités</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Cause principale :</strong> Le manque de moyens empêche une communication efficace des associations locales.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution proposée -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm bg-light">
+                        <div class="card-body p-4">
+                            <h2 class="h3 text-primary mb-4">
+                                <i class="fas fa-rocket me-2"></i>
+                                La solution : Les Ambassadeurs de Jamaity
+                            </h2>
+                            <p class="lead mb-4">
+                                D'où l'idée d'avoir des équipes relais <strong>"Ambassadeurs"</strong> qui représentent Jamaity au niveau régional.
+                            </p>
+                            
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="card border-primary h-100">
+                                        <div class="card-header bg-primary text-white">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-target me-2"></i>
+                                                Objectif principal
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-0">
+                                                Garantir la <strong>proximité de Jamaity</strong> pour fournir aux associations une information pertinente, adéquate et fiable au temps opportun.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="card border-success h-100">
+                                        <div class="card-header bg-success text-white">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-link me-2"></i>
+                                                Mission secondaire
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-0">
+                                                Garder un <strong>lien dynamique</strong> entre les PTFs et la société civile au niveau local.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rôle des Ambassadeurs -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h3 text-primary mb-4">
+                                <i class="fas fa-user-tie me-2"></i>
+                                Rôle des Ambassadeurs
+                            </h2>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center p-3 border rounded h-100">
+                                        <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                                        <h5>Représentation régionale</h5>
+                                        <p class="mb-0">Représenter Jamaity au niveau régional et assurer une présence locale</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center p-3 border rounded h-100">
+                                        <i class="fas fa-info-circle fa-2x text-success mb-3"></i>
+                                        <h5>Information ciblée</h5>
+                                        <p class="mb-0">Fournir une information pertinente, adéquate et fiable aux associations locales</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center p-3 border rounded h-100">
+                                        <i class="fas fa-handshake fa-2x text-warning mb-3"></i>
+                                        <h5>Liaison dynamique</h5>
+                                        <p class="mb-0">Maintenir le lien entre les PTFs et la société civile locale</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact attendu -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h3 text-primary mb-4">
+                                <i class="fas fa-chart-line me-2"></i>
+                                Impact attendu
+                            </h2>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            Amélioration de la visibilité des associations locales
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            Renforcement de la communication entre acteurs
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            Accès facilité à l'information pertinente
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            Proximité renforcée avec les bénéficiaires
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            Dynamisation du tissu associatif local
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            Meilleure coordination entre PTFs et société civile
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.border-primary {
+    border-color: #0d6efd !important;
+}
+
+.border-success {
+    border-color: #198754 !important;
+}
+
+.text-primary {
+    color: #0d6efd !important;
+}
+
+.bg-primary {
+    background-color: #0d6efd !important;
+}
+
+.bg-success {
+    background-color: #198754 !important;
+}
+</style>
+{% endblock %}
