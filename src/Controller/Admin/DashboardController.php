@@ -39,7 +39,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Jamaity - Administration')
+            ->setTitle('<img src="/assets/img/logo.png" alt="Jamaity" height="40">')
             ->setFaviconPath('favicon.ico')
             ->setTranslationDomain('admin');
     }

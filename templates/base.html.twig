@@ -595,7 +595,8 @@
             /* Newsletter/Email Signup Combo */
             .email-signup-combo {
                 display: flex;
-                max-width: 400px;
+                max-width: 430px;
+                width:430px;
                 border-radius: 4px;
                 overflow: hidden;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -660,10 +661,10 @@
         <!-- Top Bar -->
         <div class="top-bar">
             <div class="container-fluid px-4">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-end align-items-center">
                     <div class="d-flex align-items-center">
-                        <a href="{{ path('app_elearning') }}">E-learning</a>
-                        <a href="#">Coworking</a>
+                        <a href="{{ path('app_elearning') }}">Jamaity academy</a>
+                        <a href="#">Station 47</a>
                         <a href="#">Abonnement</a>
                     </div>
                     <div class="social-links">
@@ -694,69 +695,90 @@
                             <li class="nav-item dropdown-container">
                                 <a class="nav-link dropdown-trigger" href="{{ path('app_home') }}">JAMAITY</a>
                                 <div class="nav-dropdown-menu">
-                                    <a href="#" class="dropdown-item">Présentation</a>
-                                    <a href="#" class="dropdown-item">Notre équipe</a>
+                                    <a href="{{ path('app_about') }}" class="dropdown-item">PRÉSENTATION</a>
+                                    <a href="{{ path('app_reports') }}" class="dropdown-item">L'ÉQUIPE JAMAITY</a>
+
                                     <div class="dropdown-divider"></div>
                                     <a href="{{ path('app_projects') }}" class="dropdown-item dropdown-submenu-trigger">
-                                        <i class="fas fa-project-diagram me-2"></i>
                                         PROJETS PHARES
                                         <i class="fas fa-chevron-right ms-auto"></i>
                                     </a>
                                     <div class="dropdown-submenu projects-submenu">
-                                        {% set latestProjects = get_latest_projects(8) %}
-                                        {% for project in latestProjects %}
-                                            <a href="{{ path('app_projects') }}" class="dropdown-item">
-                                                <i class="fas fa-project-diagram me-2"></i>
-                                                {{ project.title|slice(0, 30) }}{% if project.title|length > 30 %}...{% endif %}
+                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                COORDINATION
+                                            </a>         
+                                                 <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                XCHANGE
+                                            </a>   
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                STATION 47
                                             </a>
-                                        {% else %}
-                                            <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
-                                                <i class="fas fa-info-circle me-2"></i>
-                                                Aucun projet disponible
-                                            </a>
-                                        {% endfor %}
-                                        <div class="dropdown-divider"></div>
-                                        <a href="{{ path('app_projects') }}" class="dropdown-item text-primary fw-bold">
-                                            <i class="fas fa-arrow-right me-2"></i>
-                                            Voir tous les projets
-                                        </a>
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                JAMAITY TOUR
+                                            </a> 
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                JAMAITY MEETINGS
+                                            </a>  
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                JAMAITY AWARDS
+                                            </a>    
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                JAMAITY MAPS
+                                            </a>  
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                BLADI
+                                            </a> 
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                7OUMTI
+                                            </a>    
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                JEUNBES EXPERTS
+                                            </a>  
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                POINT JAMAITY
+                                            </a>   
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                PROJET DE RENFORCEMENT
+                                            </a>    
+                                                    <a href="{{ path('app_projects') }}" class="dropdown-item text-muted">
+                                                AMBASSADEURS JAMAITY
+                                            </a>                             
                                     </div>
                                 </div>
                             </li>
                             <li class="nav-item dropdown-container">
                                 <a class="nav-link dropdown-trigger" href="{{ path('app_societe_civile') }}">SOCIÉTÉ CIVILE</a>
                                 <div class="nav-dropdown-menu">
-                                    <a href="{{ path('app_associations') }}" class="dropdown-item">Associations</a>
-                                    <a href="{{ path('app_coalitions') }}" class="dropdown-item">Coalitions</a>
+                                    <a href="{{ path('app_associations') }}" class="dropdown-item">ASSOCIATIONS</a>
+                                    <a href="{{ path('app_coalitions') }}" class="dropdown-item">COALITIONS</a>
+                                    <a href="{{ path('app_ptfs') }}" class="dropdown-item">PTFS</a>
+
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_opportunities') }}">OPPORTUNITIES</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_events') }}">ÉVÉNEMENTS</a>
-                            </li>
+                    
                             <li class="nav-item dropdown-container">
                                 <a class="nav-link dropdown-trigger" href="{{ path('app_actualites') }}">ACTUALITÉS</a>
                                 <div class="nav-dropdown-menu">
-                                    <a href="{{ path('app_actualites') }}" class="dropdown-item">Actualités</a>
-                                    <a href="{{ path('app_agenda') }}" class="dropdown-item">Agenda</a>
-                                    <a href="{{ path('app_events') }}" class="dropdown-item">Événements</a>
+                                    <a href="{{ path('app_actualites') }}" class="dropdown-item">ACTUALITÉS</a>
+                                    <a href="{{ path('app_agenda') }}" class="dropdown-item">AGENDA</a>
+                                    <a href="{{ path('app_events') }}" class="dropdown-item">ÉVÉNEMENTS</a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_elearning') }}">JAMAITY ACADEMY</a>
+                                  <li class="nav-item dropdown-container">
+                                <a class="nav-link dropdown-trigger" href="{{ path('app_elearning') }}">JAMAITY ACADEMY</a>
+                                <div class="nav-dropdown-menu">
+                                    <a href="#" class="dropdown-item">COURS EN LIGNE</a>
+                                    <a href="#" class="dropdown-item">RESSOURCES ÉDUCATIVES</a>
+                                    <a href="#" class="dropdown-item">TUTORIELS</a>
+                                </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_maps') }}">MAPS</a>
                             </li>
-                            <li class="nav-item dropdown-container">
-                                <a class="nav-link dropdown-trigger" href="{{ path('app_ptfs') }}">PTFS</a>
-                                <div class="nav-dropdown-menu">
-                                    <a href="#" class="dropdown-item">PTFS</a>
-                                    <a href="#" class="dropdown-item">Société civile</a>
-                                </div>
-                            </li>
+                
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_experts') }}">EXPERTS</a>
                             </li>
@@ -764,8 +786,8 @@
                         
                         <div class="d-flex align-items-center">
                             <div class="language-selector me-3">
-                                <a href="#" class="active">AR</a>
-                                <a href="#">FR</a>
+                                <a href="#" >AR</a>
+                                <a href="#" class="active">FR</a>
                             </div>
                             <a href="{{ path('app_login') }}" class="btn-connect">
                                 SE CONNECTER

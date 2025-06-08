@@ -1,3 +1,324 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}L'équipe - Jamaity{% endblock %}
+{% block title %}Notre équipe - Jamaity{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-4">L'équipe Jamaity</h1>
+                <p class="lead mb-0">Découvrez l'équipe Jamaity : des talents engagés, réunis pour transformer les idées en actions concrètes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <p class="fs-5 text-muted">L'équipe Jamaity, c'est un collectif dynamique animé par des valeurs fortes de solidarité, d'innovation sociale et d'engagement citoyen. Composée d'un bureau exécutif visionnaire et d'une équipe opérationnelle experte, elle réunit des professionnel·le·s passionné·e·s, engagés à soutenir et propulser les associations et acteurs du changement dans la réalisation de leurs ambitions et la surmontée de leurs défis.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bureau exécutif -->
+    <div class="mb-5">
+        <div class="text-center mb-4">
+            <h2 class="h3 fw-bold text-primary mb-3">Bureau exécutif</h2>
+            <div class="mx-auto" style="width: 60px; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <!-- Présidente -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 120px; height: 120px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold mb-2">Mansouri Hayfa</h5>
+                        <p class="text-primary fw-semibold mb-3">Présidente</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-2">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secrétaire général -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 120px; height: 120px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold mb-2">Mariem Rajichi</h5>
+                        <p class="text-primary fw-semibold mb-3">Secrétaire général</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-2">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trésorière -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 120px; height: 120px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold mb-2">Emna Trabelsi</h5>
+                        <p class="text-primary fw-semibold mb-3">Trésorière</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-2">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Équipe opérationnelle -->
+    <div class="mb-5">
+        <div class="text-center mb-4">
+            <h2 class="h3 fw-bold text-primary mb-3">Équipe opérationnelle</h2>
+            <div class="mx-auto" style="width: 60px; height: 3px; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Project Manager -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Sofien Asta</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Project Manager</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations Manager -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Emna Idbichou</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Operations Manager</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Associate -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Manel Ismail</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Project Associate</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advocacy Manager -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Rihem Ayari</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Advocacy, Knowledge & Reporting Manager</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chargé Finance/RH -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Khalil Bedoui</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Chargé·e Finance/RH</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chargé Administratif -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Med Mehdi Hermassi</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Chargé·e Administratif et financier</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chargé Communication -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Sarra Kanzari</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Chargé·e Communication</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chargés de projets -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 shadow-sm border-0 team-card">
+                    <div class="card-body text-center p-4">
+                        <div class="team-avatar mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-users text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6 class="card-title fw-bold mb-2">Aly Bouzwida & Alaya Engliz</h6>
+                        <p class="text-primary fw-semibold mb-3 small">Chargé·es de projets</p>
+                        <div class="social-links">
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm rounded-circle">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-5">
+        <div class="bg-light rounded-3 p-5">
+            <h3 class="fw-bold mb-3">Rejoignez notre mission</h3>
+            <p class="text-muted mb-4">Chaque jour, nous mobilisons notre expertise pour accompagner les associations, faciliter l'accès aux opportunités et renforcer l'impact des initiatives sociales et solidaires. Rejoignez Jamaity et participez activement à la construction d'un écosystème engagé, innovant et inclusif.</p>
+            <a href="{{ path('app_contact') }}" class="btn btn-primary btn-lg px-4">
+                <i class="fas fa-envelope me-2"></i>Contactez-nous
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.team-card {
+    transition: all 0.3s ease;
+    border-radius: 15px;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+.team-avatar {
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-avatar {
+    transform: scale(1.1);
+}
+
+.social-links a {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}

@@ -129,10 +129,10 @@
                                 <strong>{{ ptf.region }}</strong>
                             </div>
                             {% endif %}
-                            {% if ptf.president %}
+                            {% if ptf.nomContact %}
                             <div class="col-4">
-                                <small class="text-muted d-block">Président</small>
-                                <strong>{{ ptf.president|slice(0, 15) }}{% if ptf.president|length > 15 %}...{% endif %}</strong>
+                                <small class="text-muted d-block">Contact</small>
+                                <strong>{{ ptf.nomContact|slice(0, 15) }}{% if ptf.nomContact|length > 15 %}...{% endif %}</strong>
                             </div>
                             {% endif %}
                         </div>

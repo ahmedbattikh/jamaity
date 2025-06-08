@@ -17,12 +17,13 @@
                         Rejoignez notre plateforme et contribuez au<br>
                         développement de la vie associative tunisienne !
                     </p>
-                    <div class="search-section mb-4">
-                        <div class="email-signup-combo">
-                            <input type="text" class="jamaity-input" style="font-size: 18px; padding: 16px 20px;" placeholder="Que cherchez-vous ?" aria-label="Search">
-                            <button class="jamaity-btn" style="font-size: 18px; padding: 16px 24px;" type="button">
+                    <div class="search-section d-flex gap-2 mb-4">
+                         <button class="jamaity-btn btn-primary" style="font-size: 18px; padding: 16px 24px;" type="button">
                                 <i class="fas fa-search"></i>
                             </button>
+                        <div class="email-signup-combo">
+                            <input type="text" class="jamaity-input" style="font-size: 18px; padding: 16px 20px;" placeholder="Que cherchez-vous | Affinez votre recherche!" aria-label="Search">
+                       
                         </div>
                     </div>
                 </div>
@@ -45,15 +46,7 @@
 
 <section class="statistics-section py-5">
     <div class="container-fluid px-4">
-        <div class="row text-center mb-5">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="display-5 fw-bold mb-3">Nos Statistiques</h2>
-                <p class="lead text-muted">
-                    Découvrez l'impact de notre plateforme en chiffres
-                </p>
-            </div>
-        </div>
-        
+      
         <div class="row g-4">
             <div class="col-md-6 col-lg-2">
                 <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
@@ -135,7 +128,7 @@
     <div class="container-fluid px-4">
         <div class="row text-center mb-5">
             <div class="col-lg-8 mx-auto">
-                <h2 class="display-5 fw-bold mb-3">Dernières Actualités</h2>
+                <h2 class="display-5 fw-bold mb-3">Actualités</h2>
                 <p class="lead text-muted">
                     Restez informé des dernières nouvelles de la société civile tunisienne
                 </p>
@@ -233,7 +226,7 @@
             <div class="col-lg-8 mx-auto">
                 <h2 class="display-5 fw-bold mb-3">
                     <i class="fas fa-calendar-alt text-primary me-3"></i>
-                    Événements à venir
+                    EVENEMENTS A VENIR 
                 </h2>
                 <p class="lead text-muted">
                     Découvrez les prochains événements organisés par notre réseau
@@ -343,10 +336,10 @@
             <div class="col-lg-8 mx-auto">
                 <h2 class="display-5 fw-bold mb-3">
                     <i class="fas fa-project-diagram text-primary me-3"></i>
-                    Nos Derniers Projets
+                    PROJETS
                 </h2>
                 <p class="lead text-muted">
-                    Découvrez les derniers projets lancés par notre réseau
+                    Derniers projets réalisés
                 </p>
             </div>
         </div>
@@ -470,10 +463,10 @@
             <div class="col-lg-8 mx-auto">
                 <h2 class="display-5 fw-bold mb-3">
                     <i class="fas fa-user-tie text-primary me-3"></i>
-                    Nos Derniers Experts
+                    JEUNE EXPERTS
                 </h2>
                 <p class="lead text-muted">
-                    Découvrez les derniers experts qui ont rejoint notre plateforme
+                    Experts de la Societe Civile
                 </p>
             </div>
         </div>
@@ -574,9 +567,9 @@
     <div class="container-fluid px-4">
         <div class="row text-center mb-5">
             <div class="col-lg-8 mx-auto">
-                <h2 class="display-5 fw-bold mb-3">Nos Associations</h2>
+                <h2 class="display-5 fw-bold mb-3">ASSOCIATIONS</h2>
                 <p class="lead text-muted">
-                    Découvrez les associations membres de notre réseau
+                    Lumière sur les associations
                 </p>
             </div>
         </div>
@@ -670,50 +663,55 @@
 </section>
 
 <!-- JAMAITY MAPS Section -->
-<section class="jamaity-maps-section py-5 bg-light">
-    <div class="container-fluid px-4">
-        <div class="row text-center mb-5">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="display-5 fw-bold mb-3">
-                    <i class="fas fa-map-marked-alt text-primary me-3"></i>
-                    JAMAITY MAPS
-                </h2>
-                <p class="lead text-muted">
-                    Découvrez la répartition géographique des associations tunisiennes par région
-                </p>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="map-container bg-white rounded-3 shadow-sm p-4">
-                    <!-- Interactive Tunisia Map -->
-                    <div id="tunisia-leaflet-map" style="height: 500px; width: 100%; border-radius: 15px;"></div>
+<section class="jamaity-maps-section py-5" style="background-color: var(--secondary-color);">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Map Block -->
+            <div class="col-lg-6 col-md-6">
+                <div class="map-container position-relative" style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden;">
+                    <!-- Map Header -->
+                    <div class="map-header p-3 text-center" style="background: #fff; border-bottom: 1px solid #e9ecef;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="map-controls d-flex align-items-center">
+                                <button class="btn btn-sm btn-outline-secondary me-2" style="border-radius: 8px;">+</button>
+                                <button class="btn btn-sm btn-outline-secondary" style="border-radius: 8px;">-</button>
+                            </div>
+                            <div class="map-legend d-flex align-items-center">
+                                <span class="me-3"><strong>Légende:</strong></span>
+                                <span class="me-3"><span class="badge" style="background-color: #dc3545; width: 12px; height: 12px; border-radius: 2px;"></span> Association</span>
+                                <span class="me-3"><span class="badge" style="background-color: #28a745; width: 12px; height: 12px; border-radius: 2px;"></span> Projet</span>
+                            </div>
+                        </div>
+                    </div>
                     
-                </div>
-            </div>
-        </div>
-        
-        <!-- Region Details Modal -->
-        <div class="modal fade" id="regionModal" tabindex="-1" aria-labelledby="regionModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="regionModalLabel">Associations par région</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="regionModalBody">
-                        <!-- Content will be loaded dynamically -->
+                    <!-- Interactive Tunisia Map -->
+                    <div id="tunisia-leaflet-map" style="height: 450px; width: 100%;"></div>
+                    
+                    <!-- Map Footer -->
+                    <div class="map-footer p-3 text-center" style="background: #f8f9fa; border-top: 1px solid #e9ecef;">
+                        <a href="{{ path('app_maps') }}" class="btn btn-primary" style="border-radius: 25px; padding: 10px 30px; font-weight: 600; background: linear-gradient(45deg, #007bff, #0056b3); border: none; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                            Explorer Jamaity Maps
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <a href="{{ path('app_associations') }}" class="jamaity-btn" style="font-size: 16px; padding: 12px 24px; text-decoration: none; display: inline-block;">
-                    <i class="fas fa-map-marked-alt me-2"></i>Explorer toutes les associations
-                </a>
+            
+            <!-- Title and Text Block -->
+            <div class="col-lg-6 col-md-6">
+                <div class="maps-content ps-lg-4">
+                    <h2 class="fw-bold mb-4" style="color: #2c3e50; font-size: 2.5rem;">
+                        JAMAITY MAPS
+                    </h2>
+                    <p class="text-muted mb-4" style="font-size: 1.1rem;">
+                        Découvrez Jamaity Maps, votre carte interactive de la société civile tunisienne.
+                    </p>
+                    <p class="text-muted mb-4">
+                        Explorez, trouvez des partenaires et visualisez les interactions entre les acteurs sur le terrain.
+                    </p>
+                    <p class="text-muted mb-4">
+                        Un outil indispensable pour mieux comprendre et soutenir l'engagement citoyen en Tunisie.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -724,8 +722,8 @@
     <div class="container-fluid px-4">
         <div class="row mb-5">
             <div class="col-12 text-center">
-                <h2 class="display-5 fw-bold mb-3">Coalitions</h2>
-                <p class="lead text-muted">Découvrez les coalitions qui œuvrent pour le développement de la société civile tunisienne</p>
+                <h2 class="display-5 fw-bold mb-3">COALITIONS</h2>
+                <p class="lead text-muted">Lumière sur les coalitions</p>
             </div>
         </div>
         
@@ -823,7 +821,7 @@
     <div class="container-fluid px-4">
         <div class="row text-center mb-5">
             <div class="col-lg-8 mx-auto">
-                <h2 class="display-5 fw-bold mb-3">Nos Partenaires Techniques & Financiers (PTFs)</h2>
+                <h2 class="display-5 fw-bold mb-3">Partenaires Techniques & Financiers</h2>
                 <p class="lead text-muted mb-4">
                     Découvrez les partenaires techniques & financiers qui œuvrent pour le développement de la société civile tunisienne
                 </p>
@@ -917,7 +915,14 @@
         {% endif %}
     </div>
 </section>
-
+<section class="place" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px;"> 
+    <img src="https://jamaity.com/webroot/img/email.png" alt="Logo email" style="display: block; margin: 0 auto;"> 
+    <form action="/" method="POST" style="margin-top: -65px; display: flex; align-items: center; justify-content: center;" id="subscribe-form"> 
+        <input type="email" name="email" placeholder="Entrez votre adresse email" required="" style="width: 518px; margin-right: 79px; height: 42px;"> 
+        <button type="submit" style="width: 155px; height: 43px; margin-left: -84px; background-color: antiquewhite;">S'inscrire</button> 
+    </form> 
+    <div id="form-messages" style="text-align: center; margin-top: 20px;"></div> 
+</section>
 
 {% endblock %}
 
@@ -1655,7 +1660,6 @@
     
     /* JAMAITY MAPS Styles */
     .jamaity-maps-section {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     }
     
     .tunisia-svg-map {
@@ -1884,4 +1888,7 @@ L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJA
     noWrap: true
 }).addTo(map);
 </script>
+
+
+
 {% endblock %}

@@ -734,7 +734,8 @@ class HomeController extends AbstractController
         // Fetch related events
         $events = $entityManager->getRepository(Event::class)
             ->createQueryBuilder('e')
-            ->where('e.organisation = :ptf')
+            ->join('e.organizations', 'org')
+            ->where('org = :ptf')
             ->setParameter('ptf', $ptf)
             ->orderBy('e.dateDebut', 'DESC')
             ->setMaxResults(6)
@@ -744,7 +745,7 @@ class HomeController extends AbstractController
         // Fetch related opportunities
         $opportunities = $entityManager->getRepository(Opportunity::class)
             ->createQueryBuilder('o')
-            ->where('o.organisation = :ptf')
+            ->where('o.organizationRelated = :ptf')
             ->setParameter('ptf', $ptf)
             ->orderBy('o.dateCreation', 'DESC')
             ->setMaxResults(6)

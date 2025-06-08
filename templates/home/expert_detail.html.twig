@@ -187,7 +187,7 @@
                                 <div class="d-flex align-items-center p-2 border rounded">
                                     {% if organization.logo %}
                                         <img src="{{ asset('uploads/logos/' ~ organization.logo) }}" 
-                                             alt="{{ organization.nom }}" 
+                                             alt="{{ organization.titre }}" 
                                              class="rounded me-3" 
                                              style="width: 40px; height: 40px; object-fit: cover;">
                                     {% else %}
@@ -197,9 +197,9 @@
                                         </div>
                                     {% endif %}
                                     <div>
-                                        <h6 class="mb-0 small">{{ organization.nom }}</h6>
-                                        {% if organization.type %}
-                                            <small class="text-muted">{{ organization.type }}</small>
+                                        <h6 class="mb-0 small">{{ organization.titre }}</h6>
+                                        {% if organization.domaine %}
+                                            <small class="text-muted">{{ organization.domaine }}</small>
                                         {% endif %}
                                     </div>
                                 </div>
