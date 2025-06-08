@@ -18,17 +18,117 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 
 class DashboardController extends AbstractDashboardController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        // Get statistics for dashboard
+        $associationsCount = $this->entityManager->getRepository(Association::class)
+            ->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
-        return $this->redirect($adminUrlGenerator->setController(AssociationCrudController::class)->generateUrl());
+        $ptfsCount = $this->entityManager->getRepository(Ptf::class)
+            ->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $coalitionsCount = $this->entityManager->getRepository(Coalition::class)
+            ->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $projectsCount = $this->entityManager->getRepository(Project::class)
+            ->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $expertsCount = $this->entityManager->getRepository(Expert::class)
+            ->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $eventsCount = $this->entityManager->getRepository(Event::class)
+            ->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $opportunitiesCount = $this->entityManager->getRepository(Opportunity::class)
+            ->createQueryBuilder('o')
+            ->select('COUNT(o.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $resourcesCount = $this->entityManager->getRepository(Resource::class)
+            ->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $actualitesCount = $this->entityManager->getRepository(Actualite::class)
+            ->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Get recent activities
+        $recentAssociations = $this->entityManager->getRepository(Association::class)
+            ->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+
+        $recentEvents = $this->entityManager->getRepository(Event::class)
+            ->createQueryBuilder('e')
+            ->orderBy('e.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+
+        $recentExperts = $this->entityManager->getRepository(Expert::class)
+            ->createQueryBuilder('e')
+            ->orderBy('e.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('admin/dashboard.html.twig', [
+            'statistics' => [
+                'associations' => $associationsCount,
+                'ptfs' => $ptfsCount,
+                'coalitions' => $coalitionsCount,
+                'projects' => $projectsCount,
+                'experts' => $expertsCount,
+                'events' => $eventsCount,
+                'opportunities' => $opportunitiesCount,
+                'resources' => $resourcesCount,
+                'actualites' => $actualitesCount,
+            ],
+            'recent_activities' => [
+                'associations' => $recentAssociations,
+                'events' => $recentEvents,
+                'experts' => $recentExperts,
+            ]
+        ]);
     }
 
     #[Route('/logout', name: 'app_logout')]

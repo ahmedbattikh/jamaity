@@ -1,0 +1,357 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <h1 class="content-title">
+        <i class="fas fa-tachometer-alt"></i>
+        Dashboard
+    </h1>
+{% endblock %}
+
+{% block main %}
+<div class="dashboard-content">
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">{{ statistics.associations }}</h4>
+                            <p class="card-text">Associations</p>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-users fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-primary-dark">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\AssociationCrudController') }}" class="text-white text-decoration-none">
+                        <small>Voir tout <i class="fas fa-arrow-right"></i></small>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">{{ statistics.experts }}</h4>
+                            <p class="card-text">Experts</p>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-user-tie fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-success-dark">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\ExpertCrudController') }}" class="text-white text-decoration-none">
+                        <small>Voir tout <i class="fas fa-arrow-right"></i></small>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">{{ statistics.events }}</h4>
+                            <p class="card-text">Événements</p>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-calendar fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-info-dark">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\EventCrudController') }}" class="text-white text-decoration-none">
+                        <small>Voir tout <i class="fas fa-arrow-right"></i></small>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">{{ statistics.projects }}</h4>
+                            <p class="card-text">Projets</p>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-project-diagram fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-warning-dark">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProjectCrudController') }}" class="text-white text-decoration-none">
+                        <small>Voir tout <i class="fas fa-arrow-right"></i></small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Secondary Statistics -->
+    <div class="row mb-4">
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="card border-left-primary h-100">
+                <div class="card-body text-center">
+                    <h5 class="text-primary mb-1">{{ statistics.ptfs }}</h5>
+                    <small class="text-muted">PTFs</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="card border-left-success h-100">
+                <div class="card-body text-center">
+                    <h5 class="text-success mb-1">{{ statistics.coalitions }}</h5>
+                    <small class="text-muted">Coalitions</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="card border-left-info h-100">
+                <div class="card-body text-center">
+                    <h5 class="text-info mb-1">{{ statistics.opportunities }}</h5>
+                    <small class="text-muted">Opportunités</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="card border-left-warning h-100">
+                <div class="card-body text-center">
+                    <h5 class="text-warning mb-1">{{ statistics.resources }}</h5>
+                    <small class="text-muted">Ressources</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="card border-left-danger h-100">
+                <div class="card-body text-center">
+                    <h5 class="text-danger mb-1">{{ statistics.actualites }}</h5>
+                    <small class="text-muted">Actualités</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+            <div class="card border-left-secondary h-100">
+                <div class="card-body text-center">
+                    <h5 class="text-secondary mb-1">{{ statistics.associations + statistics.ptfs + statistics.coalitions }}</h5>
+                    <small class="text-muted">Total Orgs</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activities -->
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-users me-2"></i>
+                        Associations récentes
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_activities.associations|length > 0 %}
+                        <div class="list-group list-group-flush">
+                            {% for association in recent_activities.associations %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ association.titre|slice(0, 30) }}{% if association.titre|length > 30 %}...{% endif %}</h6>
+                                        <small class="text-muted">{{ association.region ?? 'Non spécifiée' }}</small>
+                                    </div>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\AssociationCrudController').setAction('detail').setEntityId(association.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center p-3">
+                            <p class="text-muted mb-0">Aucune association trouvée</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\AssociationCrudController') }}" class="btn btn-primary btn-sm">
+                        Voir toutes les associations
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-calendar me-2"></i>
+                        Événements récents
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_activities.events|length > 0 %}
+                        <div class="list-group list-group-flush">
+                            {% for event in recent_activities.events %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ event.titre|slice(0, 30) }}{% if event.titre|length > 30 %}...{% endif %}</h6>
+                                        <small class="text-muted">
+                                            {% if event.dateDebut %}
+                                                {{ event.dateDebut|date('d/m/Y') }}
+                                            {% else %}
+                                                Date non spécifiée
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\EventCrudController').setAction('detail').setEntityId(event.id) }}" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center p-3">
+                            <p class="text-muted mb-0">Aucun événement trouvé</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\EventCrudController') }}" class="btn btn-info btn-sm">
+                        Voir tous les événements
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-user-tie me-2"></i>
+                        Experts récents
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_activities.experts|length > 0 %}
+                        <div class="list-group list-group-flush">
+                            {% for expert in recent_activities.experts %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ expert.firstName }} {{ expert.lastName }}</h6>
+                                        <small class="text-muted">{{ expert.areaOfExpertise|slice(0, 25) }}{% if expert.areaOfExpertise|length > 25 %}...{% endif %}</small>
+                                    </div>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\ExpertCrudController').setAction('detail').setEntityId(expert.id) }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center p-3">
+                            <p class="text-muted mb-0">Aucun expert trouvé</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\ExpertCrudController') }}" class="btn btn-success btn-sm">
+                        Voir tous les experts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-content {
+    padding: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    opacity: 0.8;
+}
+
+.bg-primary-dark {
+    background-color: rgba(13, 110, 253, 0.8) !important;
+}
+
+.bg-success-dark {
+    background-color: rgba(25, 135, 84, 0.8) !important;
+}
+
+.bg-info-dark {
+    background-color: rgba(13, 202, 240, 0.8) !important;
+}
+
+.bg-warning-dark {
+    background-color: rgba(255, 193, 7, 0.8) !important;
+}
+
+.border-left-primary {
+    border-left: 4px solid #0d6efd !important;
+}
+
+.border-left-success {
+    border-left: 4px solid #198754 !important;
+}
+
+.border-left-info {
+    border-left: 4px solid #0dcaf0 !important;
+}
+
+.border-left-warning {
+    border-left: 4px solid #ffc107 !important;
+}
+
+.border-left-danger {
+    border-left: 4px solid #dc3545 !important;
+}
+
+.border-left-secondary {
+    border-left: 4px solid #6c757d !important;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+}
+
+.list-group-item:first-child {
+    border-top: none;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.content-title {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+</style>
+{% endblock %}
