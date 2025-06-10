@@ -663,12 +663,12 @@
             <div class="container-fluid px-4">
                 <div class="d-flex justify-content-end align-items-center">
                     <div class="d-flex align-items-center">
-                        <a href="{{ path('app_elearning') }}">Jamaity academy</a>
-                        <a href="#">Station 47</a>
+                        <a href="https://jamaityacademy.com">Jamaity academy</a>
+                        <a href="https://jamaity.net/station47">Station 47</a>
                         <a href="#">Abonnement</a>
                     </div>
                     <div class="social-links">
-                        <a href="#" class="text-decoration-none"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/jamaity.org" class="text-decoration-none"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="text-decoration-none"><i class="fab fa-linkedin-in"></i></a>
                         <a href="#" class="text-decoration-none"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="text-decoration-none"><i class="fab fa-youtube"></i></a>
@@ -692,11 +692,17 @@
                     
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_home') }}">
+                                <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                    
                             <li class="nav-item dropdown-container">
                                 <a class="nav-link dropdown-trigger" href="{{ path('app_home') }}">JAMAITY</a>
                                 <div class="nav-dropdown-menu">
                                     <a href="{{ path('app_about') }}" class="dropdown-item">PRÉSENTATION</a>
-                                    <a href="{{ path('app_reports') }}" class="dropdown-item">L'ÉQUIPE JAMAITY</a>
+                                    <a href="{{ path('app_team') }}" class="dropdown-item">L'ÉQUIPE JAMAITY</a>
 
                                     <div class="dropdown-divider"></div>
                                     <a href="{{ path('app_projects') }}" class="dropdown-item dropdown-submenu-trigger">
@@ -750,10 +756,11 @@
                                                 PROJET IWATCH
                                             </a>                             
                                     </div>
+                                    <a href="{{ path('app_reports') }}" class="dropdown-item">NOS RAPPORTS</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown-container">
-                                <a class="nav-link dropdown-trigger" href="{{ path('app_societe_civile') }}">SOCIÉTÉ CIVILE</a>
+                                <a class="nav-link dropdown-trigger" >SOCIÉTÉ CIVILE</a>
                                 <div class="nav-dropdown-menu">
                                     <a href="{{ path('app_associations') }}" class="dropdown-item">ASSOCIATIONS</a>
                                     <a href="{{ path('app_coalitions') }}" class="dropdown-item">COALITIONS</a>
@@ -774,7 +781,7 @@
                                 </div>
                             </li>
                                   <li class="nav-item dropdown-container">
-                                <a class="nav-link dropdown-trigger" href="{{ path('app_elearning') }}">JAMAITY ACADEMY</a>
+                                <a class="nav-link dropdown-trigger" href="https://jamaityacademy.com">JAMAITY ACADEMY</a>
                                 <div class="nav-dropdown-menu">
                                     <a href="#" class="dropdown-item">COURS EN LIGNE</a>
                                     <a href="#" class="dropdown-item">RESSOURCES ÉDUCATIVES</a>

@@ -132,6 +132,12 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        $coalitionsCount = $entityManager->getRepository(Coalition::class)
+            ->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         // Fetch organizations with resources for resources center
         $organizationsWithResources = $entityManager->getRepository(Organization::class)
             ->createQueryBuilder('o')
@@ -155,6 +161,7 @@ class HomeController extends AbstractController
             'latestProjects' => $latestProjects,
             'associationsCount' => $associationsCount,
             'ptfsCount' => $ptfsCount,
+            'coalitionsCount' => $coalitionsCount,
             'projectsCount' => $projectsCount,
             'expertsCount' => $expertsCount,
             'eventsCount' => $eventsCount,

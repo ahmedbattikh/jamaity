@@ -46,8 +46,7 @@
 
 <section class="statistics-section py-5">
     <div class="container-fluid px-4">
-      
-        <div class="row g-4">
+        <div class="row justify-content-center  g-4 pb-4">
             <div class="col-md-6 col-lg-2">
                 <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
                     <div class="stat-icon mb-3">
@@ -71,6 +70,22 @@
                     <h5 class="h6 mb-0 text-muted">Nombre de PTFs</h5>
                 </div>
             </div>
+            
+            <div class="col-md-6 col-lg-2">
+                <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
+                    <div class="stat-icon mb-3">
+                        <i class="fas fa-handshake fa-2x text-warning"></i>
+                    </div>
+                    <div class="stat-number mb-2">
+                        <span class="display-4 fw-bold text-warning">{{ coalitionsCount }}</span>
+                    </div>
+                    <h5 class="h6 mb-0 text-muted">Nombre de coalitions</h5>
+                </div>
+            </div>
+            </div>
+
+        <div class="row justify-content-center g-4">
+       
             
             <div class="col-md-6 col-lg-2">
                 <div class="stat-item text-center p-4 h-100 bg-white rounded-3 shadow-sm">
@@ -1022,13 +1037,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 1;
+        opacity: 0;
         transition: opacity 0.5s ease-in-out;
         z-index: 1;
     }
     
     .slide.active {
         opacity: 1;
+        z-index: 2;
     }
     
     .slide img {
@@ -1958,6 +1974,7 @@ L.tileLayer('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJA
 }).addTo(map);
 </script>
 
-
+<!-- Slider JavaScript -->
+<script src="{{ asset('assets/js/slider.js') }}"></script>
 
 {% endblock %}
