@@ -117,7 +117,7 @@
                     
                     {% if expert.description %}
                         <p class="expert-description text-muted mb-3">
-                            {{ expert.description|slice(0, 120) }}{% if expert.description|length > 120 %}...{% endif %}
+                            {{ expert.description|slice(0, 120)|raw }}{% if expert.description|length > 120 %}...{% endif %}
                         </p>
                     {% endif %}
                     

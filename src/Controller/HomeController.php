@@ -435,14 +435,14 @@ class HomeController extends AbstractController
         ]);
     }
     
-    #[Route('/opportunity/{id}', name: 'app_opportunity_detail', requirements: ['id' => '\d+'])]
-    public function opportunityDetail(int $id, EntityManagerInterface $entityManager): Response
+    #[Route('/opportunity/{slug}', name: 'app_opportunity_detail')]
+    public function opportunityDetail(string $slug, EntityManagerInterface $entityManager): Response
     {
         $opportunity = $entityManager->getRepository(Opportunity::class)
             ->createQueryBuilder('o')
-            ->where('o.id = :id')
+            ->where('o.slug = :slug')
             ->andWhere('o.statut = :statut')
-            ->setParameter('id', $id)
+            ->setParameter('slug', $slug)
             ->setParameter('statut', 'active')
             ->getQuery()
             ->getOneOrNullResult();
@@ -473,14 +473,14 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/actualite/{id}', name: 'app_actualite_detail', requirements: ['id' => '\d+'])]
-    public function actualiteDetail(int $id, EntityManagerInterface $entityManager): Response
+    #[Route('/actualite/{slug}', name: 'app_actualite_detail')]
+    public function actualiteDetail(string $slug, EntityManagerInterface $entityManager): Response
     {
         $article = $entityManager->getRepository(Actualite::class)
             ->createQueryBuilder('a')
-            ->where('a.id = :id')
+            ->where('a.slug = :slug')
             ->andWhere('a.statut = :statut')
-            ->setParameter('id', $id)
+            ->setParameter('slug', $slug)
             ->setParameter('statut', 'publie')
             ->getQuery()
             ->getOneOrNullResult();
@@ -773,12 +773,10 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        // Fetch related news
+        // Fetch latest published news (no organization relationship exists in Actualite entity)
         $actualites = $entityManager->getRepository(Actualite::class)
             ->createQueryBuilder('a')
-            ->where('a.organisation = :ptf')
-            ->andWhere('a.statut = :statut')
-            ->setParameter('ptf', $ptf)
+            ->where('a.statut = :statut')
             ->setParameter('statut', 'publie')
             ->orderBy('a.datePublication', 'DESC')
             ->setMaxResults(6)

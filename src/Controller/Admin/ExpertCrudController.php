@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
@@ -59,7 +60,7 @@ class ExpertCrudController extends AbstractCrudController
                 ])
                 ->allowMultipleChoices(false)
                 ->renderExpanded(false),
-            TextareaField::new('description', 'Description')
+            TextEditorField::new('description', 'Description')
                 ->setHelp('Brief description about the expert')
                 ->setNumOfRows(4),
             TextField::new('areaOfExpertise', 'Area of Expertise')

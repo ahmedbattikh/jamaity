@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -76,7 +77,7 @@ class ResourceCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads/resources')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setHelp('Main document/file for this resource'),
-            TextareaField::new('description')
+            TextEditorField::new('description')
                 ->setNumOfRows(4)
                 ->setHelp('Description of the resource'),
             AssociationField::new('organization')

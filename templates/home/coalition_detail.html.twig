@@ -27,7 +27,7 @@
                 <span class="badge bg-secondary mb-3 ms-2">{{ coalition.region }}</span>
             {% endif %}
             {% if coalition.description %}
-                <p class="lead">{{ coalition.description|slice(0, 200) }}{% if coalition.description|length > 200 %}...{% endif %}</p>
+                <p class="lead">{{ coalition.description|slice(0, 200)|raw }}{% if coalition.description|length > 200 %}...{% endif %}</p>
             {% endif %}
             
             <!-- Quick Info -->
@@ -66,7 +66,7 @@
                         {% if coalition.adresse %}
                         <div class="col-md-6 mb-3">
                             <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i>Adresse:</strong>
-                            <p class="mb-0">{{ coalition.adresse }}</p>
+                            <p class="mb-0">{{ coalition.adresse|raw }}</p>
                         </div>
                         {% endif %}
                         
@@ -165,7 +165,7 @@
                         </div>
                         <div class="card-body">
                             {% if coalition.description %}
-                                <p>{{ coalition.description|nl2br }}</p>
+                                <p>{{ coalition.description|nl2br|raw }}</p>
                             {% else %}
                                 <p class="text-muted">Aucune description disponible.</p>
                             {% endif %}
@@ -173,7 +173,7 @@
                             {% if coalition.description %}
                                 <hr>
                                 <h6>Présentation</h6>
-                                <p>{{ coalition.description|nl2br }}</p>
+                                <p>{{ coalition.description|nl2br|raw }}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -258,7 +258,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h6 class="card-title">{{ event.titre }}</h6>
-                                    <p class="card-text text-muted">{{ event.description|slice(0, 100) }}...</p>
+                                    <p class="card-text text-muted">{{ event.description|slice(0, 100)|raw }}...</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">
                                             <i class="fas fa-calendar me-1"></i>{{ event.dateDebut|date('d/m/Y') }}
@@ -290,12 +290,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h6 class="card-title">{{ opportunity.titre }}</h6>
-                                    <p class="card-text text-muted">{{ opportunity.description|slice(0, 100) }}...</p>
+                                    <p class="card-text text-muted">{{ opportunity.description|slice(0, 100)|raw }}...</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">
                                             <i class="fas fa-calendar me-1"></i>{{ opportunity.dateCreation|date('d/m/Y') }}
                                         </small>
-                                        <a href="{{ path('app_opportunity_detail', {'id': opportunity.id}) }}" class="btn btn-sm btn-outline-success">
+                                        <a href="{{ path('app_opportunity_detail', {'slug': opportunity.slug}) }}" class="btn btn-sm btn-outline-success">
                                             Voir détails
                                         </a>
                                     </div>
@@ -322,12 +322,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h6 class="card-title">{{ actualite.titre }}</h6>
-                                    <p class="card-text text-muted">{{ actualite.contenu|striptags|slice(0, 100) }}...</p>
+                                    <p class="card-text text-muted">{{ actualite.contenu|slice(0, 100)|raw }}...</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">
                                             <i class="fas fa-calendar me-1"></i>{{ actualite.datePublication|date('d/m/Y') }}
                                         </small>
-                                        <a href="{{ path('app_actualite_detail', {'id': actualite.id}) }}" class="btn btn-sm btn-outline-info">
+                                        <a href="{{ path('app_actualite_detail', {'slug': actualite.slug}) }}" class="btn btn-sm btn-outline-info">
                                             Lire plus
                                         </a>
                                     </div>

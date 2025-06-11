@@ -103,7 +103,7 @@
                             
                             {% if coalition.description %}
                                 <p class="card-text text-muted flex-grow-1">
-                                    {{ coalition.description|length > 150 ? coalition.description|slice(0, 150) ~ '...' : coalition.description }}
+                                    {{ coalition.description|length > 150 ? coalition.description|slice(0, 150)|raw ~ '...' : coalition.description|raw }}
                                 </p>
                             {% endif %}
                             

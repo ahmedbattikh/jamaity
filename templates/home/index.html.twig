@@ -178,12 +178,12 @@
                                                 </small>
                                             </div>
                                             <h5 class="article-title mb-3">
-                                                <a href="{{ path('app_actualite_detail', {'id': article.id}) }}" class="text-decoration-none text-dark">{{ article.titre }}</a>
+                                                <a href="{{ path('app_actualite_detail', {'slug': article.slug}) }}" class="text-decoration-none text-dark">{{ article.titre }}</a>
                                             </h5>
                                             {% if article.resume %}
-                                            <p class="article-excerpt text-muted mb-3">{{ article.resume|slice(0, 120) }}{% if article.resume|length > 120 %}...{% endif %}</p>
+                                            <p class="article-excerpt text-muted mb-3">{{ article.resume|slice(0, 120)|raw }}{% if article.resume|length > 120 %}...{% endif %}</p>
                                             {% endif %}
-                                            <a href="{{ path('app_actualite_detail', {'id': article.id}) }}" class="btn btn-outline-primary btn-sm">
+                                            <a href="{{ path('app_actualite_detail', {'slug': article.slug}) }}" class="btn btn-outline-primary btn-sm">
                                                 Lire la suite <i class="fas fa-arrow-right ms-1"></i>
                                             </a>
                                         </div>
@@ -340,7 +340,7 @@
                                                 <a href="{{ path('app_event_detail', {'slug': event.slug}) }}" class="text-decoration-none text-dark">{{ event.titre }}</a>
                                             </h5>
                                             {% if event.description %}
-                                            <p class="event-description text-muted mb-3">{{ event.description|slice(0, 100) }}{% if event.description|length > 100 %}...{% endif %}</p>
+                                            <p class="event-description text-muted mb-3">{{ event.description|slice(0, 100)|raw }}{% if event.description|length > 100 %}...{% endif %}</p>
                                             {% endif %}
                                             <div class="event-meta mb-3">
                                                 {% if event.statut %}
@@ -434,7 +434,7 @@
                                                 <a href="#" class="text-decoration-none text-dark">{{ association.titre }}</a>
                                             </h5>
                                             {% if association.description %}
-                                            <p class="association-description text-muted mb-3">{{ association.description|slice(0, 100) }}{% if association.description|length > 100 %}...{% endif %}</p>
+                                            <p class="association-description text-muted mb-3">{{ association.description|slice(0, 100)|raw }}{% if association.description|length > 100 %}...{% endif %}</p>
                                             {% endif %}
                                             <div class="association-meta mb-3">
                                                 {% if association.domaine %}
@@ -533,7 +533,7 @@
                                                 <a href="{{ path('app_coalition_detail', {'slug': coalition.slug}) }}" class="text-decoration-none text-dark">{{ coalition.titre }}</a>
                                             </h5>
                                             {% if coalition.description %}
-                                            <p class="coalition-description text-muted mb-3">{{ coalition.description|slice(0, 100) }}{% if coalition.description|length > 100 %}...{% endif %}</p>
+                                            <p class="coalition-description text-muted mb-3">{{ coalition.description|slice(0, 100)|raw }}{% if coalition.description|length > 100 %}...{% endif %}</p>
                                             {% endif %}
                                             <div class="coalition-meta mb-3">
                                                 {% if coalition.domaine %}
@@ -633,7 +633,7 @@
                                                 <a href="{{ path('app_ptf_detail', {'slug': ptf.slug}) }}" class="text-decoration-none text-dark">{{ ptf.titre }}</a>
                                             </h5>
                                             {% if ptf.description %}
-                                            <p class="ptf-description text-muted mb-3">{{ ptf.description|slice(0, 100) }}{% if ptf.description|length > 100 %}...{% endif %}</p>
+                                            <p class="ptf-description text-muted mb-3">{{ ptf.description|slice(0, 100)|raw }}{% if ptf.description|length > 100 %}...{% endif %}</p>
                                             {% endif %}
                                             <div class="ptf-meta mb-3">
                                                 {% if ptf.domaine %}
@@ -923,7 +923,7 @@
                                                 <a href="#" class="text-decoration-none text-dark">{{ project.title }}</a>
                                             </h5>
                                             {% if project.generalObjective %}
-                                            <p class="project-description text-muted mb-3">{{ project.generalObjective|slice(0, 100) }}{% if project.generalObjective|length > 100 %}...{% endif %}</p>
+                                            <p class="project-description text-muted mb-3">{{ project.generalObjective|slice(0, 100)|raw }}{% if project.generalObjective|length > 100 %}...{% endif %}</p>
                                             {% endif %}
                                             <div class="project-meta mb-3">
                                                 {% if project.region and project.region|length > 0 %}
@@ -1037,7 +1037,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 0;
+        opacity: 1;
         transition: opacity 0.5s ease-in-out;
         z-index: 1;
     }

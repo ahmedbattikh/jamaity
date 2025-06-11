@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -88,13 +89,13 @@ class ProjectCrudController extends AbstractCrudController
             
             FormField::addRow(),
             
-            TextareaField::new('generalObjective', 'General Objective')
+            TextEditorField::new('generalObjective', 'General Objective')
                 ->setRequired(true)
                 ->setColumns(12)
                 ->setNumOfRows(4)
                 ->setHelp('Describe the main objective of the project'),
             
-            TextareaField::new('moreDetails', 'More Details')
+            TextEditorField::new('moreDetails', 'More Details')
                 ->setColumns(12)
                 ->setNumOfRows(4)
                 ->setHelp('Additional details about the project'),

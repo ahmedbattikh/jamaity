@@ -10,9 +10,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
@@ -41,11 +43,15 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setRequired(true)
                 ->setColumns(6),
             
+            TextField::new('slug', 'Slug')
+                ->setHelp('URL-friendly version du titre (généré automatiquement si vide)')
+                ->setColumns(6),
+            
             AssociationField::new('organizationRelated', 'Organisation liée')
                 ->setColumns(6)
                 ->setHelp('Sélectionnez l\'organisation responsable de cette opportunité'),
             
-            TextareaField::new('opportunityDetails', 'Détails de l\'opportunité')
+            TextEditorField::new('opportunityDetails', 'Détails de l\'opportunité')
                 ->setNumOfRows(4)
                 ->setColumns(12),
             
@@ -53,7 +59,7 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setHelp('Ajoutez les critères d\'éligibilité un par ligne')
                 ->setColumns(6),
             
-            TextareaField::new('howToApply', 'Comment postuler')
+            TextEditorField::new('howToApply', 'Comment postuler')
                 ->setNumOfRows(3)
                 ->setColumns(6),
             
@@ -89,7 +95,15 @@ class OpportunityCrudController extends AbstractCrudController
             TextField::new('organisme', 'Organisme')
                 ->setColumns(6),
             
-            TextareaField::new('budget', 'Budget')
+            ImageField::new('logo', 'Logo')
+                ->setBasePath('/uploads/logos')
+                ->setUploadDir('public/uploads/logos')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false)
+                ->setColumns(6)
+                ->setHelp('Téléchargez le logo de l\'opportunité'),
+            
+            TextEditorField::new('budget', 'Budget')
                 ->setNumOfRows(2)
                 ->setColumns(6)
                 ->setHelp('Décrivez le budget disponible ou les montants'),

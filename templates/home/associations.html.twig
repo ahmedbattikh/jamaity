@@ -117,7 +117,7 @@
                     
                     {% if association.descriptionPresentation %}
                         <p class="association-description text-muted mb-3">
-                            {{ association.descriptionPresentation|slice(0, 120) }}{% if association.descriptionPresentation|length > 120 %}...{% endif %}
+                            {{ association.descriptionPresentation|slice(0, 120)|raw }}{% if association.descriptionPresentation|length > 120 %}...{% endif %}
                         </p>
                     {% endif %}
                     

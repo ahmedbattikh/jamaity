@@ -39,10 +39,10 @@
                         </small>
                     </div>
                     <h5 class="article-title mb-3">
-                        <a href="{{ path('app_actualite_detail', {'id': article.id}) }}" class="text-decoration-none text-dark">{{ article.titre }}</a>
+                        <a href="{{ path('app_actualite_detail', {'slug': article.slug}) }}" class="text-decoration-none text-dark">{{ article.titre }}</a>
                     </h5>
                     {% if article.resume %}
-                    <p class="article-excerpt text-muted mb-3">{{ article.resume|slice(0, 150) }}{% if article.resume|length > 150 %}...{% endif %}</p>
+                    <p class="article-excerpt text-muted mb-3">{{ article.resume|slice(0, 150)|raw }}{% if article.resume|length > 150 %}...{% endif %}</p>
                     {% endif %}
                     {% if article.tags and article.tags|length > 0 %}
                     <div class="article-tags mb-3">
@@ -51,7 +51,7 @@
                         {% endfor %}
                     </div>
                     {% endif %}
-                    <a href="{{ path('app_actualite_detail', {'id': article.id}) }}" class="btn btn-outline-primary btn-sm">
+                    <a href="{{ path('app_actualite_detail', {'slug': article.slug}) }}" class="btn btn-outline-primary btn-sm">
                         Lire la suite <i class="fas fa-arrow-right ms-1"></i>
                     </a>
                 </div>

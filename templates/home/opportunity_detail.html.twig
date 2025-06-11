@@ -22,6 +22,11 @@
         <div class="col-12">
             <!-- Opportunity Header -->
             <div class="card shadow-sm mb-4">
+                {% if opportunity.logo %}
+                <div class="card-header bg-light text-center p-4">
+                    <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 120px; max-width: 200px;">
+                </div>
+                {% endif %}
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                 <h1 class="display-5 fw-bold text-primary mb-0">{{ opportunity.titre }}</h1>
@@ -92,7 +97,7 @@
                 </div>
                 <div class="card-body">
                     <div class="opportunity-details">
-                        {{ opportunity.opportunityDetails|nl2br }}
+                        {{ opportunity.opportunityDetails|nl2br|raw }}
                     </div>
                 </div>
             </div>
@@ -142,7 +147,7 @@
                 <div class="collapse" id="howToApplyCollapse">
                     <div class="card-body">
                         <div class="how-to-apply">
-                            {{ opportunity.howToApply|nl2br }}
+                            {{ opportunity.howToApply|nl2br|raw }}
                         </div>
                     </div>
                 </div>
@@ -160,7 +165,7 @@
                 </div>
                 <div class="card-body">
                     <div class="budget-info">
-                        {{ opportunity.budget|nl2br }}
+                        {{ opportunity.budget|nl2br|raw }}
                     </div>
                 </div>
             </div>

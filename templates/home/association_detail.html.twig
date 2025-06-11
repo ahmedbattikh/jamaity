@@ -27,7 +27,7 @@
                 <span class="badge bg-secondary mb-3 ms-2">{{ association.region }}</span>
             {% endif %}
             {% if association.descriptionPresentation %}
-                <p class="lead">{{ association.descriptionPresentation|slice(0, 200) }}{% if association.descriptionPresentation|length > 200 %}...{% endif %}</p>
+                <p class="lead">{{ association.descriptionPresentation|slice(0, 200)|raw }}{% if association.descriptionPresentation|length > 200 %}...{% endif %}</p>
             {% endif %}
             
             <!-- Quick Info -->
@@ -66,7 +66,7 @@
                         {% if association.adresse %}
                         <div class="col-md-6 mb-3">
                             <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i>Adresse:</strong>
-                            <p class="mb-0">{{ association.adresse }}</p>
+                            <p class="mb-0">{{ association.adresse|raw }}</p>
                         </div>
                         {% endif %}
                         
@@ -172,22 +172,22 @@
                         <div class="card-body">
                             {% if association.description %}
                                 <h5>Description</h5>
-                                <p>{{ association.description|nl2br }}</p>
+                                <p>{{ association.description|nl2br|raw }}</p>
                             {% endif %}
                             
                             {% if association.descriptionPresentation %}
                                 <h5>Présentation</h5>
-                                <p>{{ association.descriptionPresentation|nl2br }}</p>
+                                <p>{{ association.descriptionPresentation|nl2br|raw }}</p>
                             {% endif %}
                             
                             {% if association.contactInformation %}
                                 <h5>Informations de Contact Supplémentaires</h5>
-                                <p>{{ association.contactInformation|nl2br }}</p>
+                                <p>{{ association.contactInformation|nl2br|raw }}</p>
                             {% endif %}
                             
                             {% if association.visAVis %}
                                 <h5>Vis-à-vis</h5>
-                                <p>{{ association.visAVis|nl2br }}</p>
+                                <p>{{ association.visAVis|nl2br|raw }}</p>
                             {% endif %}
                             
                             {% if not association.description and not association.descriptionPresentation and not association.contactInformation and not association.visAVis %}
@@ -213,7 +213,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ event.titre }}</h5>
                                         {% if event.description %}
-                                        <p class="card-text">{{ event.description|slice(0, 150) }}{% if event.description|length > 150 %}...{% endif %}</p>
+                                        <p class="card-text">{{ event.description|slice(0, 150)|raw }}{% if event.description|length > 150 %}...{% endif %}</p>
                                         {% endif %}
                                         
                                         <div class="text-muted small">
@@ -254,7 +254,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ opportunity.titre }}</h5>
                                         {% if opportunity.opportunityDetails %}
-                                        <p class="card-text">{{ opportunity.opportunityDetails|slice(0, 200) }}{% if opportunity.opportunityDetails|length > 200 %}...{% endif %}</p>
+                                        <p class="card-text">{{ opportunity.opportunityDetails|slice(0, 200)|raw }}{% if opportunity.opportunityDetails|length > 200 %}...{% endif %}</p>
                                         {% endif %}
                                         
                                         {% if opportunity.typeOfOpportunities %}
@@ -295,9 +295,9 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ actualite.titre }}</h5>
                                         {% if actualite.resume %}
-                                        <p class="card-text">{{ actualite.resume }}</p>
+                                        <p class="card-text">{{ actualite.resume|raw }}</p>
                                         {% elseif actualite.contenu %}
-                                        <p class="card-text">{{ actualite.contenu|slice(0, 150) }}{% if actualite.contenu|length > 150 %}...{% endif %}</p>
+                                        <p class="card-text">{{ actualite.contenu|slice(0, 150)|raw }}{% if actualite.contenu|length > 150 %}...{% endif %}</p>
                                         {% endif %}
                                         
                                         <div class="text-muted small">

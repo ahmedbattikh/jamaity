@@ -102,7 +102,7 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <p class="mb-0">{{ expert.description|nl2br }}</p>
+                    <p class="mb-0">{{ expert.description|nl2br|raw }}</p>
                 </div>
             </div>
             {% endif %}

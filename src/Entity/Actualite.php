@@ -17,6 +17,9 @@ class Actualite
     #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $contenu = null;
 
@@ -59,6 +62,21 @@ class Actualite
     public function setTitre(string $titre): static
     {
         $this->titre = $titre;
+        // Auto-generate slug if not set
+        if (empty($this->slug)) {
+            $this->slug = $this->generateSlug($titre);
+        }
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
         return $this;
     }
 
@@ -153,5 +171,28 @@ class Actualite
     public function __toString(): string
     {
         return $this->titre ?? '';
+    }
+
+    private function generateSlug(string $text): string
+    {
+        // Convert to lowercase
+        $slug = strtolower($text);
+        
+        // Replace accented characters
+        $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+        
+        // Remove special characters and replace spaces with hyphens
+        $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
+        $slug = preg_replace('/[\s-]+/', '-', $slug);
+        
+        // Remove leading/trailing hyphens
+        $slug = trim($slug, '-');
+        
+        // Add timestamp if slug is empty
+        if (empty($slug)) {
+            $slug = 'article-' . time();
+        }
+        
+        return $slug;
     }
 }

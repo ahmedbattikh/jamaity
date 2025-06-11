@@ -113,7 +113,7 @@
                         <p class="text-muted mb-2"><strong>Abréviation:</strong> {{ ptf.abreviation }}</p>
                     {% endif %}
                     {% if ptf.description %}
-                        <p class="card-text text-muted mb-3">{{ ptf.description|slice(0, 150) }}{% if ptf.description|length > 150 %}...{% endif %}</p>
+                        <p class="card-text text-muted mb-3">{{ ptf.description|slice(0, 150)|raw }}{% if ptf.description|length > 150 %}...{% endif %}</p>
                     {% endif %}
                     <div class="mt-auto">
                         <div class="row text-center mb-3">

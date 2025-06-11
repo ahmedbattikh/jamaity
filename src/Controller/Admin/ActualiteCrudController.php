@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ActualiteCrudController extends AbstractCrudController
@@ -23,10 +24,13 @@ class ActualiteCrudController extends AbstractCrudController
     {
         return [
             TextField::new('titre', 'Titre')->setRequired(true),
-            TextareaField::new('resume', 'Résumé')
+            TextField::new('slug', 'Slug')
+                ->setHelp('URL-friendly version of the title (auto-generated if empty)')
+                ->setRequired(false),
+            TextEditorField::new('resume', 'Résumé')
                 ->setHelp('Résumé court de l\'actualité')
-                ->setMaxLength(500),
-            TextareaField::new('contenu', 'Contenu')
+                ->setNumOfRows(5),
+            TextEditorField::new('contenu', 'Contenu')
                 ->setHelp('Contenu complet de l\'actualité')
                 ->hideOnIndex(),
             ImageField::new('image', 'Image')

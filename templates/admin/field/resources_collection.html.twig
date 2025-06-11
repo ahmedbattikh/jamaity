@@ -28,7 +28,7 @@
                             </td>
                             <td>
                                 {% if resource.description %}
-                                    {{ resource.description|length > 100 ? resource.description|slice(0, 100) ~ '...' : resource.description }}
+                                    {{ resource.description|length > 100 ? resource.description|slice(0, 100)|raw ~ '...' : resource.description|raw }}
                                 {% else %}
                                     <em class="text-muted">No description</em>
                                 {% endif %}

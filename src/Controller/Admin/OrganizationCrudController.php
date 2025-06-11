@@ -6,6 +6,7 @@ use App\Entity\Organization;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -25,17 +26,17 @@ class OrganizationCrudController extends AbstractCrudController
         return [
             SlugField::new('slug', 'Slug')
                 ->setHelp('The slug is used to build the organization URL'),
-            TextareaField::new('description', 'Description')
+            TextEditorField::new('description', 'Description')
                 ->setHelp('Brief description about the organization')
                 ->setNumOfRows(4),
             EmailField::new('email', 'Email Address'),
             TelephoneField::new('telephone', 'Telephone'),
             TelephoneField::new('mobile', 'Mobile'),
-            TextareaField::new('adresse', 'Address')
+            TextEditorField::new('adresse', 'Address')
                 ->setNumOfRows(3),
-            TextareaField::new('contactInformation', 'Contact Information')
+            TextEditorField::new('contactInformation', 'Contact Information')
                 ->setNumOfRows(3),
-            TextareaField::new('visAVis', 'Vis-à-vis')
+            TextEditorField::new('visAVis', 'Vis-à-vis')
                 ->setNumOfRows(3),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')

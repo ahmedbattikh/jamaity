@@ -129,7 +129,7 @@
                         </div>
                         <div class="card-body">
                             <div class="event-description">
-                                {{ event.description|nl2br }}
+                                {{ event.description|nl2br|raw }}
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="card-body">
                             <div class="event-details">
-                                {{ event.detailEvenement|nl2br }}
+                                {{ event.detailEvenement|nl2br|raw }}
                             </div>
                         </div>
                     </div>

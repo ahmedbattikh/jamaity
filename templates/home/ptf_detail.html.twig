@@ -27,7 +27,7 @@
                 <span class="badge bg-secondary mb-3 ms-2">{{ ptf.region }}</span>
             {% endif %}
             {% if ptf.description %}
-                <p class="lead">{{ ptf.description|slice(0, 200) }}{% if ptf.description|length > 200 %}...{% endif %}</p>
+                <p class="lead">{{ ptf.description|slice(0, 200)|raw }}{% if ptf.description|length > 200 %}...{% endif %}</p>
             {% endif %}
             
             <!-- Quick Info -->
@@ -38,18 +38,13 @@
                     <div class="fw-bold">{{ ptf.dateFondation|date('Y') }}</div>
                 </div>
                 {% endif %}
-                {% if ptf.president %}
+                {% if ptf.nomContact %}
                 <div class="col-md-4">
-                    <small class="text-muted">Président</small>
-                    <div class="fw-bold">{{ ptf.president }}</div>
+                    <small class="text-muted">Contact</small>
+                    <div class="fw-bold">{{ ptf.nomContact }}</div>
                 </div>
                 {% endif %}
-                {% if ptf.structure %}
-                <div class="col-md-4">
-                    <small class="text-muted">Structure</small>
-                    <div class="fw-bold">{{ ptf.structure }}</div>
-                </div>
-                {% endif %}
+
             </div>
         </div>
     </div>
@@ -66,7 +61,7 @@
                         {% if ptf.adresse %}
                         <div class="col-md-6 mb-3">
                             <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i>Adresse:</strong>
-                            <p class="mb-0">{{ ptf.adresse }}</p>
+                            <p class="mb-0">{{ ptf.adresse|raw }}</p>
                         </div>
                         {% endif %}
                         
@@ -161,7 +156,7 @@
                         <div class="card-body">
                             {% if ptf.description %}
                                 <h5>Description</h5>
-                                <p>{{ ptf.description|nl2br }}</p>
+                                <p>{{ ptf.description|nl2br|raw }}</p>
                             {% endif %}
                             
                             {% if not ptf.description %}
@@ -183,7 +178,7 @@
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h6 class="card-title">{{ event.titre }}</h6>
-                                            <p class="card-text text-muted small">{{ event.description|slice(0, 100) }}...</p>
+                                            <p class="card-text text-muted small">{{ event.description|slice(0, 100)|raw }}...</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <small class="text-muted">
                                                     <i class="fas fa-calendar me-1"></i>{{ event.dateDebut|date('d/m/Y') }}
@@ -212,12 +207,12 @@
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h6 class="card-title">{{ opportunity.titre }}</h6>
-                                            <p class="card-text text-muted small">{{ opportunity.description|slice(0, 100) }}...</p>
+                                            <p class="card-text text-muted small">{{ opportunity.description|slice(0, 100)|raw }}...</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <small class="text-muted">
                                                     <i class="fas fa-briefcase me-1"></i>{{ opportunity.type ?? 'Projet' }}
                                                 </small>
-                                                <a href="{{ path('app_opportunity_detail', {id: opportunity.id}) }}" class="btn btn-sm btn-outline-success">Voir détails</a>
+                                                <a href="{{ path('app_opportunity_detail', {slug: opportunity.slug}) }}" class="btn btn-sm btn-outline-success">Voir détails</a>
                                             </div>
                                         </div>
                                     </div>
@@ -244,12 +239,12 @@
                                         {% endif %}
                                         <div class="card-body">
                                             <h6 class="card-title">{{ actualite.titre }}</h6>
-                                            <p class="card-text text-muted small">{{ actualite.contenu|slice(0, 100) }}...</p>
+                                            <p class="card-text text-muted small">{{ actualite.contenu|slice(0, 100)|raw }}...</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <small class="text-muted">
                                                     <i class="fas fa-clock me-1"></i>{{ actualite.datePublication|date('d/m/Y') }}
                                                 </small>
-                                                <a href="{{ path('app_actualite_detail', {id: actualite.id}) }}" class="btn btn-sm btn-outline-info">Lire plus</a>
+                                                <a href="{{ path('app_actualite_detail', {'slug': actualite.slug}) }}" class="btn btn-sm btn-outline-info">Lire plus</a>
                                             </div>
                                         </div>
                                     </div>

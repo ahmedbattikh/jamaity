@@ -51,7 +51,7 @@
             <div class="article-resume mb-4">
                 <div class="alert alert-light border-start border-primary border-4">
                     <h6 class="fw-bold mb-2">Résumé</h6>
-                    <p class="mb-0 lead">{{ article.resume }}</p>
+                    <p class="mb-0 lead">{{ article.resume|raw }}</p>
                 </div>
             </div>
             {% endif %}
@@ -60,7 +60,7 @@
             <div class="article-content mb-4">
                 {% if article.contenu %}
                     <div class="content-text">
-                        {{ article.contenu|nl2br }}
+                        {{ article.contenu|nl2br|raw }}
                     </div>
                 {% else %}
                     <p class="text-muted fst-italic">Contenu non disponible.</p>
