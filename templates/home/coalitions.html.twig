@@ -61,80 +61,77 @@
     <!-- Results Summary -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    {{ total }} coalition{{ total > 1 ? 's' : '' }} trouvée{{ total > 1 ? 's' : '' }}
-                    {% if current_region or current_domaine or current_search %}
-                        <small class="text-muted">avec les filtres appliqués</small>
-                    {% endif %}
-                </h5>
-                <div class="text-muted">
-                    Page {{ current_page }} sur {{ total_pages }}
-                </div>
-            </div>
+            <p class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                {{ total }} coalition{{ total > 1 ? 's' : '' }} trouvée{{ total > 1 ? 's' : '' }}
+                {% if current_region or current_domaine or current_search %}
+                    avec les filtres appliqués
+                {% endif %}
+            </p>
         </div>
     </div>
 
     <!-- Coalitions Grid -->
     {% if coalitions|length > 0 %}
-        <div class="row">
-            {% for coalition in coalitions %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm hover-shadow">
-                        {% if coalition.logo %}
-                            <img src="{{ asset('uploads/logos/' ~ coalition.logo) }}" 
-                                 class="card-img-top" alt="{{ coalition.titre }}" 
-                                 style="height: 200px; object-fit: cover;">
-                        {% else %}
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                                 style="height: 200px;">
-                                <i class="fas fa-users fa-3x text-muted"></i>
-                            </div>
-                        {% endif %}
-                        
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-primary">{{ coalition.titre }}</h5>
-                            
+    <div class="row g-4 mb-5">
+        {% for coalition in coalitions %}
+        <div class="col-lg-4 col-md-6">
+            <div class="association-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                <div class="association-header p-4 pb-3">
+                    <div class="d-flex align-items-start">
+                        <div class="association-logo me-3">
+                            {% if coalition.logo %}
+                                <img src="{{ asset('uploads/logos/' ~ coalition.logo) }}" 
+                                     alt="{{ coalition.titre }}" 
+                                     class="rounded-circle" 
+                                     style="width: 60px; height: 60px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" 
+                                     style="width: 60px; height: 60px;">
+                                    <i class="fas fa-users text-white fa-lg"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="association-title mb-1">{{ coalition.titre }}</h5>
                             {% if coalition.abreviation %}
-                                <p class="text-muted small mb-2">
-                                    <strong>Abréviation:</strong> {{ coalition.abreviation }}
-                                </p>
+                                <small class="text-muted">({{ coalition.abreviation }})</small>
                             {% endif %}
-                            
-                            {% if coalition.description %}
-                                <p class="card-text text-muted flex-grow-1">
-                                    {{ coalition.description|length > 150 ? coalition.description|slice(0, 150)|raw ~ '...' : coalition.description|raw }}
-                                </p>
-                            {% endif %}
-                            
-                            <div class="mt-auto">
-                                <div class="row text-center mb-3">
-                                    {% if coalition.region %}
-                                        <div class="col-6">
-                                            <small class="text-muted d-block">Région</small>
-                                            <span class="badge bg-secondary">{{ coalition.region }}</span>
-                                        </div>
-                                    {% endif %}
-                                    {% if coalition.domaine %}
-                                        <div class="col-6">
-                                            <small class="text-muted d-block">Domaine</small>
-                                            <span class="badge bg-info">{{ coalition.domaine }}</span>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="d-grid">
-                                    <a href="{{ path('app_coalition_detail', {'slug': coalition.slug}) }}" 
-                                       class="btn btn-primary">
-                                        <i class="fas fa-eye me-1"></i>En savoir plus
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+                
+                <div class="association-content px-4 pb-4">
+                    <div class="association-meta mb-3">
+                        {% if coalition.region %}
+                            <span class="badge bg-light text-dark me-2">
+                                <i class="fas fa-map-marker-alt me-1"></i>{{ coalition.region }}
+                            </span>
+                        {% endif %}
+                        {% if coalition.domaine %}
+                            <span class="badge bg-primary">
+                                <i class="fas fa-tag me-1"></i>{{ coalition.domaine }}
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if coalition.description %}
+                        <p class="association-description text-muted mb-3">
+                            {{ coalition.description|slice(0, 120)|raw }}{% if coalition.description|length > 120 %}...{% endif %}
+                        </p>
+                    {% endif %}
+                    
+                    <div class="d-grid">
+                        <a href="{{ path('app_coalition_detail', {'slug': coalition.slug}) }}" 
+                           class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye me-1"></i>En savoir plus
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+    </div>
     {% else %}
         <!-- No Results -->
         <div class="row">

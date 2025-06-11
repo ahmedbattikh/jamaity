@@ -14,6 +14,7 @@ use App\Entity\Ptf;
 use App\Entity\Resource;
 use App\Enum\ExpertiseEnum;
 use App\Enum\ThemeEnum;
+use App\Enum\RegionEnum;
 use App\Repository\ExpertRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -908,15 +909,12 @@ class HomeController extends AbstractController
         $totalPages = ceil($total / $limit);
         
         // Get filter options
-        $regions = $entityManager->createQuery(
-            'SELECT DISTINCT a.region FROM App\Entity\Association a WHERE a.region IS NOT NULL ORDER BY a.region'
-        )->getResult();
-        
+        $regions = RegionEnum::getChoices();
         $domaines = ThemeEnum::getChoices();
-        
+
         return $this->render('home/associations.html.twig', [
             'associations' => $associations,
-            'regions' => array_column($regions, 'region'),
+            'regions' => $regions,
             'domaines' => $domaines,
             'current_region' => $region,
             'current_domaine' => $domaine,
@@ -948,13 +946,25 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getResult();
         
-        // Get related opportunities (projects)
+        // Get related opportunities
         $opportunities = $entityManager->getRepository(Opportunity::class)
             ->createQueryBuilder('op')
-            ->where('op.organisme = :associationName OR op.organisme LIKE :associationSearch')
+            ->where('op.organizationRelated = :association OR (op.organisme = :associationName OR op.organisme LIKE :associationSearch)')
+            ->setParameter('association', $association)
             ->setParameter('associationName', $association->getTitre())
             ->setParameter('associationSearch', '%' . $association->getTitre() . '%')
             ->orderBy('op.dateCreation', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+        
+        // Get related projects
+        $projects = $entityManager->getRepository(Project::class)
+            ->createQueryBuilder('p')
+            ->join('p.organizations', 'o')
+            ->where('o.id = :associationId')
+            ->setParameter('associationId', $association->getId())
+            ->orderBy('p.dateBegin', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
@@ -975,6 +985,7 @@ class HomeController extends AbstractController
             'association' => $association,
             'events' => $events,
             'opportunities' => $opportunities,
+            'projects' => $projects,
             'actualites' => $actualites
         ]);
     }
@@ -1025,15 +1036,12 @@ class HomeController extends AbstractController
         $totalPages = ceil($total / $limit);
         
         // Get filter options
-        $regions = $entityManager->createQuery(
-            'SELECT DISTINCT c.region FROM App\Entity\Coalition c WHERE c.region IS NOT NULL ORDER BY c.region'
-        )->getResult();
-        
+        $regions = RegionEnum::getChoices();
         $domaines = ThemeEnum::getChoices();
-        
+
         return $this->render('home/coalitions.html.twig', [
             'coalitions' => $coalitions,
-            'regions' => array_column($regions, 'region'),
+            'regions' => $regions,
             'domaines' => $domaines,
             'current_region' => $region,
             'current_domaine' => $domaine,

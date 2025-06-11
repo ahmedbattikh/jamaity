@@ -147,7 +147,7 @@
                             {% if articleIndex < latestArticles|length %}
                                 {% set article = latestArticles[articleIndex] %}
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="article-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                    <div class="article-card h-100 bg-white rounded-3 shadow-sm overflow-hidden article-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_actualite_detail', {'slug': article.slug}) }}'">
                                         <div class="article-image">
                                             {% if article.image %}
                                                 <img src="{{ asset('assets/img/' ~ article.image) }}" alt="{{ article.titre }}" class="img-fluid w-100">
@@ -300,7 +300,7 @@
                             {% if eventIndex < upcomingEvents|length %}
                                 {% set event = upcomingEvents[eventIndex] %}
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="event-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                    <div class="event-card h-100 bg-white rounded-3 shadow-sm overflow-hidden event-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_event_detail', {'slug': event.slug}) }}'">
                                         <div class="event-image">
                                             {% if event.image %}
                                                 <img src="{{ asset('uploads/events/' ~ event.image) }}" alt="{{ event.titre }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
@@ -406,7 +406,7 @@
                             {% if associationIndex < associations|length %}
                                 {% set association = associations[associationIndex] %}
                                 <div class="col-lg-2 col-md-6">
-                                    <div class="association-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                    <div class="association-card h-100 bg-white rounded-3 shadow-sm overflow-hidden association-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_association_detail', {'slug': association.slug}) }}'">
                                         <div class="association-logo">
                                             {% if association.logo %}
                                                 <img src="{{ asset('uploads/logos/' ~ association.logo) }}" alt="{{ association.titre }}" class="img-fluid w-100">
@@ -418,7 +418,7 @@
                                         </div>
                                         <div class="association-content p-4">
                                             <h5 class="association-title mb-3">
-                                                <a href="#" class="text-decoration-none text-dark">{{ association.titre }}</a>
+                                                <a href="{{ path('app_association_detail', {'slug': association.slug}) }}" class="text-decoration-none text-dark">{{ association.titre }}</a>
                                             </h5>
                                             {% if association.description %}
                                             <p class="association-description text-muted mb-3">{{ association.description|slice(0, 100)|raw }}{% if association.description|length > 100 %}...{% endif %}</p>
@@ -505,7 +505,7 @@
                             {% if index < coalitions|length %}
                                 {% set coalition = coalitions[index] %}
                                 <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="coalition-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                    <div class="coalition-card h-100 bg-white rounded-3 shadow-sm overflow-hidden coalition-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_coalition_detail', {'slug': coalition.slug}) }}'">
                                         <div class="coalition-logo">
                                             {% if coalition.logo %}
                                                 <img src="{{ asset('uploads/logos/' ~ coalition.logo) }}" alt="{{ coalition.titre }}" class="img-fluid w-100">
@@ -605,7 +605,7 @@
                             {% if ptfIndex < ptfs|length %}
                                 {% set ptf = ptfs[ptfIndex] %}
                                 <div class="col-lg-2 col-md-4 col-sm-6">
-                                    <div class="ptf-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                    <div class="ptf-card h-100 bg-white rounded-3 shadow-sm overflow-hidden ptf-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_ptf_detail', {'slug': ptf.slug}) }}'">
                                         <div class="ptf-logo">
                                             {% if ptf.logo %}
                                                 <img src="{{ asset('uploads/logos/' ~ ptf.logo) }}" alt="{{ ptf.titre }}" class="img-fluid w-100">
@@ -708,7 +708,7 @@
                             {% if expertIndex < latestExperts|length %}
                                 {% set expert = latestExperts[expertIndex] %}
                                 <div class="col-lg-2 col-md-6">
-                                    <div class="expert-card h-100 bg-white rounded-3 shadow-sm overflow-hidden text-center">
+                                    <div class="expert-card h-100 bg-white rounded-3 shadow-sm overflow-hidden text-center expert-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_expert_detail', {'slug': expert.slug}) }}'">
                                         <div class="expert-image p-3">
                                             {% if expert.picture %}
                                                 <img src="{{ asset('uploads/experts/' ~ expert.picture) }}" alt="{{ expert.firstName }} {{ expert.lastName }}" class="img-fluid rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
@@ -885,7 +885,7 @@
                             {% if projectIndex < latestProjects|length %}
                                 {% set project = latestProjects[projectIndex] %}
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="project-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
+                                    <div class="project-card h-100 bg-white rounded-3 shadow-sm overflow-hidden project-card-clickable" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location.href='{{ path('app_project_detail', {'slug': project.slug}) }}'">
                                         <div class="project-image">
                                             {% if project.logo %}
                                                 <img src="{{ asset('uploads/projects/' ~ project.logo) }}" alt="{{ project.title }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
@@ -907,7 +907,7 @@
                                                 </span>
                                             </div>
                                             <h5 class="project-title mb-3">
-                                                <a href="#" class="text-decoration-none text-dark">{{ project.title }}</a>
+                                                <a href="{{ path('app_project_detail', {'slug': project.slug}) }}" class="text-decoration-none text-dark">{{ project.title }}</a>
                                             </h5>
                                             {% if project.generalObjective %}
                                             <p class="project-description text-muted mb-3">{{ project.generalObjective|slice(0, 100)|raw }}{% if project.generalObjective|length > 100 %}...{% endif %}</p>
@@ -931,12 +931,12 @@
                                             </div>
                                             {% if project.website %}
                                             <div class="project-website mb-3">
-                                                <a href="{{ project.website }}" target="_blank" class="btn btn-outline-info btn-sm">
+                                                <a href="{{ project.website }}" target="_blank" class="btn btn-outline-info btn-sm" onclick="event.stopPropagation();">
                                                     <i class="fas fa-external-link-alt me-1"></i>Site web
                                                 </a>
                                             </div>
                                             {% endif %}
-                                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                            <a href="{{ path('app_project_detail', {'slug': project.slug}) }}" class="btn btn-outline-primary btn-sm">
                                                 En savoir plus <i class="fas fa-arrow-right ms-1"></i>
                                             </a>
                                         </div>
