@@ -6,7 +6,7 @@ use App\Entity\Organization;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -26,17 +26,81 @@ class OrganizationCrudController extends AbstractCrudController
         return [
             SlugField::new('slug', 'Slug')
                 ->setHelp('The slug is used to build the organization URL'),
-            TextEditorField::new('description', 'Description')
+            TextareaField::new('description', 'Description')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 300,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setHelp('Brief description about the organization')
                 ->setNumOfRows(4),
             EmailField::new('email', 'Email Address'),
             TelephoneField::new('telephone', 'Telephone'),
             TelephoneField::new('mobile', 'Mobile'),
-            TextEditorField::new('adresse', 'Address')
+            TextareaField::new('adresse', 'Address')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 200,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(3),
-            TextEditorField::new('contactInformation', 'Contact Information')
+            TextareaField::new('contactInformation', 'Contact Information')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 200,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(3),
-            TextEditorField::new('visAVis', 'Vis-à-vis')
+            TextareaField::new('visAVis', 'Vis-à-vis')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 200,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(3),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')

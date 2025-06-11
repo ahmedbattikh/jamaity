@@ -16,7 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
@@ -49,7 +49,24 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setColumns(6)
                 ->setHelp('Sélectionnez l\'organisation responsable de cette opportunité'),
             
-            TextEditorField::new('opportunityDetails', 'Détails de l\'opportunité')
+            TextareaField::new('opportunityDetails', 'Détails de l\'opportunité')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['Image', 'Table'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 400,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(4)
                 ->setColumns(12),
             
@@ -57,7 +74,23 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setHelp('Ajoutez les critères d\'éligibilité un par ligne')
                 ->setColumns(6),
             
-            TextEditorField::new('howToApply', 'Comment postuler')
+            TextareaField::new('howToApply', 'Comment postuler')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 300,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(3)
                 ->setColumns(6),
             
@@ -103,7 +136,24 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setColumns(6)
                 ->setHelp('Téléchargez le logo de l\'opportunité'),
             
-            TextEditorField::new('budget', 'Budget')
+            TextareaField::new('budget', 'Budget')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['Table'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 300,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(2)
                 ->setColumns(6)
                 ->setHelp('Décrivez le budget disponible ou les montants'),

@@ -10,7 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class EventCrudController extends AbstractCrudController
@@ -30,11 +30,44 @@ class EventCrudController extends AbstractCrudController
         return [
             TextField::new('titre', 'Titre')->setRequired(true),
             SlugField::new('slug', 'Slug')->setTargetFieldName('titre'),
-            TextEditorField::new('description', 'Description'),
+            TextareaField::new('description', 'Description')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 300,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ]),
             DateTimeField::new('dateDebut', 'Date de début'),
             DateTimeField::new('dateFin', 'Date de fin'),
             TextField::new('lieu', 'Lieu'),
-            TextEditorField::new('detailEvenement', 'Détail événement'),
+            TextareaField::new('detailEvenement', 'Détail événement')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['Image', 'Table'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 400,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ]),
             ImageField::new('image', 'Image')
                 ->setBasePath('uploads/events')
                 ->setUploadDir('public/uploads/events'),

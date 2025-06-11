@@ -10,7 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -89,13 +89,46 @@ class ProjectCrudController extends AbstractCrudController
             
             FormField::addRow(),
             
-            TextEditorField::new('generalObjective', 'General Objective')
+            TextareaField::new('generalObjective', 'General Objective')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 300,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setRequired(true)
                 ->setColumns(12)
                 ->setNumOfRows(4)
                 ->setHelp('Describe the main objective of the project'),
             
-            TextEditorField::new('moreDetails', 'More Details')
+            TextareaField::new('moreDetails', 'More Details')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['Image', 'Table'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 400,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setColumns(12)
                 ->setNumOfRows(4)
                 ->setHelp('Additional details about the project'),

@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -64,7 +64,24 @@ class ResourceCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads/resources')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setHelp('Main document/file for this resource'),
-            TextEditorField::new('description')
+            TextareaField::new('description')
+                ->setFormType(CKEditorType::class)
+                ->setFormTypeOptions([
+                    'config' => [
+                        'toolbar' => [
+                            ['Bold', 'Italic', 'Underline', 'Strike'],
+                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                            ['Link', 'Unlink'],
+                            ['Image', 'Table'],
+                            ['RemoveFormat', 'Source']
+                        ],
+                        'height' => 400,
+                        'uiColor' => '#ffffff',
+                        'removePlugins' => 'elementspath',
+                        'resize_enabled' => false
+                    ]
+                ])
                 ->setNumOfRows(4)
                 ->setHelp('Description of the resource'),
             AssociationField::new('organization')

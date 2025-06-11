@@ -1,0 +1,12 @@
+fos_ck_editor:
+    default_config: my_config
+    configs:
+        my_config:
+            toolbar: full
+            filebrowserUploadUrl: /admin/media/upload
+            filebrowserImageUploadUrl: /admin/media/upload
+            filebrowserBrowseUrl: /admin/media/browse
+            filebrowserImageBrowseUrl: /admin/media/browse?type=Images
+            filebrowserVideoBrowseUrl: /admin/media/browse?type=Videos
+            extraPlugins: uploadimage
+            uploadUrl: /admin/media/upload

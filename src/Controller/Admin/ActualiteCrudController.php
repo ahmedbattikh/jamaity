@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Actualite;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -10,7 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ActualiteCrudController extends AbstractCrudController
@@ -27,10 +28,12 @@ class ActualiteCrudController extends AbstractCrudController
             TextField::new('slug', 'Slug')
                 ->setHelp('URL-friendly version of the title (auto-generated if empty)')
                 ->setRequired(false),
-            TextEditorField::new('resume', 'Résumé')
-                ->setHelp('Résumé court de l\'actualité')
-                ->setNumOfRows(5),
-            TextEditorField::new('contenu', 'Contenu')
+            TextareaField::new('resume', 'Résumé')
+                ->setFormType(CKEditorType::class)
+    
+                ->setHelp('Résumé court de l\'actualité'),
+            TextareaField::new('contenu', 'Contenu')
+                ->setFormType(CKEditorType::class)
                 ->setHelp('Contenu complet de l\'actualité')
                 ->hideOnIndex(),
             ImageField::new('image', 'Image')
@@ -57,4 +60,14 @@ class ActualiteCrudController extends AbstractCrudController
                 ->setHelp('Mettre cette actualité en avant')
         ];
     }
+    
+    public function configureCrud(Crud $crud): Crud
+
+ {
+
+   return $crud
+
+       ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+
+ }
 }

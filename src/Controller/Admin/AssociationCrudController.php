@@ -6,6 +6,7 @@ use App\Entity\Association;
 use App\Entity\Event;
 use App\Enum\ThemeEnum;
 use App\Enum\AssociationTypeEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -17,7 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
@@ -39,9 +40,10 @@ class AssociationCrudController extends AbstractCrudController
             TextField::new('titre', 'Titre')->setRequired(true),
             SlugField::new('slug', 'Slug')->setTargetFieldName('titre'),
             TextField::new('numeroJort', 'Numéro du JORT'),
-            TextEditorField::new('adresse', 'Adresse')->setRequired(true),
+            TextareaField::new('adresse', 'Adresse')
+                ->setFormType(CKEditorType::class)
+                ->setRequired(true),
             TextField::new('abreviation', 'Abréviation'),
-            TextField::new('lieux', 'Lieux'),
             TextField::new('president', 'Président')->setRequired(true),
             EmailField::new('email', 'Adresse E-mail')->setRequired(true),
             TelephoneField::new('telephone', 'Téléphone')->setRequired(true),
@@ -64,16 +66,29 @@ class AssociationCrudController extends AbstractCrudController
             ChoiceField::new('domaine', 'Domaine')
                 ->setChoices(ThemeEnum::getChoices())
                 ->setRequired(true),
-            TextEditorField::new('descriptionPresentation', 'Description et Présentation'),
+            TextareaField::new('descriptionPresentation', 'Description et Présentation')
+                ->setFormType(CKEditorType::class)
+           ,
             DateTimeField::new('lastUpdateDate', 'Dernière mise à jour'),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')
                 ->setUploadDir('public/uploads/logos')
                 ->setUploadedFileNamePattern('[randomhash].[extension]'),
-            TextEditorField::new('contactInformation', 'Information de contact'),
-            TextEditorField::new('description', 'Description'),
-            TextEditorField::new('visAVis', 'Vis-à-vis'),
-            TextEditorField::new('coordinates', 'Coordonnées'),
+                TextField::new('contactInformation', 'Information de contact')
+              ,
+         
+            TextField::new('visAVis', 'Vis-à-vis'),
+      
+       
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+
+    {
+   
+      return $crud
+   
+          ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+   
     }
 }

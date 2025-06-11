@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Media Browser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .media-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .media-item:hover {
+            border-color: #007cba;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .media-item img {
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: cover;
+        }
+        .media-item video {
+            max-width: 100%;
+            max-height: 100px;
+        }
+        .media-item .filename {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+        .video-icon {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 24px;
+        }
+        .no-media {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 50px;
+        }
+        .header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>{{ type }} Browser</h2>
+        <p>Click on an item to select it.</p>
+    </div>
+
+    {% if mediaObjects|length > 0 %}
+        <div class="media-grid">
+            {% for media in mediaObjects %}
+                <div class="media-item" onclick="selectMedia('{{ media.webPath }}', '{{ media.originalName }}')">
+                    {% if media.isImage %}
+                        <img src="{{ media.webPath }}" alt="{{ media.originalName }}" />
+                    {% elseif media.isVideo %}
+                        <div class="video-icon">▶</div>
+                    {% endif %}
+                    <div class="filename">{{ media.originalName }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-media">
+            No {{ type|lower }} found. Upload some files first.
+        </div>
+    {% endif %}
+
+    <script>
+        function selectMedia(url, filename) {
+            // Get CKEditor callback function from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const funcNum = urlParams.get('CKEditorFuncNum');
+            
+            if (funcNum && window.opener) {
+                // Call CKEditor callback function
+                window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+                window.close();
+            } else {
+                // Fallback for direct access
+                alert('Selected: ' + filename + '\nURL: ' + url);
+            }
+        }
+    </script>
+</body>
+</html>

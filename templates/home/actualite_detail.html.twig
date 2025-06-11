@@ -60,7 +60,7 @@
             <div class="article-content mb-4">
                 {% if article.contenu %}
                     <div class="content-text">
-                        {{ article.contenu|nl2br|raw }}
+                        {{ article.contenu|raw }}
                     </div>
                 {% else %}
                     <p class="text-muted fst-italic">Contenu non disponible.</p>
