@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Event;
 use App\Entity\Ptf;
+use App\Enum\ThemeEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -54,23 +55,16 @@ class PtfCrudController extends AbstractCrudController
             UrlField::new('linkedin', 'LinkedIn'),
             UrlField::new('siteWeb', 'Site Web'),
             TextEditorField::new('prioritesStrategiques', 'Priorités stratégiques du bailleur'),
-            TextEditorField::new('missionThemePrioritaire', 'Une mission / thème prioritaire'),
+            ChoiceField::new('missionThemePrioritaire', 'Une mission / thème prioritaire')
+                ->setChoices(ThemeEnum::getChoices())
+                ->setHelp('Sélectionnez le thème prioritaire'),
             TextField::new('nomContact', 'Nom du Contact'),
             TextField::new('poste', 'Poste'),
             TelephoneField::new('numeroTelephoneContact', 'Numéro de Téléphone (Contact)'),
             TelephoneField::new('fax', 'Fax'),
             ChoiceField::new('domaine', 'Domaine')
-                ->setChoices([
-                    'Agriculture' => 'Agriculture',
-                    'Artisanat' => 'Artisanat',
-                    'Arts/Culture' => 'Arts/Culture',
-                    'Cinéma' => 'Cinéma',
-                    'Environnement' => 'Environnement',
-                    'Éducation' => 'Éducation',
-                    'Santé' => 'Santé',
-                    'Droits humains' => 'Droits humains',
-                    'Développement économique' => 'Développement économique'
-                ]),
+                ->setChoices(ThemeEnum::getChoices())
+                ->setHelp('Sélectionnez le domaine d\'intervention'),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')
                 ->setUploadDir('public/uploads/logos')

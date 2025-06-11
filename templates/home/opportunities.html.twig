@@ -103,7 +103,14 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <label for="themes" class="form-label">Thèmes d'intervention</label>
-                                <input type="text" class="form-control" id="themes" name="themes" value="{{ filters.themes }}" placeholder="Thème...">
+                                <select class="form-select" id="themes" name="themes">
+                                    <option value="">Tous les thèmes</option>
+                                    {% for theme in validThemes %}
+                                        <option value="{{ theme }}" {% if filters.themes == theme %}selected{% endif %}>
+                                            {{ theme }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="row mt-3">

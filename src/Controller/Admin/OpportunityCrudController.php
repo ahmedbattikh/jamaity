@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Opportunity;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use App\Enum\ThemeEnum;
+use App\Enum\OpportunityTypeEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -27,11 +29,7 @@ class OpportunityCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // Get valid choices from entity static methods
-        $validOpportunityTypes = [];
-        foreach (Opportunity::getValidOpportunityTypes() as $type) {
-            $validOpportunityTypes[ucfirst(str_replace('_', ' ', $type))] = $type;
-        }
+        // Get valid choices from enums
         
         $validRegions = [];
         foreach (Opportunity::getValidRegions() as $region) {
@@ -68,7 +66,7 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setColumns(4),
             
             ChoiceField::new('typeOfOpportunities', 'Type d\'opportunités')
-                ->setChoices($validOpportunityTypes)
+                ->setChoices(OpportunityTypeEnum::getChoices())
                 ->setRequired(true)
                 ->setColumns(4),
             
@@ -88,8 +86,10 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setHelp('Sélectionnez les régions concernées')
                 ->setColumns(6),
             
-            ArrayField::new('interventionThemes', 'Thèmes d\'intervention')
-                ->setHelp('Ajoutez les thèmes d\'intervention un par ligne')
+            ChoiceField::new('interventionThemes', 'Thèmes d\'intervention')
+                ->setChoices(ThemeEnum::getChoices())
+                ->allowMultipleChoices()
+                ->setHelp('Sélectionnez les thèmes d\'intervention')
                 ->setColumns(6),
             
             TextField::new('organisme', 'Organisme')

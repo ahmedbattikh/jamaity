@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Coalition;
 use App\Entity\Event;
+use App\Enum\ThemeEnum;
+use App\Enum\AssociationTypeEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -49,25 +51,9 @@ class CoalitionCrudController extends AbstractCrudController
             UrlField::new('youtube', 'Youtube'),
             UrlField::new('siteWeb', 'Site Web'),
             ChoiceField::new('domaine', 'Domaine')
-                ->setChoices([
-                    'Agriculture' => 'Agriculture',
-                    'Artisanat' => 'Artisanat',
-                    'Arts/Culture' => 'Arts/Culture',
-                    'Cinéma' => 'Cinéma',
-                    'Environnement' => 'Environnement',
-                    'Éducation' => 'Éducation',
-                    'Santé' => 'Santé',
-                    'Droits humains' => 'Droits humains'
-                ]),
+                ->setChoices(ThemeEnum::getChoices()),
             ChoiceField::new('structure', 'Structure')
-                ->setChoices([
-                    'Association' => 'Association',
-                    'Filiale d\'association' => 'Filiale d\'association',
-                    'Association internationale' => 'Association internationale',
-                    'Club' => 'Club',
-                    'Coalitions' => 'Coalitions',
-                    'Syndicat' => 'Syndicat'
-                ]),
+                ->setChoices(AssociationTypeEnum::getChoices()),
             DateTimeField::new('lastUpdateDate', 'Dernière mise à jour'),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')

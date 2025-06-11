@@ -12,6 +12,9 @@ use App\Entity\Organization;
 use App\Entity\Project;
 use App\Entity\Ptf;
 use App\Entity\Resource;
+use App\Enum\ExpertiseEnum;
+use App\Enum\ThemeEnum;
+use App\Repository\ExpertRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -260,7 +263,8 @@ class HomeController extends AbstractController
                 'search' => $search
             ],
             'validTypes' => Opportunity::getValidOpportunityTypes(),
-            'validRegions' => Opportunity::getValidRegions()
+            'validRegions' => Opportunity::getValidRegions(),
+            'validThemes' => ThemeEnum::getChoices()
         ]);
     }
     
@@ -734,7 +738,9 @@ class HomeController extends AbstractController
              'ptfs' => $ptfs,
              'currentPage' => $page,
              'totalPages' => $totalPages,
-             'total' => $total
+             'total' => $total,
+             'domaines' => ThemeEnum::getChoices(),
+             'current_domaine' => $domaine
          ]);
     }
 
@@ -819,7 +825,7 @@ class HomeController extends AbstractController
         
         $experts = $queryBuilder->getQuery()->getResult();
         
-        // Get unique regions and areas of expertise for filters
+        // Get unique regions for filters
         $regions = $entityManager->getRepository(\App\Entity\Expert::class)
             ->createQueryBuilder('e')
             ->select('DISTINCT e.region')
@@ -828,13 +834,8 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getSingleColumnResult();
             
-        $areasOfExpertise = $entityManager->getRepository(\App\Entity\Expert::class)
-            ->createQueryBuilder('e')
-            ->select('DISTINCT e.areaOfExpertise')
-            ->where('e.areaOfExpertise IS NOT NULL')
-            ->orderBy('e.areaOfExpertise', 'ASC')
-            ->getQuery()
-            ->getSingleColumnResult();
+        // Use ExpertiseEnum for areas of expertise
+        $areasOfExpertise = ExpertiseEnum::getValues();
         
         return $this->render('home/experts.html.twig', [
             'experts' => $experts,
@@ -911,22 +912,7 @@ class HomeController extends AbstractController
             'SELECT DISTINCT a.region FROM App\Entity\Association a WHERE a.region IS NOT NULL ORDER BY a.region'
         )->getResult();
         
-        $domaines = [
-            'Agriculture' => 'Agriculture',
-            'Artisanat' => 'Artisanat',
-            'Arts/Culture' => 'Arts/Culture',
-            'Cinéma' => 'Cinéma',
-            'Développement' => 'Développement',
-            'Droits de l\'Homme' => 'Droits de l\'Homme',
-            'Éducation' => 'Éducation',
-            'Environnement' => 'Environnement',
-            'Femme' => 'Femme',
-            'Jeunesse' => 'Jeunesse',
-            'Santé' => 'Santé',
-            'Sport' => 'Sport',
-            'Technologie' => 'Technologie',
-            'Tourisme' => 'Tourisme'
-        ];
+        $domaines = ThemeEnum::getChoices();
         
         return $this->render('home/associations.html.twig', [
             'associations' => $associations,
@@ -1043,22 +1029,7 @@ class HomeController extends AbstractController
             'SELECT DISTINCT c.region FROM App\Entity\Coalition c WHERE c.region IS NOT NULL ORDER BY c.region'
         )->getResult();
         
-        $domaines = [
-            'Agriculture' => 'Agriculture',
-            'Artisanat' => 'Artisanat',
-            'Arts/Culture' => 'Arts/Culture',
-            'Cinéma' => 'Cinéma',
-            'Développement' => 'Développement',
-            'Droits de l\'Homme' => 'Droits de l\'Homme',
-            'Éducation' => 'Éducation',
-            'Environnement' => 'Environnement',
-            'Femme' => 'Femme',
-            'Jeunesse' => 'Jeunesse',
-            'Santé' => 'Santé',
-            'Sport' => 'Sport',
-            'Technologie' => 'Technologie',
-            'Tourisme' => 'Tourisme'
-        ];
+        $domaines = ThemeEnum::getChoices();
         
         return $this->render('home/coalitions.html.twig', [
             'coalitions' => $coalitions,

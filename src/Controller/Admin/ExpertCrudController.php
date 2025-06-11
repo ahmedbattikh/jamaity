@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Expert;
 use App\Entity\Organization;
+use App\Enum\ExpertiseEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -63,7 +64,8 @@ class ExpertCrudController extends AbstractCrudController
             TextEditorField::new('description', 'Description')
                 ->setHelp('Brief description about the expert')
                 ->setNumOfRows(4),
-            TextField::new('areaOfExpertise', 'Area of Expertise')
+            ChoiceField::new('areaOfExpertise', 'Area of Expertise')
+                ->setChoices(ExpertiseEnum::getChoices())
                 ->setHelp('Main area of expertise or specialization'),
             TextField::new('region', 'Region')
                 ->setHelp('Geographic region or location'),

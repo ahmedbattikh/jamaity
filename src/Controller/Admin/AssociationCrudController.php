@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Association;
 use App\Entity\Event;
+use App\Enum\ThemeEnum;
+use App\Enum\AssociationTypeEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -56,23 +58,11 @@ class AssociationCrudController extends AbstractCrudController
             IntegerField::new('anneeFondation', 'Année de fondation')->setRequired(true),
             UrlField::new('siteWeb', 'Site Web'),
             ChoiceField::new('structure', 'Structure')
-                ->setChoices([
-                    'Association' => 'Association',
-                    'Filiale d\'association' => 'Filiale d\'association',
-                    'Association internationale' => 'Association internationale',
-                    'Club' => 'Club',
-                    'Coalitions' => 'Coalitions',
-                    'Syndicat' => 'Syndicat'
-                ])
+                ->setChoices(AssociationTypeEnum::getChoices())
                 ->setRequired(true),
             AssociationField::new('parent', 'Parent'),
             ChoiceField::new('domaine', 'Domaine')
-                ->setChoices([
-                    'Agriculture' => 'Agriculture',
-                    'Artisanat' => 'Artisanat',
-                    'Arts/Culture' => 'Arts/Culture',
-                    'Cinéma' => 'Cinéma'
-                ])
+                ->setChoices(ThemeEnum::getChoices())
                 ->setRequired(true),
             TextEditorField::new('descriptionPresentation', 'Description et Présentation'),
             DateTimeField::new('lastUpdateDate', 'Dernière mise à jour'),

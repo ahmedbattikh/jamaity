@@ -61,16 +61,11 @@
                                 <label for="domaine" class="form-label">Domaine</label>
                                 <select class="form-select" id="domaine" name="domaine">
                                     <option value="">Tous les domaines</option>
-                                    <option value="Éducation" {{ app.request.query.get('domaine') == 'Éducation' ? 'selected' : '' }}>Éducation</option>
-                                    <option value="Santé" {{ app.request.query.get('domaine') == 'Santé' ? 'selected' : '' }}>Santé</option>
-                                    <option value="Environnement" {{ app.request.query.get('domaine') == 'Environnement' ? 'selected' : '' }}>Environnement</option>
-                                    <option value="Culture" {{ app.request.query.get('domaine') == 'Culture' ? 'selected' : '' }}>Culture</option>
-                                    <option value="Sport" {{ app.request.query.get('domaine') == 'Sport' ? 'selected' : '' }}>Sport</option>
-                                    <option value="Développement" {{ app.request.query.get('domaine') == 'Développement' ? 'selected' : '' }}>Développement</option>
-                                    <option value="Droits de l'Homme" {{ app.request.query.get('domaine') == "Droits de l'Homme" ? 'selected' : '' }}>Droits de l'Homme</option>
-                                    <option value="Jeunesse" {{ app.request.query.get('domaine') == 'Jeunesse' ? 'selected' : '' }}>Jeunesse</option>
-                                    <option value="Femmes" {{ app.request.query.get('domaine') == 'Femmes' ? 'selected' : '' }}>Femmes</option>
-                                    <option value="Technologie" {{ app.request.query.get('domaine') == 'Technologie' ? 'selected' : '' }}>Technologie</option>
+                                    {% for domaine in domaines %}
+                                        <option value="{{ domaine }}" {{ current_domaine == domaine ? 'selected' : '' }}>
+                                            {{ domaine }}
+                                        </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="col-md-2 d-flex align-items-end">

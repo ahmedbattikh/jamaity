@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Resource;
+use App\Enum\ResourceTypeEnum;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -41,14 +42,7 @@ class ResourceCrudController extends AbstractCrudController
         return $filters
             ->add(EntityFilter::new('organization'))
             ->add(ChoiceFilter::new('type')
-                ->setChoices([
-                    'Document' => 'document',
-                    'Video' => 'video',
-                    'Image' => 'image',
-                    'Audio' => 'audio',
-                    'Link' => 'link',
-                    'Other' => 'other'
-                ])
+                ->setChoices(ResourceTypeEnum::getChoices())
             );
     }
 
@@ -63,14 +57,7 @@ class ResourceCrudController extends AbstractCrudController
                 ->setRequired(true)
                 ->setHelp('Unique identifier for the resource (URL-friendly)'),
             ChoiceField::new('type')
-                ->setChoices([
-                    'Document' => 'document',
-                    'Video' => 'video',
-                    'Image' => 'image',
-                    'Audio' => 'audio',
-                    'Link' => 'link',
-                    'Other' => 'other'
-                ])
+                ->setChoices(ResourceTypeEnum::getChoices())
                 ->setRequired(true),
             ImageField::new('document')
                 ->setBasePath('uploads/resources')

@@ -8,6 +8,7 @@ use App\Entity\Event;
 use App\Entity\Opportunity;
 use App\Entity\Project;
 use App\Entity\Ptf;
+use App\Enum\OpportunityTypeEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -268,7 +269,7 @@ class CreateSampleDataCommand extends Command
             'Programme d\'Échange Culturel'
         ];
 
-        $types = ['opportunity_application', 'opportunity_consultants', 'opportunity_donation', 'appel-a-participation', 'opportunity_project', 'opportunity_volunteer', 'opportunity_offres', 'opportunity_job', 'opportunity_training', 'opportunity_internship', 'opportunity_international'];
+        $types = OpportunityTypeEnum::getValues();
         $statuts = ['active', 'fermee', 'en_attente'];
 
         foreach ($opportunityTitles as $index => $title) {
