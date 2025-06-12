@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use App\Enum\PtfTypeEnum;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'ptf')]
@@ -71,6 +72,31 @@ class Ptf extends Organization
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $mecanisme = [];
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $numeroJort = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $president = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $telephone2 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $anneeFondation = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?self $parent = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastUpdateDate = null;
+
+    #[ORM\Column(type: 'string', enumType: PtfTypeEnum::class, nullable: true)]
+    private ?PtfTypeEnum $ptfType = null;
 
     public function getTitre(): ?string
     {
@@ -300,6 +326,94 @@ class Ptf extends Organization
     public function setMecanisme(?array $mecanisme): static
     {
         $this->mecanisme = $mecanisme;
+        return $this;
+    }
+
+    public function getNumeroJort(): ?string
+    {
+        return $this->numeroJort;
+    }
+
+    public function setNumeroJort(?string $numeroJort): static
+    {
+        $this->numeroJort = $numeroJort;
+        return $this;
+    }
+
+    public function getPresident(): ?string
+    {
+        return $this->president;
+    }
+
+    public function setPresident(?string $president): static
+    {
+        $this->president = $president;
+        return $this;
+    }
+
+    public function getTelephone2(): ?string
+    {
+        return $this->telephone2;
+    }
+
+    public function setTelephone2(?string $telephone2): static
+    {
+        $this->telephone2 = $telephone2;
+        return $this;
+    }
+
+    public function getGoogle(): ?string
+    {
+        return $this->google;
+    }
+
+    public function setGoogle(?string $google): static
+    {
+        $this->google = $google;
+        return $this;
+    }
+
+    public function getAnneeFondation(): ?int
+    {
+        return $this->anneeFondation;
+    }
+
+    public function setAnneeFondation(?int $anneeFondation): static
+    {
+        $this->anneeFondation = $anneeFondation;
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): static
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    public function getLastUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdateDate;
+    }
+
+    public function setLastUpdateDate(?\DateTimeInterface $lastUpdateDate): static
+    {
+        $this->lastUpdateDate = $lastUpdateDate;
+        return $this;
+    }
+
+    public function getPtfType(): ?PtfTypeEnum
+    {
+        return $this->ptfType;
+    }
+
+    public function setPtfType(?PtfTypeEnum $ptfType): static
+    {
+        $this->ptfType = $ptfType;
         return $this;
     }
 

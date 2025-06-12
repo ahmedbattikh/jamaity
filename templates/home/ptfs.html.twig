@@ -57,13 +57,24 @@
                                     <option value="Tataouine" {{ app.request.query.get('region') == 'Tataouine' ? 'selected' : '' }}>Tataouine</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="domaine" class="form-label">Domaine</label>
                                 <select class="form-select" id="domaine" name="domaine">
                                     <option value="">Tous les domaines</option>
                                     {% for domaine in domaines %}
                                         <option value="{{ domaine }}" {{ current_domaine == domaine ? 'selected' : '' }}>
                                             {{ domaine }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ptfType" class="form-label">Type de PTF</label>
+                                <select class="form-select" id="ptfType" name="ptfType">
+                                    <option value="">Tous les types</option>
+                                    {% for typeValue, typeLabel in types %}
+                                        <option value="{{ typeValue }}" {% if app.request.get('ptfType') == typeValue %}selected{% endif %}>
+                                            {{ typeLabel }}
                                         </option>
                                     {% endfor %}
                                 </select>
@@ -97,6 +108,9 @@
                     <div class="position-absolute top-0 end-0 m-3">
                         {% if ptf.domaine %}
                             <span class="badge bg-primary">{{ ptf.domaine }}</span>
+                        {% endif %}
+                        {% if ptf.ptfType %}
+                            <span class="badge bg-info ms-1">{{ ptf.ptfType.value }}</span>
                         {% endif %}
                     </div>
                 </div>

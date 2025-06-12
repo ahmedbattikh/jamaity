@@ -132,23 +132,28 @@
     <ul class="nav nav-tabs mb-4" id="coalitionTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">
-                <i class="fas fa-info-circle me-1"></i>À propos
+                <i class="fas fa-info-circle me-1 text-primary"></i>À propos
             </button>
         </li>
 
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">
-                <i class="fas fa-calendar me-1"></i>Événements <span class="badge bg-primary ms-1">{{ events|length }}</span>
+                <i class="fas fa-calendar me-1 text-primary"></i>Événements <span class="badge bg-primary ms-1">{{ events|length }}</span>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="opportunities-tab" data-bs-toggle="tab" data-bs-target="#opportunities" type="button" role="tab">
-                <i class="fas fa-briefcase me-1"></i>Projets <span class="badge bg-success ms-1">{{ opportunities|length }}</span>
+                <i class="fas fa-briefcase me-1 text-primary"></i>Opportunités <span class="badge bg-success ms-1">{{ opportunities|length }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab">
+                <i class="fas fa-project-diagram me-1 text-primary"></i>Projets <span class="badge bg-warning ms-1">{{ projects|length }}</span>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="news-tab" data-bs-toggle="tab" data-bs-target="#news" type="button" role="tab">
-                <i class="fas fa-newspaper me-1"></i>Actualités <span class="badge bg-info ms-1">{{ actualites|length }}</span>
+                <i class="fas fa-newspaper me-1 text-primary"></i>Actualités <span class="badge bg-info ms-1">{{ actualites|length }}</span>
             </button>
         </li>
     </ul>
@@ -307,6 +312,38 @@
             {% else %}
                 <div class="text-center py-5">
                     <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucun projet</h5>
+                    <p class="text-muted">Cette coalition n'a pas encore de projets associés.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Projects Tab -->
+        <div class="tab-pane fade" id="projects" role="tabpanel">
+            {% if projects|length > 0 %}
+                <div class="row">
+                    {% for project in projects %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ project.title }}</h6>
+                                    <p class="card-text text-muted">{{ project.generalObjective|slice(0, 100)|raw }}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>{{ project.dateBegin|date('d/m/Y') }}
+                                        </small>
+                                        <a href="{{ path('app_project_detail', {'slug': project.slug}) }}" class="btn btn-sm btn-outline-warning">
+                                            Voir détails
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-project-diagram fa-3x text-muted mb-3"></i>
                     <h5 class="text-muted">Aucun projet</h5>
                     <p class="text-muted">Cette coalition n'a pas encore de projets associés.</p>
                 </div>

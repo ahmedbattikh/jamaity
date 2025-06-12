@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Project;
 use App\Controller\Admin\OrganizationCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -91,21 +92,6 @@ class ProjectCrudController extends AbstractCrudController
             
             TextareaField::new('generalObjective', 'General Objective')
                 ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
                 ->setRequired(true)
                 ->setColumns(12)
                 ->setNumOfRows(4)
@@ -113,22 +99,6 @@ class ProjectCrudController extends AbstractCrudController
             
             TextareaField::new('moreDetails', 'More Details')
                 ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['Image', 'Table'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 400,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
                 ->setColumns(12)
                 ->setNumOfRows(4)
                 ->setHelp('Additional details about the project'),
@@ -162,5 +132,14 @@ class ProjectCrudController extends AbstractCrudController
                 ->setHelp('Select organizations involved in this project')
                 ->setColumns(12)
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+
+    {
+   
+      return $crud
+   
+          ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+   
     }
 }

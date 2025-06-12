@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Expert;
 use App\Entity\Organization;
 use App\Enum\ExpertiseEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -21,9 +22,16 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ExpertCrudController extends AbstractCrudController
 {
+    public function __construct(
+        private SluggerInterface $slugger
+    ) {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Expert::class;
@@ -63,21 +71,6 @@ class ExpertCrudController extends AbstractCrudController
                 ->renderExpanded(false),
             TextareaField::new('description', 'Description')
                 ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
                 ->setHelp('Brief description about the expert')
                 ->setNumOfRows(4),
             ChoiceField::new('areaOfExpertise', 'Area of Expertise')
@@ -87,10 +80,14 @@ class ExpertCrudController extends AbstractCrudController
                 ->setHelp('Geographic region or location'),
             
             FormField::addTab('Professional Information'),
-            ImageField::new('resume', 'Resume')
-                ->setBasePath('uploads/experts')
-                ->setUploadDir('public/uploads/experts')
-                ->setUploadedFileNamePattern('[randomhash].[extension]')
+            Field::new('resume', 'Resume')
+                ->setFormType(\Symfony\Component\Form\Extension\Core\Type\FileType::class)
+                ->setFormTypeOptions([
+                    'attr' => ['accept' => '.pdf,.doc,.docx'],
+                    'required' => false,
+                    'mapped' => false
+                ])
+                ->setHelp('Upload resume file (PDF, DOC, or DOCX)')
                 ->onlyOnForms(),
             TextField::new('resume', 'Resume File')
                 ->onlyOnIndex()
@@ -133,5 +130,55 @@ class ExpertCrudController extends AbstractCrudController
                 ->setCrudController(OrganizationCrudController::class)
                 ->setHelp('Select organizations this expert has worked with'),
         ];
+    }
+
+    public function persistEntity($entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof Expert) {
+            $this->handleResumeUpload($entityInstance);
+        }
+        
+        parent::persistEntity($entityManager, $entityInstance);
+    }
+
+    public function updateEntity($entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof Expert) {
+            $this->handleResumeUpload($entityInstance);
+        }
+        
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
+    private function handleResumeUpload(Expert $expert): void
+    {
+        $request = $this->getContext()->getRequest();
+        $resumeFile = $request->files->get('Expert')['resume'] ?? null;
+        
+        if ($resumeFile instanceof UploadedFile) {
+            $originalFilename = pathinfo($resumeFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $this->slugger->slug($originalFilename);
+            $fileName = $safeFilename . '-' . uniqid() . '.' . $resumeFile->guessExtension();
+            
+            $uploadDirectory = $this->getParameter('kernel.project_dir') . '/public/uploads/experts';
+            
+            // Create directory if it doesn't exist
+            if (!is_dir($uploadDirectory)) {
+                mkdir($uploadDirectory, 0755, true);
+            }
+            
+            try {
+                $resumeFile->move($uploadDirectory, $fileName);
+                $expert->setResume($fileName);
+            } catch (\Exception $e) {
+                // Handle upload error - could log or throw exception
+            }
+        }
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 }

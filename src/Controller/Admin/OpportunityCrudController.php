@@ -6,6 +6,7 @@ use App\Entity\Opportunity;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use App\Enum\ThemeEnum;
 use App\Enum\OpportunityTypeEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -51,22 +52,6 @@ class OpportunityCrudController extends AbstractCrudController
             
             TextareaField::new('opportunityDetails', 'Détails de l\'opportunité')
                 ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['Image', 'Table'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 400,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
                 ->setNumOfRows(4)
                 ->setColumns(12),
             
@@ -76,21 +61,6 @@ class OpportunityCrudController extends AbstractCrudController
             
             TextareaField::new('howToApply', 'Comment postuler')
                 ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
                 ->setNumOfRows(3)
                 ->setColumns(6),
             
@@ -136,27 +106,7 @@ class OpportunityCrudController extends AbstractCrudController
                 ->setColumns(6)
                 ->setHelp('Téléchargez le logo de l\'opportunité'),
             
-            TextareaField::new('budget', 'Budget')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['Table'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
-                ->setNumOfRows(2)
-                ->setColumns(6)
-                ->setHelp('Décrivez le budget disponible ou les montants'),
+          
             
             EmailField::new('contactEmail', 'Email de contact')
                 ->setColumns(4),
@@ -177,5 +127,14 @@ class OpportunityCrudController extends AbstractCrudController
                 ->hideOnForm()
                 ->setColumns(6),
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+
+    {
+   
+      return $crud
+   
+          ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+   
     }
 }

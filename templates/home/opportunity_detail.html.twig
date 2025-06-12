@@ -3,7 +3,7 @@
 {% block title %}{{ opportunity.titre }} - Opportunités - Jamaity{% endblock %}
 
 {% block body %}
-<div class="container py-5">
+<div class="container-fluid py-5">
     <!-- Breadcrumb -->
     <div class="row mb-4">
         <div class="col-12">
@@ -24,7 +24,7 @@
             <div class="card shadow-sm mb-4">
                 {% if opportunity.logo %}
                 <div class="card-header bg-light text-center p-4">
-                    <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 120px; max-width: 200px;">
+                    <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 180px;">
                 </div>
                 {% endif %}
                 <div class="card-body">
@@ -36,6 +36,72 @@
                 </a>
             </div>
                     
+                    <!-- Organization Information - First Block -->
+                    {% if opportunity.organizationRelated or opportunity.organisme %}
+                    <div class="card border-primary mb-3">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-building me-2"></i>
+                                Organisation liée
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            {% if opportunity.organizationRelated %}
+                                 {% set orgType = '' %}
+                                 {% set className = opportunity.organizationRelated|class_name %}
+                                 {% if 'Association' in className %}
+                                     {% set orgType = 'association' %}
+                                 {% elseif 'Coalition' in className %}
+                                     {% set orgType = 'coalition' %}
+                                 {% elseif 'Ptf' in className %}
+                                     {% set orgType = 'ptf' %}
+                                 {% endif %}
+                                
+                                <div class="d-flex align-items-center">
+                                    {% if opportunity.organizationRelated.logo %}
+                                        <div class="me-3">
+                                            <img src="{{ asset('uploads/logos/' ~ opportunity.organizationRelated.logo) }}" 
+                                                 alt="{{ opportunity.organizationRelated.slug|title }}" 
+                                                 class="img-fluid rounded" 
+                                                 style="max-height: 80px; max-width: 120px; object-fit: contain;">
+                                        </div>
+                                    {% endif %}
+                                    <div class="flex-grow-1">
+                                        {% if orgType %}
+                                            <a href="{{ path('app_' ~ orgType ~ '_detail', {'slug': opportunity.organizationRelated.slug}) }}" 
+                                               class="text-decoration-none">
+                                                <h6 class="mb-1 text-primary fw-bold">{{ opportunity.organizationRelated.slug|title }}</h6>
+                                            </a>
+                                        {% else %}
+                                            <h6 class="mb-1 text-dark fw-bold">{{ opportunity.organizationRelated.slug|title }}</h6>
+                                        {% endif %}
+                                        {% if opportunity.organizationRelated.description %}
+                                            <p class="mb-0 text-muted small">{{ opportunity.organizationRelated.description|slice(0, 150) }}{% if opportunity.organizationRelated.description|length > 150 %}...{% endif %}</p>
+                                        {% endif %}
+                                        {% if orgType %}
+                                            <a href="{{ path('app_' ~ orgType ~ '_detail', {'slug': opportunity.organizationRelated.slug}) }}" 
+                                               class="btn btn-sm btn-outline-primary mt-2">
+                                                <i class="fas fa-external-link-alt me-1"></i>
+                                                Voir la page de l'organisation
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% elseif opportunity.organisme %}
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-building text-primary" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0 text-dark fw-bold">{{ opportunity.organisme }}</h6>
+                                        <small class="text-muted">Organisation externe</small>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <p class="text-muted mb-1">
@@ -50,12 +116,6 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6">
-                            {% if opportunity.organisme %}
-                            <p class="text-muted mb-1">
-                                <i class="fas fa-building me-2"></i>
-                                <strong>Organisme:</strong> {{ opportunity.organisme }}
-                            </p>
-                            {% endif %}
                             {% if opportunity.typeOfOpportunities %}
                             <p class="mb-1">
                                 <span class="badge bg-primary fs-6">

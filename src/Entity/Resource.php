@@ -34,9 +34,8 @@ class Resource
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne(targetEntity: Organization::class, inversedBy: 'resources')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Organization $organization = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $previewImg = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $files = [];
@@ -121,14 +120,14 @@ class Resource
         return $this;
     }
 
-    public function getOrganization(): ?Organization
+    public function getPreviewImg(): ?string
     {
-        return $this->organization;
+        return $this->previewImg;
     }
 
-    public function setOrganization(?Organization $organization): static
+    public function setPreviewImg(?string $previewImg): static
     {
-        $this->organization = $organization;
+        $this->previewImg = $previewImg;
         return $this;
     }
 

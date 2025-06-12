@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -31,43 +32,11 @@ class EventCrudController extends AbstractCrudController
             TextField::new('titre', 'Titre')->setRequired(true),
             SlugField::new('slug', 'Slug')->setTargetFieldName('titre'),
             TextareaField::new('description', 'Description')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
+                ->setFormType(CKEditorType::class),
             DateTimeField::new('dateDebut', 'Date de début'),
             DateTimeField::new('dateFin', 'Date de fin'),
             TextField::new('lieu', 'Lieu'),
-            TextareaField::new('detailEvenement', 'Détail événement')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['Image', 'Table'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 400,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
+            TextareaField::new('detailEvenement', 'Détail événement'),
             ImageField::new('image', 'Image')
                 ->setBasePath('uploads/events')
                 ->setUploadDir('public/uploads/events'),
@@ -89,5 +58,14 @@ class EventCrudController extends AbstractCrudController
                 ])
                 ->setHelp('Sélectionnez les organisations participantes à cet événement'),
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+
+    {
+   
+      return $crud
+   
+          ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+   
     }
 }

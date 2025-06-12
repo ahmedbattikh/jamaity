@@ -305,19 +305,7 @@ class Opportunity
 
     public static function getValidOpportunityTypes(): array
     {
-        return [
-            'opportunity_application',
-            'opportunity_consultants', 
-            'opportunity_donation',
-            'appel-a-participation',
-            'opportunity_project',
-            'opportunity_volunteer',
-            'opportunity_offres',
-            'opportunity_job',
-            'opportunity_training',
-            'opportunity_internship',
-            'opportunity_international'
-        ];
+        return \App\Enum\OpportunityTypeEnum::getValues();
     }
 
     public static function getValidRegions(): array

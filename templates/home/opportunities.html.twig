@@ -29,7 +29,7 @@
                         <div class="card border-warning h-100">
                             {% if opportunity.logo %}
                             <div class="card-header bg-warning bg-opacity-10 text-center p-2">
-                                <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 60px; max-width: 100px;">
+                                <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 80px; max-width: 140px;">
                             </div>
                             {% endif %}
                             <div class="card-body">
@@ -152,7 +152,7 @@
             <div class="opportunity-card h-100 bg-white rounded-3 shadow-sm overflow-hidden">
                 {% if opportunity.logo %}
                 <div class="opportunity-logo text-center p-3 border-bottom">
-                    <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 80px; max-width: 120px;">
+                    <img src="{{ asset('uploads/logos/' ~ opportunity.logo) }}" alt="{{ opportunity.titre }}" class="img-fluid" style="max-height: 120px;">
                 </div>
                 {% endif %}
                 <div class="opportunity-content p-4">

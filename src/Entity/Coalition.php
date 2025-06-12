@@ -42,6 +42,21 @@ class Coalition extends Organization
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $structure = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $numeroJort = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $telephone2 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $anneeFondation = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $descriptionPresentation = null;
+
     public function getTitre(): ?string
     {
         return $this->titre;
@@ -160,6 +175,61 @@ class Coalition extends Organization
     public function setStructure(?string $structure): static
     {
         $this->structure = $structure;
+        return $this;
+    }
+
+    public function getNumeroJort(): ?string
+    {
+        return $this->numeroJort;
+    }
+
+    public function setNumeroJort(?string $numeroJort): static
+    {
+        $this->numeroJort = $numeroJort;
+        return $this;
+    }
+
+    public function getTelephone2(): ?string
+    {
+        return $this->telephone2;
+    }
+
+    public function setTelephone2(?string $telephone2): static
+    {
+        $this->telephone2 = $telephone2;
+        return $this;
+    }
+
+    public function getGoogle(): ?string
+    {
+        return $this->google;
+    }
+
+    public function setGoogle(?string $google): static
+    {
+        $this->google = $google;
+        return $this;
+    }
+
+    public function getAnneeFondation(): ?int
+    {
+        return $this->anneeFondation;
+    }
+
+    public function setAnneeFondation(?int $anneeFondation): static
+    {
+        $this->anneeFondation = $anneeFondation;
+        return $this;
+    }
+
+    public function getDescriptionPresentation(): ?string
+    {
+        return $this->descriptionPresentation;
+    }
+
+    public function setDescriptionPresentation(?string $descriptionPresentation): static
+    {
+        $this->descriptionPresentation = $descriptionPresentation;
         return $this;
     }
 

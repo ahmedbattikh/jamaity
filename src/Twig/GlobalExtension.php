@@ -6,6 +6,7 @@ use App\Entity\Project;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Twig\TwigFilter;
 
 class GlobalExtension extends AbstractExtension
 {
@@ -21,6 +22,18 @@ class GlobalExtension extends AbstractExtension
         return [
             new TwigFunction('get_latest_projects', [$this, 'getLatestProjects']),
         ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('class_name', [$this, 'getClassName']),
+        ];
+    }
+
+    public function getClassName($object): string
+    {
+        return get_class($object);
     }
 
     public function getLatestProjects(int $limit = 8): array

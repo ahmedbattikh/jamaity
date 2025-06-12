@@ -6,6 +6,7 @@ use App\Entity\Coalition;
 use App\Entity\Event;
 use App\Enum\ThemeEnum;
 use App\Enum\AssociationTypeEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -38,24 +39,7 @@ class CoalitionCrudController extends AbstractCrudController
             TextField::new('titre', 'Titre')->setRequired(true),
             SlugField::new('slug', 'Slug')->setTargetFieldName('titre'),
             TextField::new('numeroJort', 'Numéro du JORT'),
-            TextareaField::new('adresse', 'Adresse')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
-                ->setRequired(true),
+            TextareaField::new('adresse', 'Adresse'),
             TextField::new('abreviation', 'Abréviation'),
             TextField::new('lieux', 'Lieux'),
             TextField::new('president', 'Président')->setRequired(true),
@@ -76,50 +60,15 @@ class CoalitionCrudController extends AbstractCrudController
             ChoiceField::new('structure', 'Structure')
                 ->setChoices(AssociationTypeEnum::getChoices())
                 ->setRequired(true),
-            AssociationField::new('parent', 'Parent'),
             ChoiceField::new('domaine', 'Domaine')
                 ->setChoices(ThemeEnum::getChoices())
                 ->setRequired(true),
-            TextareaField::new('descriptionPresentation', 'Description et Présentation')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['Image', 'Table'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 400,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
+        
             DateTimeField::new('lastUpdateDate', 'Dernière mise à jour'),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')
                 ->setUploadDir('public/uploads/logos')
                 ->setUploadedFileNamePattern('[randomhash].[extension]'),
-            TextareaField::new('contactInformation', 'Information de contact')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
             TextareaField::new('description', 'Description')
                 ->setFormType(CKEditorType::class)
                 ->setFormTypeOptions([
@@ -138,39 +87,17 @@ class CoalitionCrudController extends AbstractCrudController
                     ]
                 ]),
             TextareaField::new('visAVis', 'Vis-à-vis')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            TextareaField::new('coordinates', 'Coordonnées')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
+             
+ 
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+
+    {
+   
+      return $crud
+   
+          ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+   
     }
 }

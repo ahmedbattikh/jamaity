@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Event;
 use App\Entity\Ptf;
 use App\Enum\ThemeEnum;
+use App\Enum\PtfTypeEnum;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -38,28 +40,8 @@ class PtfCrudController extends AbstractCrudController
         return [
             TextField::new('titre', 'Titre')->setRequired(true),
             SlugField::new('slug', 'Slug')->setTargetFieldName('titre'),
-            TextField::new('numeroJort', 'Numéro du JORT'),
-            TextareaField::new('adresse', 'Adresse')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ])
-                ->setRequired(true),
+            TextField::new('adresse', 'Adresse'),
             TextField::new('abreviation', 'Abréviation'),
-            TextField::new('lieux', 'Lieux'),
-            TextField::new('president', 'Président')->setRequired(true),
             EmailField::new('email', 'Adresse E-mail')->setRequired(true),
             TelephoneField::new('telephone', 'Téléphone')->setRequired(true),
             TelephoneField::new('mobile', 'Mobile'),
@@ -78,140 +60,31 @@ class PtfCrudController extends AbstractCrudController
             ChoiceField::new('domaine', 'Domaine')
                 ->setChoices(ThemeEnum::getChoices())
                 ->setRequired(true),
-            TextareaField::new('descriptionPresentation', 'Description et Présentation')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['Image', 'Table'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 400,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            DateTimeField::new('lastUpdateDate', 'Dernière mise à jour'),
+            ChoiceField::new('ptfType', 'Type de PTF')
+                ->setChoices(PtfTypeEnum::getChoices())
+                ->allowMultipleChoices(false)
+                ->renderExpanded(false)
+                ->setRequired(false),
+        DateTimeField::new('lastUpdateDate', 'Dernière mise à jour'),
             ImageField::new('logo', 'Logo')
                 ->setBasePath('uploads/logos')
                 ->setUploadDir('public/uploads/logos')
                 ->setUploadedFileNamePattern('[randomhash].[extension]'),
-            TextareaField::new('contactInformation', 'Information de contact')
+   
+            TextareaField::new('description', 'Mission')
                 ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            TextareaField::new('description', 'Description')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            TextareaField::new('visAVis', 'Vis-à-vis')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            TextareaField::new('coordinates', 'Coordonnées')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 200,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            // PTF-specific fields
-            IntegerField::new('annee', 'Année'),
-            TextareaField::new('mission', 'Mission')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
-            TelephoneField::new('telephone1', 'Téléphone 1'),
+               ,
+            TextareaField::new('visAVis', 'Vis-à-vis'),
+          IntegerField::new('annee', 'Année'),
+          TelephoneField::new('telephone1', 'Téléphone 1'),
             UrlField::new('linkedin', 'LinkedIn'),
             TextareaField::new('prioritesStrategiques', 'Priorités stratégiques du bailleur')
-                ->setFormType(CKEditorType::class)
-                ->setFormTypeOptions([
-                    'config' => [
-                        'toolbar' => [
-                            ['Bold', 'Italic', 'Underline', 'Strike'],
-                            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-                            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-                            ['Link', 'Unlink'],
-                            ['RemoveFormat', 'Source']
-                        ],
-                        'height' => 300,
-                        'uiColor' => '#ffffff',
-                        'removePlugins' => 'elementspath',
-                        'resize_enabled' => false
-                    ]
-                ]),
+                ,
             ChoiceField::new('missionThemePrioritaire', 'Une mission / thème prioritaire')
                 ->setChoices(ThemeEnum::getChoices())
                 ->setHelp('Sélectionnez le thème prioritaire'),
             TextField::new('nomContact', 'Nom du Contact'),
-            TextField::new('poste', 'Poste'),
+            TextField::new('poste', 'Poste du contact'),
             TelephoneField::new('numeroTelephoneContact', 'Numéro de Téléphone (Contact)'),
             TelephoneField::new('fax', 'Fax'),
             ArrayField::new('priorites', 'Priorités')
@@ -220,6 +93,20 @@ class PtfCrudController extends AbstractCrudController
                 ->setHelp('Ajoutez les particularités une par ligne'),
             ArrayField::new('mecanisme', 'Mécanisme')
                 ->setHelp('Ajoutez les mécanismes un par ligne'),
+            ChoiceField::new('ptfType', 'Type de PTF')
+                ->setChoices(PtfTypeEnum::getChoices())
+                ->allowMultipleChoices(false)
+                ->renderExpanded(false)
+                ->setRequired(false),
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+
+    {
+   
+      return $crud
+   
+          ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+   
     }
 }

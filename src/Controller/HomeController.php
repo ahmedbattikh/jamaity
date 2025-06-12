@@ -15,6 +15,7 @@ use App\Entity\Resource;
 use App\Enum\ExpertiseEnum;
 use App\Enum\ThemeEnum;
 use App\Enum\RegionEnum;
+use App\Enum\PtfTypeEnum;
 use App\Repository\ExpertRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -142,13 +143,10 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
-        // Fetch organizations with resources for resources center
-        $organizationsWithResources = $entityManager->getRepository(Organization::class)
-            ->createQueryBuilder('o')
-            ->leftJoin('o.resources', 'r')
-            ->where('r.id IS NOT NULL')
-            ->groupBy('o.id')
-            ->orderBy('o.slug', 'ASC')
+        // Fetch latest resources for resources center
+        $latestResources = $entityManager->getRepository(Resource::class)
+            ->createQueryBuilder('r')
+            ->orderBy('r.createdAt', 'DESC')
             ->setMaxResults(12)
             ->getQuery()
             ->getResult();
@@ -170,7 +168,7 @@ class HomeController extends AbstractController
             'expertsCount' => $expertsCount,
             'eventsCount' => $eventsCount,
             'opportunitiesCount' => $opportunitiesCount,
-            'organizationsWithResources' => $organizationsWithResources,
+            'latestResources' => $latestResources,
         ]);
     }
 
@@ -700,6 +698,7 @@ class HomeController extends AbstractController
         // Get filter parameters
         $region = $request->query->get('region');
         $domaine = $request->query->get('domaine');
+        $ptfType = $request->query->get('ptfType');
         $search = $request->query->get('search');
         $page = max(1, (int) $request->query->get('page', 1));
         $limit = 12;
@@ -723,6 +722,11 @@ class HomeController extends AbstractController
                ->setParameter('domaine', $domaine);
         }
         
+        if ($ptfType) {
+            $qb->andWhere('p.ptfType = :ptfType')
+               ->setParameter('ptfType', $ptfType);
+        }
+        
         // Get total count for pagination
         $totalQuery = clone $qb;
         $total = $totalQuery->select('COUNT(p.id)')->getQuery()->getSingleScalarResult();
@@ -741,7 +745,9 @@ class HomeController extends AbstractController
              'totalPages' => $totalPages,
              'total' => $total,
              'domaines' => ThemeEnum::getChoices(),
-             'current_domaine' => $domaine
+             'current_domaine' => $domaine,
+             'types' => PtfTypeEnum::getValues(),
+             'current_ptfType' => $ptfType
          ]);
     }
 
@@ -780,6 +786,17 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getResult();
 
+        // Fetch related projects
+        $projects = $entityManager->getRepository(Project::class)
+            ->createQueryBuilder('p')
+            ->join('p.organizations', 'o')
+            ->where('o.id = :ptfId')
+            ->setParameter('ptfId', $ptf->getId())
+            ->orderBy('p.dateBegin', 'DESC')
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult();
+
         // Fetch latest published news (no organization relationship exists in Actualite entity)
         $actualites = $entityManager->getRepository(Actualite::class)
             ->createQueryBuilder('a')
@@ -794,6 +811,7 @@ class HomeController extends AbstractController
             'ptf' => $ptf,
             'events' => $events,
             'opportunities' => $opportunities,
+            'projects' => $projects,
             'actualites' => $actualites,
         ]);
     }
@@ -872,6 +890,7 @@ class HomeController extends AbstractController
         // Get filter parameters
         $region = $request->query->get('region');
         $domaine = $request->query->get('domaine');
+        $type = $request->query->get('type');
         $search = $request->query->get('search');
         $page = max(1, (int) $request->query->get('page', 1));
         $limit = 12;
@@ -1084,6 +1103,17 @@ class HomeController extends AbstractController
             ->getQuery()
             ->getResult();
         
+        // Get related projects
+        $projects = $entityManager->getRepository(Project::class)
+            ->createQueryBuilder('p')
+            ->join('p.organizations', 'o')
+            ->where('o.id = :coalitionId')
+            ->setParameter('coalitionId', $coalition->getId())
+            ->orderBy('p.dateBegin', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+        
         // Get related news (actualités)
         $actualites = $entityManager->getRepository(Actualite::class)
             ->createQueryBuilder('a')
@@ -1100,6 +1130,7 @@ class HomeController extends AbstractController
             'coalition' => $coalition,
             'events' => $events,
             'opportunities' => $opportunities,
+            'projects' => $projects,
             'actualites' => $actualites
         ]);
     }
@@ -1119,24 +1150,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/organization/{slug}/resources', name: 'app_organization_resources')]
-    public function organizationResources(string $slug, EntityManagerInterface $entityManager): Response
-    {
-        $organization = $entityManager->getRepository(Organization::class)
-            ->findOneBy(['slug' => $slug]);
-        
-        if (!$organization) {
-            throw $this->createNotFoundException('Organisation non trouvée');
-        }
-        
-        $resources = $entityManager->getRepository(Resource::class)
-            ->findByOrganization($organization);
-        
-        return $this->render('home/organization_resources.html.twig', [
-            'organization' => $organization,
-            'resources' => $resources
-        ]);
-    }
+
 
     #[Route('/resource/{slug}', name: 'app_resource_detail')]
     public function resourceDetail(string $slug, EntityManagerInterface $entityManager): Response
@@ -1148,12 +1162,12 @@ class HomeController extends AbstractController
             throw $this->createNotFoundException('Ressource non trouvée');
         }
         
-        // Get related resources from the same organization
+        // Get related resources of the same type
         $relatedResources = $entityManager->getRepository(Resource::class)
             ->createQueryBuilder('r')
-            ->where('r.organization = :organization')
+            ->where('r.type = :type')
             ->andWhere('r.id != :currentId')
-            ->setParameter('organization', $resource->getOrganization())
+            ->setParameter('type', $resource->getType())
             ->setParameter('currentId', $resource->getId())
             ->orderBy('r.createdAt', 'DESC')
             ->setMaxResults(5)

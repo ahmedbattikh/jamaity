@@ -26,6 +26,9 @@
             {% if ptf.region %}
                 <span class="badge bg-secondary mb-3 ms-2">{{ ptf.region }}</span>
             {% endif %}
+            {% if ptf.ptfType %}
+                <span class="badge bg-info mb-3 ms-2">{{ ptf.ptfType.value }}</span>
+            {% endif %}
             {% if ptf.description %}
                 <p class="lead">{{ ptf.description|slice(0, 200)|raw }}{% if ptf.description|length > 200 %}...{% endif %}</p>
             {% endif %}
@@ -129,22 +132,27 @@
             <ul class="nav nav-tabs" id="ptfTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
-                        <i class="fas fa-info-circle me-2"></i>Description
+                        <i class="fas fa-info-circle me-2 text-primary"></i>Description
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">
-                        <i class="fas fa-calendar-alt me-2"></i>Événements <span class="badge bg-secondary">{{ events|length }}</span>
+                        <i class="fas fa-calendar-alt me-2 text-primary"></i>Événements <span class="badge bg-secondary">{{ events|length }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="opportunities-tab" data-bs-toggle="tab" data-bs-target="#opportunities" type="button" role="tab">
+                        <i class="fas fa-briefcase me-1 text-primary"></i>Opportunités <span class="badge bg-success ms-1">{{ opportunities|length }}</span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab">
-                        <i class="fas fa-project-diagram me-2"></i>Projets <span class="badge bg-secondary">{{ opportunities|length }}</span>
+                        <i class="fas fa-project-diagram me-1 text-primary"></i>Projets <span class="badge bg-warning ms-1">{{ projects|length }}</span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="news-tab" data-bs-toggle="tab" data-bs-target="#news" type="button" role="tab">
-                        <i class="fas fa-newspaper me-2"></i>Actualités <span class="badge bg-secondary">{{ actualites|length }}</span>
+                        <i class="fas fa-newspaper me-1 text-primary"></i>Actualités <span class="badge bg-info ms-1">{{ actualites|length }}</span>
                     </button>
                 </li>
             </ul>
@@ -198,8 +206,8 @@
                     {% endif %}
                 </div>
                 
-                <!-- Projects Tab -->
-                <div class="tab-pane fade" id="projects" role="tabpanel">
+                <!-- Opportunities Tab -->
+                <div class="tab-pane fade" id="opportunities" role="tabpanel">
                     {% if opportunities|length > 0 %}
                         <div class="row">
                             {% for opportunity in opportunities %}
@@ -210,9 +218,38 @@
                                             <p class="card-text text-muted small">{{ opportunity.description|slice(0, 100)|raw }}...</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <small class="text-muted">
-                                                    <i class="fas fa-briefcase me-1"></i>{{ opportunity.type ?? 'Projet' }}
+                                                    <i class="fas fa-briefcase me-1"></i>{{ opportunity.type ?? 'Opportunité' }}
                                                 </small>
                                                 <a href="{{ path('app_opportunity_detail', {slug: opportunity.slug}) }}" class="btn btn-sm btn-outline-success">Voir détails</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted py-5">
+                            <i class="fas fa-briefcase fa-3x mb-3"></i>
+                            <p>Aucune opportunité disponible pour cette plateforme.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Projects Tab -->
+                <div class="tab-pane fade" id="projects" role="tabpanel">
+                    {% if projects|length > 0 %}
+                        <div class="row">
+                            {% for project in projects %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ project.title }}</h6>
+                                            <p class="card-text text-muted small">{{ project.generalObjective|slice(0, 100)|raw }}...</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-calendar me-1"></i>{{ project.dateBegin|date('d/m/Y') }}
+                                                </small>
+                                                <a href="{{ path('app_project_detail', {slug: project.slug}) }}" class="btn btn-sm btn-outline-warning">Voir détails</a>
                                             </div>
                                         </div>
                                     </div>

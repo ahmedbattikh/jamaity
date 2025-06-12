@@ -40,7 +40,6 @@ class ResourceCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-            ->add(EntityFilter::new('organization'))
             ->add(ChoiceFilter::new('type')
                 ->setChoices(ResourceTypeEnum::getChoices())
             );
@@ -59,6 +58,11 @@ class ResourceCrudController extends AbstractCrudController
             ChoiceField::new('type')
                 ->setChoices(ResourceTypeEnum::getChoices())
                 ->setRequired(true),
+            ImageField::new('previewImg')
+                ->setBasePath('uploads/resources/previews')
+                ->setUploadDir('public/uploads/resources/previews')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setHelp('Preview image for the resource (optional)'),
             ImageField::new('document')
                 ->setBasePath('uploads/resources')
                 ->setUploadDir('public/uploads/resources')
@@ -84,9 +88,6 @@ class ResourceCrudController extends AbstractCrudController
                 ])
                 ->setNumOfRows(4)
                 ->setHelp('Description of the resource'),
-            AssociationField::new('organization')
-                ->setRequired(true)
-                ->autocomplete(),
             MultipleFileField::new('files')
                 ->setUploadDir('public/uploads/resources')
                 ->setBasePath('uploads/resources')

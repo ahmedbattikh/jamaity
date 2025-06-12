@@ -13,20 +13,20 @@
                     <nav style="margin-bottom: 30px;">
                         <ol class="breadcrumb" style="background: transparent; padding: 0; margin: 0;">
                             <li class="breadcrumb-item"><a href="{{ path('app_home') }}" style="color: rgba(255,255,255,0.8); text-decoration: none;">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="{{ path('app_organization_resources', {'slug': resource.organization.slug}) }}" style="color: rgba(255,255,255,0.8); text-decoration: none;">{{ resource.organization.slug|title }}</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_home') }}#resources" style="color: rgba(255,255,255,0.8); text-decoration: none;">Ressources</a></li>
                             <li class="breadcrumb-item active" style="color: white;">{{ resource.name }}</li>
                         </ol>
                     </nav>
                     
                     <div class="row align-items-center">
                         <div class="col-md-2 text-center mb-4 mb-md-0">
-                            {% if resource.organization.logo %}
-                                <img src="{{ asset('uploads/logos/' ~ resource.organization.logo) }}" 
-                                     alt="{{ resource.organization.slug }}" 
-                                     style="width: 100px; height: 100px; object-fit: contain; border-radius: 15px; background: white; padding: 10px;">
+                            {% if resource.previewImg %}
+                                <img src="{{ asset('uploads/resources/previews/' ~ resource.previewImg) }}" 
+                                     alt="{{ resource.name }}" 
+                                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 15px; background: white; padding: 5px;">
                             {% else %}
                                 <div style="width: 100px; height: 100px; background: rgba(255,255,255,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                                    <i class="fas fa-building" style="color: white; font-size: 2rem;"></i>
+                                    <i class="fas fa-file-alt" style="color: white; font-size: 2rem;"></i>
                                 </div>
                             {% endif %}
                         </div>
@@ -35,7 +35,6 @@
                                 <span class="badge" style="background: rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">{{ resource.type|title }}</span>
                             </div>
                             <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px;">{{ resource.name }}</h1>
-                            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px;">Par {{ resource.organization.slug|title }}</p>
                             <div class="meta-info" style="display: flex; gap: 30px; flex-wrap: wrap; opacity: 0.8;">
                                 <div>
                                     <i class="fas fa-calendar" style="margin-right: 8px;"></i>
@@ -121,20 +120,35 @@
 
                 <!-- Sidebar -->
                 <div class="col-lg-4">
-                    <!-- Organization Info -->
+                    <!-- Resource Info -->
                     <div class="sidebar-section mb-4">
                         <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                            <h4 style="color: #333; font-weight: 600; margin-bottom: 20px;">Organisation</h4>
-                            <div class="org-info" style="text-align: center;">
-                                {% if resource.organization.logo %}
-                                    <img src="{{ asset('uploads/logos/' ~ resource.organization.logo) }}" 
-                                         alt="{{ resource.organization.slug }}" 
-                                         style="width: 80px; height: 80px; object-fit: contain; border-radius: 10px; margin-bottom: 15px;">
+                            <h4 style="color: #333; font-weight: 600; margin-bottom: 20px;">Informations</h4>
+                            <div class="resource-info">
+                                {% if resource.previewImg %}
+                                    <div style="text-align: center; margin-bottom: 20px;">
+                                        <img src="{{ asset('uploads/resources/previews/' ~ resource.previewImg) }}" 
+                                             alt="{{ resource.name }}" 
+                                             style="width: 100%; max-width: 200px; height: 150px; object-fit: cover; border-radius: 10px;">
+                                    </div>
                                 {% endif %}
-                                <h5 style="color: #333; margin-bottom: 15px;">{{ resource.organization.slug|title }}</h5>
-                                <a href="{{ path('app_organization_resources', {'slug': resource.organization.slug}) }}" 
+                                <div class="info-item" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                                    <strong style="color: #333;">Type:</strong>
+                                    <span style="color: #667eea; margin-left: 10px;">{{ resource.type|title }}</span>
+                                </div>
+                                <div class="info-item" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                                    <strong style="color: #333;">Date de création:</strong>
+                                    <span style="color: #666; margin-left: 10px;">{{ resource.createdAt|date('d/m/Y') }}</span>
+                                </div>
+                                {% if resource.updatedAt != resource.createdAt %}
+                                    <div class="info-item" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                                        <strong style="color: #333;">Dernière mise à jour:</strong>
+                                        <span style="color: #666; margin-left: 10px;">{{ resource.updatedAt|date('d/m/Y') }}</span>
+                                    </div>
+                                {% endif %}
+                                <a href="{{ path('app_home') }}#resources" 
                                    class="btn" 
-                                   style="background: #667eea; color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem;">
+                                   style="background: #667eea; color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; width: 100%; text-align: center; display: block;">
                                     Voir toutes les ressources
                                 </a>
                             </div>
